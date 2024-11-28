@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuessWHO</title>
+</head>
+<body>
+    
+</body>
+
+    <script> 
+        // Client guest name and connection (i.e. socket)
+        let me = "";
+        let socket = null;
+
+        // Client Event Handlers
+        // ==============================================================
+
+        window.addEventListener("load", () => {
+            socket = new WebSocket("ws://localhost:8888");
+
+            socket.onopen =  () => {
+                console.info("[Client]: Connection established!");
+            };
+
+            socket.onmessage = (event) => {
+                const message = JSON.parse(event.data);
+
+                console.log(`[Client]: Message :: ${message.event} :: `, message);
+                
+                switch (message.event) {
+                    //cases
+
+                    default:
+                        console.error(`[Client]: Error :: Unknown event ${message.event}`);
+                        break;
+                }
+            };
+
+            socket.onclose = (event) => {
+                console.info("[Client]: Disconnected.", event);
+            }
+
+            socket.onerror = (error) => {
+                console.log(`[Client]: ERROR`, error);
+            }
+
+            // FIXME: handle the `error` event
+        });
+    </script>
+
+</html>
