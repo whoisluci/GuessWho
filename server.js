@@ -1,3 +1,5 @@
+"use strict";
+
 import { serveFile, serveDir } from "jsr:@std/http/file-server";
   
   // Sends a message as { event: event, data: data } to `socket` (i.e. a connection)
@@ -31,6 +33,10 @@ import { serveFile, serveDir } from "jsr:@std/http/file-server";
 
 //hashmap
 const clients = {};
+const GAMES = [];
+
+let clientID = null;
+let gameID = null;
 
 Deno.serve( {
   port: 8888,
@@ -43,43 +49,95 @@ Deno.serve( {
     const { socket, response } = Deno.upgradeWebSocket(rqst);
     
     socket.onopen = () => {
-        console.log(`[SERVER]: WebSocket connection opened.`);
+    
+      clientID = generateClientId();
+      clients[clientID] = {
+        "connection": socket
+      };
+
+      console.log(`[SERVER]: WebSocket connection opened.`);
     };
 
     socket.onmessage = (event) => {
-        //const result = JSON.parse(message.utf8Data);
+      const message = JSON.parse(event.data);
 
-        // if (event.data === "ping") {
-        //     socket.send("pong");
-        // }
+      console.log("[SERVER]: Message :: ", message);
+  
+      switch (message.event) {
+        case "connect":
+          //gör om koden till funktioner?
 
-        //I have received a message from the client
+          send(socket, "connect", clientID)
+          break;
 
-        //switch case t.ex. case "guest:join", case "guest:leave", case "chat:message"
+        case "create":
+          gameID = generateClientId();
+          GAMES[gameID] = {
+            "id": gameID,
+            "clients": [],
+            //mer information
+          };
+
+          send(socket, "create", GAMES[gameID]);
+
+          break;
+
+        case "join": {
+          clientID = message.data.clientID;
+          gameID = message.data.gameID;
+
+          const game = GAMES[gameID];
+
+          if (game.clients.length >= 2) {
+            console.log(`[SERVER]: Max. players reached`);
+          }
+
+          const color = {"0": "orange", "1": "purple"}[GAMES.clients.length];
+          game.clients.push({
+            "clientID": clientID,
+            "color": color
+          });
+
+          if (game.clients.length === 2) {
+            //starta spelet!
+          }
+
+          //här/ovan? vill vi skicka spelet till båda spelarna
+
+          break;
+        }
+        
+        case "question": 
+
+          break;
+        
+        case "answer": 
+
+          break;
+        
+        case "guess": 
+
+          break;
+
+        case "rematch": 
+
+          break;
+        
+        default:
+          console.log(`[SERVER]: Error :: Unknown event '${message.event}'`);
+          break;
+      }
     };
 
     socket.onclose = () => {
-      console.log(`[SERVER]: Disconnect :: Goodbye ${guest}`);
+      console.log(`[SERVER]: Disconnect :: Goodbye ${clients[clientID]}`);
+      delete clients[clientID];
     };
 
     socket.onerror = (error) => {
       console.log(`[SERVER]: Error ${error}`);
     };
 
-    const clientId = generateClientId();
-    clients[clientId] = {
-      "connection": socket,
-      //more...
-    };
-
-    const payLoad = {
-      "event": "connect",
-      "clientId": clientId
-    }
-
-    //socket.send(JSON.stringify(payLoad));
-
     return response;
   }
-});
-  
+}); 
