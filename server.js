@@ -8,16 +8,33 @@ import { serveFile, serveDir } from "jsr:@std/http/file-server";
   }
   
   // Sends a message to all current connections (sockets)
-  function broadcast(event, data) {
-    for (const guest in STATE.connections) {
-      const connection = STATE.connections[guest];
-      send(connection, event, data);
-    }
+  // Kommer denna att behövas?
+  // function broadcast(event, data) {
+  //   for (const guest in STATE.connections) {
+  //     const connection = STATE.connections[guest];
+  //     send(connection, event, data);
+  //   }
+  // }
+
+  function generateClientID() {
+    const id = crypto.randomUUID;
+    return id;
   }
 
-  function generateClientId() {
-    const id = Math.floor(Math.random() * 10000);
-    return id;
+  function generateGameID() {
+    const allowedChars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const strLen = 6;
+    let gameID = "";
+
+    for (let i = 0; i < strLen; i++) {
+        gameID += allowedChars[Math.floor(Math.random() * allowedChars.length)];
+    }
+
+    if (!/\d/.test(gameID)) {
+        return generateGameID();
+    }
+
+    return gameID;
   }
 
   function handleHTTPRequest(rqst) {
@@ -38,6 +55,7 @@ const GAMES = [];
 let clientID = null;
 let gameID = null;
 
+//server
 Deno.serve( {
   port: 8888,
   handler: (rqst) => {
@@ -50,7 +68,7 @@ Deno.serve( {
     
     socket.onopen = () => {
     
-      clientID = generateClientId();
+      clientID = generateClientID();
       clients[clientID] = {
         "connection": socket
       };
@@ -71,7 +89,7 @@ Deno.serve( {
           break;
 
         case "create":
-          gameID = generateClientId();
+          gameID = generateGameID();
           GAMES[gameID] = {
             "id": gameID,
             "clients": [],
@@ -106,7 +124,7 @@ Deno.serve( {
 
           break;
         }
-        
+
         case "question": 
 
           break;
