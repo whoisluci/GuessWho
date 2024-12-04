@@ -1,0 +1,65 @@
+/*@font-face {
+    font-family: "RC-Bold";
+    src: url(./fonts/RobotoCondensed-Bold.ttf);
+  }*/
+
+
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+
+
+body h1 {
+    color: white;
+    font-size: 60px;
+    margin-bottom: 300px;
+}
+
+.button {
+    height: 50px;
+    font-size: 16px;
+    color: white;
+    margin: 10px;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    
+}
+
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #3E24EB;
+    /* background-image: url('../bakgrund.jpg'); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#theme_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 23px;
+}
+
+.theme_button {
+    display: flex;
+    width: 201px;
+    height: 60px;
+    padding: 5px 60px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 20px;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.45);
+}
