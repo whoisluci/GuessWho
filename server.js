@@ -16,10 +16,12 @@ import { serveFile, serveDir } from "jsr:@std/http/file-server";
   //   }
   // }
 
+
   function generateClientID() {
     const id = crypto.randomUUID;
     return id;
   }
+
 
   function generateGameID() {
     const allowedChars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -39,13 +41,15 @@ import { serveFile, serveDir } from "jsr:@std/http/file-server";
 
   function handleHTTPRequest(rqst) {
     const pathname = new URL(rqst.url).pathname;
-
+  
     if (pathname.startsWith("/static")) {
       return serveDir(rqst, { fsRoot: "static", urlRoot: "static" });
+    } else if (pathname.startsWith("/components")) {
+      return serveDir(rqst, { fsRoot: "components", urlRoot: "components" });
     }
-
-    return serveFile(rqst, "./index.html");
-}
+    return serveFile(rqst, "./index.html"); 
+  }
+  
 
 
 //hashmap
