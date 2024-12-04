@@ -39,9 +39,11 @@ function selectThemePage (parentID) {
     document.getElementById("Create_button").addEventListener("click", () => {
         document.getElementById(parentID).innerHTML = "";
         document.getElementById(parentID).innerHTML = `<h1>Guess Who</h1>`;
+        document.getElementById(parentID).innerHTML += `<h2>Select theme</h2>`;
         const themeContainer = document.createElement("div");
         themeContainer.id = "theme_container";
         document.getElementById(parentID).append(themeContainer);
+        createButton("wrapper", "Next", "#FF5252", "190px");
 
         const themeArray = ["Disney", "Marvel", "Pixar"] 
 
@@ -55,6 +57,7 @@ function selectThemePage (parentID) {
 
     });    
 }
+
 selectThemePage("wrapper");
 
 
