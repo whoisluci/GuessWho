@@ -1,8 +1,8 @@
 
 function landingPage (parentID) {
-    document.getElementById(parentID).innerHTML = `<h1>Guessss Who</h1>`;
+    document.getElementById(parentID).innerHTML = `<h1>Guess Who</h1>`;
     const img = document.createElement('img');
-    img.src = './logga1.jpg';
+    img.src = "./logga.png";
 
     document.getElementById(parentID).appendChild(img);
 
