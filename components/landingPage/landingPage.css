@@ -4,4 +4,50 @@
     box-sizing: border-box;
 }
 
+body {
+    background: #4A90E2;
+}
 
+#helpBttn {
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+    margin: 50px 40px;
+    align-self: end;
+}
+
+#logo {
+    height: 200px;
+    margin: 100px 0;
+}
+
+#createBttn {
+    margin-bottom: 187px;
+}
+
+#createBttn,
+#joinBttn {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+#footer {
+    display: flex;
+    height: 54px;
+    width: 100%;
+    padding: 37px 105px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+
+    background: rgba(0, 0, 0, 0.20);
+}
+
+#footerTxt {
+    color: #FFF;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
