@@ -1,33 +1,51 @@
 import { createButton } from "../buttons/buttons.js";
+import { header } from "../header/header.js"
+
 
 export function selectThemePage (parentID) {
-
     document.getElementById(parentID).innerHTML = "";
-    document.getElementById(parentID).innerHTML = `<h1>Guess Who</h1>`;
     const themeContainer = document.createElement("div");
+    header("wrapper");
+
+    document.getElementById(parentID).innerHTML += "<h2>Select theme</h2>";
+
     themeContainer.id = "theme_container";
     document.getElementById(parentID).append(themeContainer);
 
+
     const themeArray = ["Disney", "Marvel", "Pixar"] 
 
+    const nextBttn = createButton("wrapper", "Next", "#D25D6F", "190px");
+    nextBttn.id = "nextBttn";
+    nextBttn.style.backgroundColor = "#FF5252C2"; 
+    
     for (let i = 0; i < themeArray.length; i++) {
         const themeButton = document.createElement("button");
-        themeButton.id = `${themeArray[i]}_button`;
-        themeButton.className = "theme_button"; 
+        themeButton.id = `${themeArray[i]}Button`;
+        themeButton.className = "themeButton"; 
         themeButton.textContent = themeArray[i];  
         themeContainer.append(themeButton); 
 
-        themeButton.addEventListener("click", () => {
-            //vill vi lagra temat här?
-            let theme = themeArray[i];
+        themeButton.addEventListener("click", () => {        
+            document.querySelectorAll(".themeButton").forEach((btn) => {
+            if (themeButton === btn) {
+                btn.style.border = "2px solid black"; 
+                nextBttn.style.backgroundColor = "#FF5252";
+            }else {
+                btn.style.border = "";
+            }
         });
-    }
+    })      
 
-    const nextBttn = createButton("wrapper", "Next", "#FF5252", "190px");
-    nextBttn.id = "nextBttn";
+}
+
+    // const nextBttn = createButton("wrapper", "Next", "#D25D6F", "190px");
+    // nextBttn.id = "nextBttn";
 
     nextBttn.addEventListener("click", () => {
         //rendera nästa sida
         //renderCreatePage("wrapper");
     })
 }
+
+
