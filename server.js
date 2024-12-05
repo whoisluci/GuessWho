@@ -2,19 +2,19 @@
 
 import { serveFile, serveDir } from "jsr:@std/http/file-server";
   
-  // Sends a message as { event: event, data: data } to `socket` (i.e. a connection)
-  function send(socket, event, data) {
-    socket.send(JSON.stringify({ event, data }));
-  }
+// Sends a message as { event: event, data: data } to `socket` (i.e. a connection)
+function send(socket, event, data) {
+  socket.send(JSON.stringify({ event, data }));
+}
   
-  // Sends a message to all current connections (sockets)
-  // Kommer denna att behövas?
-  // function broadcast(event, data) {
-  //   for (const guest in STATE.connections) {
-  //     const connection = STATE.connections[guest];
-  //     send(connection, event, data);
-  //   }
-  // }
+// Sends a message to all current connections (sockets)
+// Kommer denna att behövas?
+// function broadcast(event, data) {
+//   for (const guest in STATE.connections) {
+//     const connection = STATE.connections[guest];
+//     send(connection, event, data);
+//   }
+// }
 
 
   function generateClientID() {
@@ -23,33 +23,37 @@ import { serveFile, serveDir } from "jsr:@std/http/file-server";
   }
 
 
-  function generateGameID() {
-    const allowedChars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const strLen = 6;
-    let gameID = "";
+function generateGameID() {
+  const allowedChars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const strLen = 6;
+  let gameID = "";
 
-    for (let i = 0; i < strLen; i++) {
-        gameID += allowedChars[Math.floor(Math.random() * allowedChars.length)];
-    }
-
-    if (!/\d/.test(gameID)) {
-        return generateGameID();
-    }
-
-    return gameID;
+  for (let i = 0; i < strLen; i++) {
+      gameID += allowedChars[Math.floor(Math.random() * allowedChars.length)];
   }
 
-  function handleHTTPRequest(rqst) {
-    const pathname = new URL(rqst.url).pathname;
-  
-    if (pathname.startsWith("/static")) {
-      return serveDir(rqst, { fsRoot: "static", urlRoot: "static" });
-    } else if (pathname.startsWith("/components")) {
-      return serveDir(rqst, { fsRoot: "components", urlRoot: "components" });
-    }
-    return serveFile(rqst, "./index.html"); 
+  if (!/\d/.test(gameID)) {
+      return generateGameID();
   }
-  
+
+  return gameID;
+}
+
+function handleHTTPRequest(rqst) {
+  const pathname = new URL(rqst.url).pathname;
+
+  if (pathname.startsWith("/static")) {
+    return serveDir(rqst, { fsRoot: "static", urlRoot: "static" });
+  } else if (pathname.startsWith("/components")) {
+    return serveDir(rqst, { fsRoot: "components", urlRoot: "components" });
+  } else if (pathname.startsWith("/media")) {
+    return serveDir(rqst, { fsRoot: "media", urlRoot: "media"});
+  } else if (pathname.startsWith("/public")) {
+    return serveDir(rqst, { fsRoot: "public", urlRoot: "public"})
+  }
+
+  return serveFile(rqst, "./index.html"); 
+}
 
 
 //hashmap
