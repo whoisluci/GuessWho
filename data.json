@@ -1,0 +1,87 @@
+[
+    {
+        "theme": "Marvel",
+        "characters": [
+          {
+            "id": 1,
+            "name": "Beast",
+            "imagePath": "media/marvel/beast.png"
+          },
+          {
+            "id": 2,
+            "name": "Black Panther",
+            "imagePath": "media/marvel/blackPanther.png"
+          },
+          {
+            "id": 3,
+            "name": "Captain America",
+            "imagePath": "media/marvel/captainAmerica.png"
+          },
+          {
+            "id": 4,
+            "name": "Captain Marvel",
+            "imagePath": "media/marvel/captainMarvel.png"
+          },
+          {
+            "id": 5,
+            "name": "Cyclops",
+            "imagePath": "media/marvel/cyclops.png"
+          },
+          {
+            "id": 6,
+            "name": "Groot",
+            "imagePath": "media/marvel/groot.png"
+          },
+          {
+            "id": 7,
+            "name": "Hulk",
+            "imagePath": "media/marvel/hulk.png"
+          },
+          {
+            "id": 8,
+            "name": "Iceman",
+            "imagePath": "media/marvel/iceman.png"
+          },
+          {
+            "id": 9,
+            "name": "Invisible Woman",
+            "imagePath": "media/marvel/invisiblewoman.png"
+          },
+          {
+            "id": 10,
+            "name": "Ironman",
+            "imagePath": "media/marvel/ironman.png"
+          },
+          {
+            "id": 11,
+            "name": "Magneto",
+            "imagePath": "media/marvel/magneto.png"
+          },
+          {
+            "id": 12,
+            "name": "Spiderman",
+            "imagePath": "media/marvel/spiderman.png"
+          },
+          {
+            "id": 13,
+            "name": "Thanos",
+            "imagePath": "media/marvel/thanos.png"
+          },
+          {
+            "id": 14,
+            "name": "Thor",
+            "imagePath": "media/marvel/thor.png"
+          },
+          {
+            "id": 15,
+            "name": "Trofy",
+            "imagePath": "media/marvel/trofy.png"
+          },
+          {
+            "id": 16,
+            "name": "Wolverine",
+            "imagePath": "media/marvel/wolverine.png"
+          }
+        ]
+      }        
+]
