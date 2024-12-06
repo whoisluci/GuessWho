@@ -1,0 +1,13 @@
+#joinForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+}
+
+
+#enterNameInput, #enterCodeInput {
+    height: 50px;
+    width: 100%;
+}
+

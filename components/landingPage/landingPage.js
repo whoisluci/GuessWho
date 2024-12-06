@@ -1,6 +1,7 @@
 "use strict";
 
 import { createButton } from "../buttons/buttons.js";
+import { joinPage } from "../joinPage/joinPage.js";
 import { selectThemePage } from "../selectThemePage/selectThemePage.js";
 
 export function landingPage (parentID) {
@@ -29,6 +30,7 @@ export function landingPage (parentID) {
 
     joinBttn.addEventListener("click", () => {
         //render join-page
+        joinPage("wrapper");
     });
 
     createBttn.addEventListener("click", () => {

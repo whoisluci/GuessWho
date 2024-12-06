@@ -43,6 +43,7 @@ export function selectThemePage (parentID) {
 
 
     nextBttn.addEventListener("click", () => {
+
         if (STATE.selectedTheme === null) {
             /* Här ska det ske någon typ av varning som säger att man måste välja tema */
         } else {
