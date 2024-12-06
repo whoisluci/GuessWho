@@ -101,6 +101,7 @@ Deno.serve( {
           for (const client of STATE.clients) {     
             if (client["id"] === STATE.clientID) {
               creator = client;
+              client["name"] = message.data.name;
             }
           }
 

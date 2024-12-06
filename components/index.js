@@ -18,7 +18,9 @@ export const STATE = {
     "socket": null,
     "clientID": null,
     "roomID": null,
-    "selectedTheme": null
+    "room": null,
+    "selectedTheme": null,
+    "selectedCharacter": null
 };
 
 // Client Event Handlers
@@ -44,6 +46,7 @@ globalThis.addEventListener("load", () => {
 
             case "create":
                 STATE.roomID = message.data.id;
+                STATE.room = message.data;
                 console.log(`[CLIENT]: Room successfully created with id ${STATE.roomID}`);
                 break;
             
