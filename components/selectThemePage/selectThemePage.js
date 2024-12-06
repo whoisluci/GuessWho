@@ -44,7 +44,7 @@ export function selectThemePage (parentID) {
 
     nextBttn.addEventListener("click", () => {
         //rendera nästa sida
-        //renderCreatePage("wrapper");
+        //renderCreatePage("wrapper, theme(selectedTheme)");
     })
 }
 
