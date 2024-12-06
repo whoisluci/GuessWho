@@ -13,11 +13,19 @@ export function landingPage (parentID) {
 
     document.getElementById(parentID).appendChild(img);
 
+    const container = document.createElement("div");
+    container.id = "buttonContainer";
+    document.getElementById(parentID).appendChild(container);
+
     const joinBttn = createButton("wrapper", "Join Game", "#FF5252", "190px");
     const createBttn = createButton("wrapper", "Create Game", "#FF5252", "190px");
 
     joinBttn.id = "joinBttn";
     createBttn.id = "createBttn";
+
+    container.appendChild(joinBttn);
+    container.appendChild(createBttn);
+
 
     joinBttn.addEventListener("click", () => {
         //render join-page
