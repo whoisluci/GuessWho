@@ -8,6 +8,13 @@ body {
     background: #4A90E2;
 }
 
+
+#buttonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 #helpBttn {
     width: 35px;
     height: 35px;
@@ -18,7 +25,7 @@ body {
 
 #logo {
     height: 200px;
-    margin: 100px 0;
+    margin-bottom: 84px;
 }
 
 #createBttn {
