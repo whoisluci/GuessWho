@@ -1,7 +1,7 @@
 "use strict";
 
 import { serveFile, serveDir } from "jsr:@std/http/file-server";
-  
+
 // Sends a message as { event: event, data: data } to `socket` (i.e. a connection)
 function send(socket, event, data) {
   socket.send(JSON.stringify({ event, data }));
@@ -17,26 +17,26 @@ function send(socket, event, data) {
 // }
 
 
-  function generateClientID() {
-    const id = crypto.randomUUID;
-    return id;
-  }
+function generateClientID() {
+  const id = crypto.randomUUID();
+  return id;
+}
 
 
-function generateGameID() {
+function generateRoomID() {
   const allowedChars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const strLen = 6;
-  let gameID = "";
+  let roomID = "";
 
   for (let i = 0; i < strLen; i++) {
-      gameID += allowedChars[Math.floor(Math.random() * allowedChars.length)];
+    roomID += allowedChars[Math.floor(Math.random() * allowedChars.length)];
   }
 
-  if (!/\d/.test(gameID)) {
-      return generateGameID();
+  if (!/\d/.test(roomID)) {
+      return generateRoomID();
   }
 
-  return gameID;
+  return roomID;
 }
 
 function handleHTTPRequest(rqst) {
@@ -57,11 +57,13 @@ function handleHTTPRequest(rqst) {
 
 
 //hashmap
-const clients = {};
-const GAMES = [];
-
-let clientID = null;
-let gameID = null;
+//allt detta är STATE
+const STATE = {
+  "clients": [],
+  "clientID": null,
+  "rooms": [],
+  "roomID": null
+};
 
 //server
 Deno.serve( {
@@ -74,39 +76,49 @@ Deno.serve( {
 
     const { socket, response } = Deno.upgradeWebSocket(rqst);
     
-    socket.onopen = () => {
-    
-      clientID = generateClientID();
-      clients[clientID] = {
+    socket.addEventListener("open", () => {
+      STATE.clientID = generateClientID();
+      
+      STATE.clients.push({
+        "id": STATE.clientID,
         "connection": socket
-      };
+      });
 
+      send(socket, "connect", {"clientID": STATE.clientID});
       console.log(`[SERVER]: WebSocket connection opened.`);
-    };
+    });
 
-    socket.onmessage = (event) => {
+    socket.addEventListener("message", (event) => {
       const message = JSON.parse(event.data);
 
       console.log("[SERVER]: Message :: ", message);
   
       switch (message.event) {
-        case "connect":
-          //gör om koden till funktioner?
+        /* Gör om till funktioner som bara anropas här? */
 
-          send(socket, "connect", clientID)
-          break;
+        case "create": {
+          let creator = null;
+          for (const client of STATE.clients) {     
+            if (client["id"] === STATE.clientID) {
+              creator = client;
+              client["name"] = message.data.name;
+            }
+          }
 
-        case "create":
-          gameID = generateGameID();
-          GAMES[gameID] = {
-            "id": gameID,
-            "clients": [],
-            //mer information
+          STATE.roomID = generateRoomID();
+          const room = {
+            "id": STATE.roomID,
+            "players": [],
+            "selectedTheme": message.data.selectedTheme
           };
+          
+          room.players.push(creator);
+          STATE.rooms.push(room);
 
-          send(socket, "create", GAMES[gameID]);
+          send(socket, "create", room);
 
           break;
+        }
 
         case "join": {
           clientID = message.data.clientID;
@@ -153,16 +165,16 @@ Deno.serve( {
           console.log(`[SERVER]: Error :: Unknown event '${message.event}'`);
           break;
       }
-    };
+    });
 
-    socket.onclose = () => {
-      console.log(`[SERVER]: Disconnect :: Goodbye ${clients[clientID]}`);
-      delete clients[clientID];
-    };
+    socket.addEventListener("close", () => {
+      console.log(`[SERVER]: Disconnect :: Goodbye ${STATE.clientID}`);
+      // delete clients[clientID];
+    });
 
-    socket.onerror = (error) => {
+    socket.addEventListener("error", (error) => {
       console.log(`[SERVER]: Error ${error}`);
-    };
+    });
 
     return response;
   }
