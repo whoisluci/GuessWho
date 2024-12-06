@@ -1,4 +1,6 @@
 import { createButton } from "../buttons/buttons.js";
+import { renderCreatePage } from "../createPage/createPage.js";
+import { STATE } from "../index.js";
 
 export function selectThemePage (parentID) {
 
@@ -18,8 +20,9 @@ export function selectThemePage (parentID) {
         themeContainer.append(themeButton); 
 
         themeButton.addEventListener("click", () => {
-            //vill vi lagra temat här?
-            let theme = themeArray[i];
+            STATE.selectedTheme = themeArray[i];
+
+            //annat som ska hända t.ex. visuella element
         });
     }
 
@@ -27,7 +30,10 @@ export function selectThemePage (parentID) {
     nextBttn.id = "nextBttn";
 
     nextBttn.addEventListener("click", () => {
-        //rendera nästa sida
-        //renderCreatePage("wrapper");
-    })
+        if (STATE.selectedTheme === null) {
+            /* Här ska det ske någon typ av varning som säger att man måste välja tema */
+        } else {
+            renderCreatePage("wrapper");
+        }
+    });
 }
