@@ -71,11 +71,8 @@ export function renderCreatePage (parentID, pickedTheme) {
         } else {
             console.warn("You selected no theme");
         }
-    
-}
-=======
         //render pickYourAvatar
     });
         
-};
+}
 
