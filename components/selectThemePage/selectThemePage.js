@@ -2,6 +2,9 @@ import { createButton } from "../buttons/buttons.js";
 import { renderCreatePage } from "../createPage/createPage.js";
 import { STATE } from "../index.js";
 import { header } from "../header/header.js"
+import { renderCards } from "../cards/cards.js";
+
+
 
 export function selectThemePage (parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -50,4 +53,17 @@ export function selectThemePage (parentID) {
             renderCreatePage("wrapper");
         }
     });
+        // const nextBttn = createButton("wrapper", "Next", "#D25D6F", "190px");
+    // nextBttn.id = "nextBttn";
+
+    nextBttn.addEventListener("click", () => {
+        //rendera nästa sida
+        //renderCreatePage("wrapper");
+
+        renderCards(16);
+    })
 }
+
+
+
+
