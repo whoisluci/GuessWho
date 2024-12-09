@@ -1,5 +1,8 @@
 import { createButton } from "../buttons/buttons.js";
 import { header } from "../header/header.js";
+import { STATE } from "../index.js";
+import { renderCharacterPage } from "../characterPage/characterPage.js";
+import { updateName } from "../waitingRoom/waitingRoom.js";
 
 export function joinPage(parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -33,11 +36,34 @@ export function joinPage(parentID) {
         const name = document.getElementById("enterNameInput").value;
         const code = document.getElementById("enterCodeInput").value;
 
-        console.log(name, code);
+        if (name.length === 0) {
+            /* Pop-Up som varnar om att fylla i namn*/
+            console.log("You have to fill in the name-field to continue");
+        }
 
-         //render pickYourAvatar
+        if (code.length === 0) {
+            /* Pop-Up som varnar om att fylla i kod*/
+            console.log("You have to fill in the code-field to continue");
+        }
 
-         
+        const data = {
+            event: "join",
+            data: {
+                "clientID": STATE.clientID,
+                "name": name,
+                "roomID": code
+            }
+        };
+
+        STATE.socket.send(JSON.stringify(data));
+
+        if (STATE.roomID === null || undefined) {
+            /* Pop-Up varning: No room with this ID was found */ 
+            console.warn("No room with this ID was found!");
+            
+        }
+        
+        renderCharacterPage("wrapper");
     });
     
 };

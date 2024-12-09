@@ -7,14 +7,16 @@ function send(socket, event, data) {
   socket.send(JSON.stringify({ event, data }));
 }
   
-// Sends a message to all current connections (sockets)
-// Kommer denna att behövas?
-// function broadcast(event, data) {
-//   for (const guest in STATE.connections) {
-//     const connection = STATE.connections[guest];
-//     send(connection, event, data);
-//   }
-// }
+// Sends a message to all current connections (sockets) i rummet
+function broadcastToRoom(roomID, event, data) {
+  for (const room of STATE.rooms) {
+    if (room.id === roomID) {
+      for (const player of room.players) {
+        send(player.connection, event, data);
+      }
+    }
+  }
+}
 
 
 function generateClientID() {
@@ -100,16 +102,17 @@ Deno.serve( {
           let creator = null;
           for (const client of STATE.clients) {     
             if (client["id"] === STATE.clientID) {
+              client["name"] = message.data.inputName;
               creator = client;
-              client["name"] = message.data.name;
+              creator.color = "orange";
             }
           }
 
           STATE.roomID = generateRoomID();
           const room = {
             "id": STATE.roomID,
+            "selectedTheme": message.data.theme,
             "players": [],
-            "selectedTheme": message.data.selectedTheme
           };
           
           room.players.push(creator);
@@ -121,27 +124,46 @@ Deno.serve( {
         }
 
         case "join": {
-          clientID = message.data.clientID;
-          gameID = message.data.gameID;
+          STATE.clientID = message.data.clientID;
+          STATE.roomID = message.data.roomID;
 
-          const game = GAMES[gameID];
+          let player = null;
 
-          if (game.clients.length >= 2) {
-            console.log(`[SERVER]: Max. players reached`);
+          for (const client of STATE.clients) {
+            
+            if (client.id === STATE.clientID) {
+              player = client;
+              player.name = message.data.name;
+              player.color = "purple";
+            }
+
           }
 
-          const color = {"0": "orange", "1": "purple"}[GAMES.clients.length];
-          game.clients.push({
-            "clientID": clientID,
-            "color": color
-          });
+          for (const room of STATE.rooms) {        
 
-          if (game.clients.length === 2) {
-            //starta spelet!
+            if (room.id === STATE.roomID) {
+
+              if (room.players.length === 2) {
+                console.log(`[SERVER]: Max. players reached`);
+              }
+
+              room.players.push(player); 
+              broadcastToRoom(STATE.roomID, "join", room);
+
+              break;
+            } else {
+              console.log(`[SERVER]: No room with this ID was found`);
+              send(socket, "join", {"Error": "Unable to find a room with this ID"});
+            }
+  
           }
+          break;
+        }
 
-          //här/ovan? vill vi skicka spelet till båda spelarna
+        case "pickChar": {
+          console.log(message.data);
 
+          /* Om det finns 2 spelare i rummet så ska detta broadcastas till alla */
           break;
         }
 
@@ -169,7 +191,10 @@ Deno.serve( {
 
     socket.addEventListener("close", () => {
       console.log(`[SERVER]: Disconnect :: Goodbye ${STATE.clientID}`);
+      /* Ta bort klienten */
       // delete clients[clientID];
+
+      /* Om rummet inte har några spelare kvar, ta bort*/
     });
 
     socket.addEventListener("error", (error) => {
