@@ -1,4 +1,26 @@
-#themeDisplay {
-    height: 200px;
-    width: 200px;
+#createForm {
+    display: flex;
+    flex-direction: column;
+    margin-top: 132px;
+    align-items: center;
 }
+
+
+#themeDisplay {
+    height: 39px;
+    width: 145px;
+    margin-bottom: 37px;
+    border: 1px solid black;
+
+}
+
+#createGameTitle {
+    align-self: center;
+    text-shadow: 0.8px 0.64px 1.64px #000;
+    margin-bottom: 16px;
+}
+
+#formCreateBttn {
+    margin-top: 168px;
+}
+
