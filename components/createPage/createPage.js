@@ -25,8 +25,6 @@ export function renderCreatePage (parentID, pickedTheme) {
 
     }
 
-    console.log(themeDisplay.innerText);
-
     document.getElementById(parentID).innerHTML = "";
     const createForm = document.createElement("form");
     createForm.id = "createForm";
@@ -55,15 +53,15 @@ export function renderCreatePage (parentID, pickedTheme) {
     
         console.log(name);
 
-         const data = {
+        const data = {
             event: "create",
             data: {
                 "theme": STATE.selectedTheme,
                 "inputName": name,
                 "clientID": STATE.clientID
-            }
+                }
         };
-        
+    
         /* Den här if-satsen kanske inte behövs? */
         if (STATE.selectedTheme != null) {            
             STATE.socket.send(JSON.stringify(data));
@@ -71,10 +69,6 @@ export function renderCreatePage (parentID, pickedTheme) {
         } else {
             console.warn("You selected no theme");
         }
-    
-}
-=======
-        //render pickYourAvatar
     });
         
 };
