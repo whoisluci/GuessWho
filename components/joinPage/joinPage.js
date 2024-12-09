@@ -10,7 +10,7 @@ export function joinPage(parentID) {
 
     const titel = document.createElement("h2");
     titel.innerText = "JOIN GAME";
-    titel.id = "joinGameId";
+    titel.id = "joinGameTitle";
     joinForm.appendChild(titel);
 
     const enterName = document.createElement("input");

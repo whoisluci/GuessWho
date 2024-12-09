@@ -6,6 +6,7 @@ export function renderCreatePage (parentID, pickedTheme) {
     //Displayar vald kategori, kommer ändras till en bild
     const theme = pickedTheme;
     const themeDisplay = document.createElement('div');
+    themeDisplay.id = "themeDisplay";
 
     switch(theme) {
 
@@ -34,7 +35,7 @@ export function renderCreatePage (parentID, pickedTheme) {
 
     const titel = document.createElement("h2");
     titel.innerText = "CREATE GAME";
-    titel.id = "createGameId";
+    titel.id = "createGameTitle";
     createForm.appendChild(titel);
     
     const enterName = document.createElement("input");
