@@ -45,15 +45,24 @@ export function renderCreatePage (parentID, pickedTheme) {
     enterName.placeholder = "ENTER NAME";
     createForm.appendChild(enterName);
     
-    const createBttn = createButton("createForm", "Create", "#D25D6F", "190px");
+    let createBttn = createButton("createForm", "Create", "#D25D6F", "190px");
     createBttn.id = "formCreateBttn";
     createBttn.setAttribute("type", "submit");
     createForm.appendChild(createBttn);
+
+    enterNameInput.addEventListener("input", () => {
+        if (enterNameInput.value !== "") {
+            createBttn.style.backgroundColor = "#FF5252"; // Change button color
+        } else {
+            createBttn.style.backgroundColor = "#D25D6F"; // Reset to original color
+        }
+    });
         
     createForm.addEventListener("submit", (event) => {
         event.preventDefault();
+
         const name = document.getElementById("enterNameInput").value;
-    
+
         console.log(name);
 
         const data = {
