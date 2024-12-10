@@ -13,6 +13,7 @@ export function createButton(parentID, text, color, width) {
 
     button.textContent = text;
     button.className = "button";
+    button.style.fontfamily = "chewy";
     button.style.backgroundColor = color;
     button.style.width = width;
 
