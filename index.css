@@ -1,15 +1,15 @@
 @font-face {
-    font-family: chewy;
-    src: url("./fonts/Chewy/Chewy-Regular.ttf");
+    font-family: 'chewy';
+    src: url('./fonts/Chewy/Chewy-Regular.ttf');
 }
 
 @font-face {
-    font-family: montserrat;
+    font-family: 'montserrat';
     src: url("./fonts/Montserrat/Montserrat-VariableFont_wght.ttf");
 }
 
 @font-face {
-    font-family: cabinCondensed;
+    font-family: 'cabinCondensed';
     src: url("./fonts/Cabin_Condensed/");
 }
 

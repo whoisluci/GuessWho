@@ -1,4 +1,5 @@
 import { pickCharacterBoard } from "../pickCharacterPage/pickCharacterPage.js"
+import { renderGameBoard } from "../game/gameBoard.js";
 
 
 export function renderCards(data) {
@@ -19,6 +20,8 @@ export function renderCards(data) {
     }
     
     pickCharacterBoard("wrapper", cardArray)
+    renderGameBoard("wrapper")
+
 
 }
 
