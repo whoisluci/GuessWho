@@ -2,6 +2,8 @@ import { createButton } from "../buttons/buttons.js";
 import { STATE } from "../index.js";
 import { renderCharacterPage } from "../characterPage/characterPage.js";
 import { header } from "../header/header.js";
+import { renderCards } from "../cards/cards.js";
+
 
 export function renderCreatePage (parentID, pickedTheme) {
 
@@ -66,11 +68,15 @@ export function renderCreatePage (parentID, pickedTheme) {
         /* Den här if-satsen kanske inte behövs? */
         if (STATE.selectedTheme != null) {            
             STATE.socket.send(JSON.stringify(data));
-            renderCharacterPage("wrapper");
+            renderCards(16);
+            //renderCharacterPage("wrapper");
         } else {
             console.warn("You selected no theme");
+            
         }
+        //render pickYourAvatar
+       
     });
         
-};
+}
 

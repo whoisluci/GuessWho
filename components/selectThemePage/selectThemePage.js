@@ -2,6 +2,9 @@ import { createButton } from "../buttons/buttons.js";
 import { renderCreatePage } from "../createPage/createPage.js";
 import { STATE } from "../index.js";
 import { header } from "../header/header.js"
+import { renderCards } from "../cards/cards.js";
+
+
 
 export function selectThemePage (parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -30,6 +33,8 @@ export function selectThemePage (parentID) {
         themeButton.addEventListener("click", () => {    
             STATE.selectedTheme = themeArray[i];
 
+            console.log(themeArray[i], STATE.selectedTheme);
+
             document.querySelectorAll(".themeButton").forEach((btn) => {
             if (themeButton === btn) {
                 btn.style.border = "2px solid black"; 
@@ -43,6 +48,7 @@ export function selectThemePage (parentID) {
 
 
     nextBttn.addEventListener("click", () => {
+        
 
         if (STATE.selectedTheme === null) {
             /* Här ska det ske någon typ av varning som säger att man måste välja tema */
@@ -50,4 +56,17 @@ export function selectThemePage (parentID) {
             renderCreatePage("wrapper");
         }
     });
+        // const nextBttn = createButton("wrapper", "Next", "#D25D6F", "190px");
+    // nextBttn.id = "nextBttn";
+
+    // nextBttn.addEventListener("click", () => {
+    //     //rendera nästa sida
+    //     //renderCreatePage("wrapper");
+
+    //     
+    // })
 }
+
+
+
+
