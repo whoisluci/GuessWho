@@ -17,12 +17,12 @@ export function header (parentID) {
     arrowBack.innerHTML = `&#8592`;
     container.append(arrowBack);
 
-    const img = document.createElement('img');
-    img.src = './media/logga.png';
-    img.id = "miniLogo";
-    img.style.width = "96px"
-    img.style.height = "75px";
-    container.append(img); 
+    const logo = document.createElement('img');
+    logo.src = '../static/media/logga.png';
+    logo.id = "miniLogo";
+    logo.style.width = "96px"
+    logo.style.height = "75px";
+    container.append(logo); 
 
     const helpBttn = createButton("wrapper", "?", "#FF5252", "35px");
     helpBttn.id = "helpBttnHeader";
