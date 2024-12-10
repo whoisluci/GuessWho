@@ -33,6 +33,8 @@ export function selectThemePage (parentID) {
         themeButton.addEventListener("click", () => {    
             STATE.selectedTheme = themeArray[i];
 
+            console.log(themeArray[i], STATE.selectedTheme);
+
             document.querySelectorAll(".themeButton").forEach((btn) => {
             if (themeButton === btn) {
                 btn.style.border = "2px solid black"; 
@@ -46,6 +48,7 @@ export function selectThemePage (parentID) {
 
 
     nextBttn.addEventListener("click", () => {
+        
 
         if (STATE.selectedTheme === null) {
             /* Här ska det ske någon typ av varning som säger att man måste välja tema */
@@ -56,12 +59,12 @@ export function selectThemePage (parentID) {
         // const nextBttn = createButton("wrapper", "Next", "#D25D6F", "190px");
     // nextBttn.id = "nextBttn";
 
-    nextBttn.addEventListener("click", () => {
-        //rendera nästa sida
-        //renderCreatePage("wrapper");
+    // nextBttn.addEventListener("click", () => {
+    //     //rendera nästa sida
+    //     //renderCreatePage("wrapper");
 
-        renderCards(16);
-    })
+    //     
+    // })
 }
 
 

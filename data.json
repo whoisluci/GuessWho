@@ -83,5 +83,90 @@
             "imagePath": "media/marvel/wolverine.png"
           }
         ]
-      }        
+      },
+      {
+        "theme": "Pixar",
+        "characters": [
+          {
+            "id": 1,
+            "name": "Buzz",
+            "imagePath": "media/pixar/buzz.png"
+          },
+          {
+            "id": 2,
+            "name": "carl",
+            "imagePath": "media/pixar/carl.png"
+          },
+          {
+            "id": 3,
+            "name": "Dory",
+            "imagePath": "media/pixar/dory.png"
+          },
+          {
+            "id": 4,
+            "name": "Forzone",
+            "imagePath": "media/pixar/forzone.png"
+          },
+          {
+            "id": 5,
+            "name": "Joy",
+            "imagePath": "media/pixar/joy.png"
+          },
+          {
+            "id": 6,
+            "name": "Lightning",
+            "imagePath": "media/pixar/lightning.png"
+          },
+          {
+            "id": 7,
+            "name": "Mater",
+            "imagePath": "media/pixar/mater.png"
+          },
+          {
+            "id": 8,
+            "name": "Merida",
+            "imagePath": "media/pixar/merida.png"
+          },
+          {
+            "id": 9,
+            "name": "Mike",
+            "imagePath": "media/pixar/mike.png"
+          },
+          {
+            "id": 10,
+            "name": "Mr Incredible",
+            "imagePath": "media/pixar/mrincredible.png"
+          },
+          {
+            "id": 11,
+            "name": "Nemo",
+            "imagePath": "media/pixar/nemo.png"
+          },
+          {
+            "id": 12,
+            "name": "Remy",
+            "imagePath": "media/pixar/remy.png"
+          },
+          {
+            "id": 13,
+            "name": "Russel",
+            "imagePath": "media/pixar/russel.png"
+          },
+          {
+            "id": 14,
+            "name": "Sully",
+            "imagePath": "media/pixar/sully.png"
+          },
+          {
+            "id": 15,
+            "name": "WALL-E",
+            "imagePath": "media/pixar/WALL-E.png"
+          },
+          {
+            "id": 16,
+            "name": "Woody",
+            "imagePath": "media/pixar/woody.png"
+          }
+        ]
+      }          
 ]
