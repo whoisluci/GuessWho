@@ -1,13 +1,32 @@
 #joinForm {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
+    margin-top: 161px;
+    
     
 }
 
+#joinGameTitle {
+    align-self: center;
+    text-shadow: 0.8px 0.64px 1.64px #000;
+    margin-bottom: 16px;
+}
 
 #enterNameInput, #enterCodeInput {
+    border: none;
     height: 50px;
     width: 100%;
+
+    text-align: center;
+    text-transform: capitalize;
+    text-decoration: #BDBDBD;
+
+    border-radius: 15px;
+    outline: none;
+}
+
+#formJoinBttn {
+    margin-top: 168px;
 }
 
