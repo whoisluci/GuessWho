@@ -168,5 +168,91 @@
             "imagePath": "media/pixar/woody.png"
           }
         ]
+      },
+      {
+        "theme": "Disney",
+        "characters": [
+          {
+            "id": 1,
+            "name": "Aladdin",
+            "imagePath": "media/disney/aladdin.png"
+          },
+          {
+            "id": 2,
+            "name": "Anna",
+            "imagePath": "media/disney/anna.png"
+          },
+          {
+            "id": 3,
+            "name": "Ariel",
+            "imagePath": "media/disney/ariel.png"
+          },
+          {
+            "id": 4,
+            "name": "Belle",
+            "imagePath": "media/disney/belle.png"
+          },
+          {
+            "id": 5,
+            "name": "Daisy Duck",
+            "imagePath": "media/disney/daisy.png"
+          },
+          {
+            "id": 6,
+            "name": "Donald Duck",
+            "imagePath": "media/disney/donald.png"
+          },
+          {
+            "id": 7,
+            "name": "Elsa",
+            "imagePath": "media/disney/elsa.png"
+          },
+          {
+            "id": 8,
+            "name": "Goofy",
+            "imagePath": "media/disney/goofy.png"
+          },
+          {
+            "id": 9,
+            "name": "Hercules",
+            "imagePath": "media/disney/hercules.png"
+          },
+          {
+            "id": 10,
+            "name": "Jasmine",
+            "imagePath": "media/disney/jasmine.png"
+          },
+          {
+            "id": 11,
+            "name": "Mickey Mouse",
+            "imagePath": "media/disney/mickey.png"
+          },
+          {
+            "id": 12,
+            "name": "Minnie Mouse",
+            "imagePath": "media/disney/minnie.png"
+          },
+          {
+            "id": 13,
+            "name": "Moana",
+            "imagePath": "media/disney/moana.png"
+          },
+          {
+            "id": 14,
+            "name": "Nala",
+            "imagePath": "media/disney/nala.png"
+          },
+          {
+            "id": 15,
+            "name": "Pluto",
+            "imagePath": "media/disney/pluto.png"
+          },
+          {
+            "id": 16,
+            "name": "Simba",
+            "imagePath": "media/disney/Simba.png"
+          }
+
+        ]
       }          
 ]

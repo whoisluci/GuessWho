@@ -1,4 +1,5 @@
 import { landingPage } from "./landingPage/landingPage.js";
+import { updateName } from "./waitingRoom/waitingRoom.js";
 
 function renderApp() {
     const wrapper = document.createElement("div");
@@ -40,16 +41,36 @@ globalThis.addEventListener("load", () => {
         switch (message.event) {
             //cases
             case "connect":
-                STATE.clientID = message.data;
+                STATE.clientID = message.data.clientID;
                 console.log(`[CLIENT]: Client ID set successfully ${STATE.clientID}`);
                 break;
 
             case "create":
                 STATE.roomID = message.data.id;
                 STATE.room = message.data;
+                
                 console.log(`[CLIENT]: Room successfully created with id ${STATE.roomID}`);
                 break;
-            
+
+            case "join": {
+                if (message.data["Error"] != undefined || null) {
+                    console.log(`[CLIENT]: Error :: ${message.data["Error"]}`);
+                    break;
+                }
+
+                STATE.roomID = message.data.id;
+                STATE.room = message.data;
+
+                const name = message.data.players[1].name;
+                updateName(name);
+
+                console.log(`[CLIENT]: Joined room ${STATE.roomID} successfully`);
+                break;
+            }
+
+            case "pickChar":
+                /* updateChar om players.length = 2 */
+                break;
 
             default:
                 console.error(`[CLIENT]: Error :: Unknown event ${message.event}`);

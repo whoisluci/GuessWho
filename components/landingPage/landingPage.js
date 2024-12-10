@@ -29,12 +29,10 @@ export function landingPage (parentID) {
 
 
     joinBttn.addEventListener("click", () => {
-        //render join-page
         joinPage("wrapper");
     });
 
     createBttn.addEventListener("click", () => {
-        //render selectTheme
         selectThemePage("wrapper");
     });
 

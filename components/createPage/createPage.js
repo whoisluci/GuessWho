@@ -10,6 +10,7 @@ export function renderCreatePage (parentID, pickedTheme) {
     //Displayar vald kategori, kommer ändras till en bild
     const theme = pickedTheme;
     const themeDisplay = document.createElement('div');
+    themeDisplay.id = "themeDisplay";
 
     switch(theme) {
 
@@ -27,8 +28,6 @@ export function renderCreatePage (parentID, pickedTheme) {
 
     }
 
-    console.log(themeDisplay.innerText);
-
     document.getElementById(parentID).innerHTML = "";
     const createForm = document.createElement("form");
     createForm.id = "createForm";
@@ -38,7 +37,7 @@ export function renderCreatePage (parentID, pickedTheme) {
 
     const titel = document.createElement("h2");
     titel.innerText = "CREATE GAME";
-    titel.id = "createGameId";
+    titel.id = "createGameTitle";
     createForm.appendChild(titel);
     
     const enterName = document.createElement("input");
@@ -57,15 +56,15 @@ export function renderCreatePage (parentID, pickedTheme) {
     
         console.log(name);
 
-         const data = {
+        const data = {
             event: "create",
             data: {
                 "theme": STATE.selectedTheme,
                 "inputName": name,
                 "clientID": STATE.clientID
-            }
+                }
         };
-        
+    
         /* Den här if-satsen kanske inte behövs? */
         if (STATE.selectedTheme != null) {            
             STATE.socket.send(JSON.stringify(data));
