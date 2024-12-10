@@ -57,15 +57,26 @@ function handleHTTPRequest(rqst) {
   return serveFile(rqst, "./index.html"); 
 }
 
+async function getDatabase () {
+  try {
+    const json = await Deno.readTextFile("static/data.json");
+    const db = JSON.parse(json);
+    return db;
+  } catch (err) {
+    console.error("[CLIENT]: ERROR reading JSON file", err);
+  }
+}
+
 
 //hashmap
-//allt detta är STATE
 const STATE = {
   "clients": [],
   "clientID": null,
   "rooms": [],
   "roomID": null
 };
+
+let db = null;
 
 //server
 Deno.serve( {
@@ -78,7 +89,7 @@ Deno.serve( {
 
     const { socket, response } = Deno.upgradeWebSocket(rqst);
     
-    socket.addEventListener("open", () => {
+    socket.addEventListener("open", async () => {
       STATE.clientID = generateClientID();
       
       STATE.clients.push({
@@ -86,7 +97,9 @@ Deno.serve( {
         "connection": socket
       });
 
-      send(socket, "connect", {"clientID": STATE.clientID});
+      db = await getDatabase();
+
+      send(socket, "connect", {"clientID": STATE.clientID, "db": db});
       console.log(`[SERVER]: WebSocket connection opened.`);
     });
 
@@ -140,7 +153,6 @@ Deno.serve( {
           }
 
           for (const room of STATE.rooms) {        
-
             if (room.id === STATE.roomID) {
 
               if (room.players.length === 2) {
@@ -155,13 +167,36 @@ Deno.serve( {
               console.log(`[SERVER]: No room with this ID was found`);
               send(socket, "join", {"Error": "Unable to find a room with this ID"});
             }
-  
           }
+          
           break;
         }
 
         case "pickChar": {
-          console.log(message.data);
+          STATE.roomID = message.data.roomID;
+          STATE.clientID = message.data.clientID;
+
+          for (const room of STATE.rooms) {        
+            if (room.id === STATE.roomID) {
+
+              for (const player of room.players) {
+                if (player.id === STATE.clientID) {
+                  player["selectedChar"] = message.data.selectedChar;
+                }
+              }
+
+              if (room.players.length === 2) {
+                broadcastToRoom(socket, "pickChar", room);
+              }
+
+              send(socket, "pickChar", room);
+              break;
+              
+            } else {
+              console.log(`[SERVER]: No room with this ID was found`);
+              send(socket, "join", {"Error": "Unable to find a room with this ID"});
+            }
+          }
 
           /* Om det finns 2 spelare i rummet så ska detta broadcastas till alla */
           break;

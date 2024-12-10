@@ -2,12 +2,15 @@ import { createButton } from "../buttons/buttons.js";
 import { STATE } from "../index.js";
 import { renderCharacterPage } from "../characterPage/characterPage.js";
 import { header } from "../header/header.js";
+import { renderCards } from "../cards/cards.js";
+
 
 export function renderCreatePage (parentID, pickedTheme) {
 
     //Displayar vald kategori, kommer ändras till en bild
     const theme = pickedTheme;
     const themeDisplay = document.createElement('div');
+    themeDisplay.id = "themeDisplay";
 
     switch(theme) {
 
@@ -34,7 +37,7 @@ export function renderCreatePage (parentID, pickedTheme) {
 
     const titel = document.createElement("h2");
     titel.innerText = "CREATE GAME";
-    titel.id = "createGameId";
+    titel.id = "createGameTitle";
     createForm.appendChild(titel);
     
     const enterName = document.createElement("input");
@@ -65,11 +68,15 @@ export function renderCreatePage (parentID, pickedTheme) {
         /* Den här if-satsen kanske inte behövs? */
         if (STATE.selectedTheme != null) {            
             STATE.socket.send(JSON.stringify(data));
+            // renderCards(16);
             renderCharacterPage("wrapper");
         } else {
             console.warn("You selected no theme");
+            
         }
+        //render pickYourAvatar
+       
     });
         
-};
+}
 
