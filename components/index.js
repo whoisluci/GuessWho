@@ -1,5 +1,5 @@
 import { landingPage } from "./landingPage/landingPage.js";
-import { updateName } from "./waitingRoom/waitingRoom.js";
+import { updateChar, updateName } from "./waitingRoom/waitingRoom.js";
 
 function renderApp() {
     const wrapper = document.createElement("div");
@@ -21,8 +21,10 @@ export const STATE = {
     "roomID": null,
     "room": null,
     "selectedTheme": null,
-    "selectedCharacter": null
+    "selectedCharacter": null,
 };
+
+export let db = null;
 
 // Client Event Handlers
 // ==============================================================
@@ -30,7 +32,7 @@ export const STATE = {
 globalThis.addEventListener("load", () => {
     STATE.socket = new WebSocket("ws://localhost:8888");
 
-    STATE.socket.addEventListener("open", (event) => {
+    STATE.socket.addEventListener("open", async (event) => {
         STATE.client = event;
         console.info("[CLIENT]: Connection established!");
     });
@@ -42,6 +44,8 @@ globalThis.addEventListener("load", () => {
             //cases
             case "connect":
                 STATE.clientID = message.data.clientID;
+                db = message.data.db;
+
                 console.log(`[CLIENT]: Client ID set successfully ${STATE.clientID}`);
                 break;
 
@@ -69,7 +73,13 @@ globalThis.addEventListener("load", () => {
             }
 
             case "pickChar":
-                /* updateChar om players.length = 2 */
+                STATE.room = message.data;
+                console.log(`[CLIENT]: Character chosen successfully`);
+
+                if (STATE.room.players.length === 2) {
+                    updateChar(STATE.room.players[1].selectedChar);
+                }
+                
                 break;
 
             default:

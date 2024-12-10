@@ -68,8 +68,8 @@ export function renderCreatePage (parentID, pickedTheme) {
         /* Den här if-satsen kanske inte behövs? */
         if (STATE.selectedTheme != null) {            
             STATE.socket.send(JSON.stringify(data));
-            renderCards(16);
-            //renderCharacterPage("wrapper");
+            // renderCards(16);
+            renderCharacterPage("wrapper");
         } else {
             console.warn("You selected no theme");
             

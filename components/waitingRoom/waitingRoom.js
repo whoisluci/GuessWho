@@ -8,6 +8,7 @@ export function renderWaitingRoom(parentID) {
     const _header = header("wrapper");
 
     const codeDiv = document.createElement("div");
+    codeDiv.id = "codeDiv";
     document.getElementById(parentID).appendChild(codeDiv);
     codeDiv.innerHTML = `
     <p>Code:</p> <br>
@@ -17,7 +18,7 @@ export function renderWaitingRoom(parentID) {
     /* Ikon för att kopiera koden */
     const CTCIcon = document.createElement("div");
     CTCIcon.id = "copyToClipboardIcon";
-    document.getElementById(parentID).appendChild(CTCIcon);
+    codeDiv.appendChild(CTCIcon);
 
     /* Lägg till ikon, just nu: tom div */
 
@@ -87,9 +88,11 @@ export function updateName (updatedName) {
     secondPlayerName.textContent = updatedName;
 }
 
-export function updateChar (updateChar) {
+export function updateChar (selectedChar) {
+    console.log(selectedChar);
     /* Ska anropas när spelare nr2 har valt karaktär */
     const secondPlayerChar = document.getElementById("");
+    /* selectedChar = { name, imagePath } */
     /* startGame(); */
 }
 
