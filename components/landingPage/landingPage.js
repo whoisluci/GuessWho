@@ -9,7 +9,7 @@ export function landingPage (parentID) {
     helpBttn.id = "helpBttn";
 
     const img = document.createElement('img');
-    img.src = './media/logga.png';
+    img.src = './static/media/logga.png';
     img.id = "logo";
 
     document.getElementById(parentID).appendChild(img);

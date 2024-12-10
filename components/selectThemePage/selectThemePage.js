@@ -56,15 +56,6 @@ export function selectThemePage (parentID) {
             renderCreatePage("wrapper");
         }
     });
-        // const nextBttn = createButton("wrapper", "Next", "#D25D6F", "190px");
-    // nextBttn.id = "nextBttn";
-
-    // nextBttn.addEventListener("click", () => {
-    //     //rendera nästa sida
-    //     //renderCreatePage("wrapper");
-
-    //     
-    // })
 }
 
 
