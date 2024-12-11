@@ -3,6 +3,7 @@ import { STATE } from "../index.js";
 import { renderCharacterPage } from "../characterPage/characterPage.js";
 import { header } from "../header/header.js";
 import { renderCards } from "../cards/cards.js";
+import { renderGameBoard } from "../game/gameBoard.js";
 
 
 export function renderCreatePage (parentID, pickedTheme) {
@@ -77,8 +78,8 @@ export function renderCreatePage (parentID, pickedTheme) {
         /* Den här if-satsen kanske inte behövs? */
         if (STATE.selectedTheme != null) {            
             STATE.socket.send(JSON.stringify(data));
-            // renderCards(16);
             renderCharacterPage("wrapper");
+            //renderGameBoard("wrapper")
         } else {
             console.warn("You selected no theme");
             

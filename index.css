@@ -1,16 +1,16 @@
 @font-face {
     font-family: 'chewy';
-    src: url('./fonts/Chewy/Chewy-Regular.ttf');
+    src: url('./static/fonts/Chewy/Chewy-Regular.ttf');
 }
 
 @font-face {
     font-family: 'montserrat';
-    src: url("./fonts/Montserrat/Montserrat-VariableFont_wght.ttf");
+    src: url("./static/fonts/Montserrat/Montserrat-VariableFont_wght.ttf");
 }
 
 @font-face {
     font-family: 'cabinCondensed';
-    src: url("./fonts/Cabin_Condensed/");
+    src: url("./static/fonts/Cabin_Condensed/CabinCondensed-SemiBold.ttf");
 }
 
 /* body {
@@ -31,7 +31,6 @@ h2 {
 
 .card p {
     font-family: "cabinCondensed";
-    font-weight: 700;
     color: white;
 
 }

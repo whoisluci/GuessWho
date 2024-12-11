@@ -4,6 +4,7 @@ import { STATE } from "../index.js";
 import { updateChar } from "../waitingRoom/waitingRoom.js";
 import { renderWaitingRoom } from "../waitingRoom/waitingRoom.js";
 import { renderCards } from "../cards/cards.js";
+import { renderGameBoard } from "../game/gameBoard.js";
 import { db } from "../index.js";
 
 export function renderCharacterPage (parentID) {
@@ -11,20 +12,21 @@ export function renderCharacterPage (parentID) {
 
     const _header = header("wrapper")
     const parent = document.getElementById("headerContainer");
-    parent.style.marginBottom = "0px"
+    parent.style.marginBottom = "0px";
+    parent.style.alignItems = "start";
     const child = document.getElementById("miniLogo");
     parent.removeChild(child);   
 
     const bigCard = document.createElement("div");
     bigCard.id = "bigCard";
-    document.getElementById(parentID).append(bigCard);
+    document.getElementById("headerContainer").append(bigCard);
     const img = document.createElement("img");
     img.id = "bigCardImage";
     const nameAvatar = document.createElement("p");
 
 
     const title = document.createElement("h2");
-    title.textContent = "Pick you character";
+    title.textContent = "Pick your character";
     document.getElementById(parentID).append(title)
     
 
@@ -93,5 +95,9 @@ export function renderCharacterPage (parentID) {
             }
 
             renderWaitingRoom("wrapper");
+            //renderGameBoard("wrapper")
+
+
+
         }); 
 }
