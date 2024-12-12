@@ -1,0 +1,54 @@
+@font-face {
+    font-family: 'chewy';
+    src: url('../fonts/Chewy/Chewy-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'montserrat';
+    src: url("../fonts/Montserrat/Montserrat-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: 'cabinCondensed';
+    src: url("../fonts/Cabin_Condensed/CabinCondensed-SemiBold.ttf");
+}
+
+body {
+    background: #4A90E2;
+    background-image: url('../../static/media/bakgrund.png');
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: center;
+     height: 100vh;
+     width: 100vw;
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(74, 144, 226, 0.8);
+
+    height: 100%;
+    width: 100%;
+}
+
+
+
+.button {
+    font-family: 'chewy';
+    color: white;
+}
+
+h2 {
+    font-family: "montserrat";
+    font-weight: bold;
+    color: white;
+}
+
+.card p {
+    font-family: "cabinCondensed";
+    color: white;
+
+}
