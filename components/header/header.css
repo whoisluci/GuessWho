@@ -1,22 +1,23 @@
 
 #headerContainer {
-    display: flex;
-    width: 330px;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 2fr 0.5fr;
     align-items: center;
     margin-bottom: 150px;
-    margin-top: 12px;
+    margin-top: 50px;
+    column-gap: 72px;
 }
 
 #arrowBack {
     font-size: 35px;
     color: white;
-    margin-top: -10px;
 }
 
 #helpBttnHeader {
     height: 35px;
     width: 35px;
+    margin-right: 0px;
+    grid-column: 3;
 }
 
 
@@ -24,8 +25,4 @@
     width: 96px;
     height: 74.957px;
     flex-shrink: 0;
-
-    position: absolute;
-    left: 36%;
-    top: 4%;
 }

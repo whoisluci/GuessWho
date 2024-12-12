@@ -19,7 +19,7 @@ body {
     width: 35px;
     height: 35px;
     flex-shrink: 0;
-    margin: 50px 40px;
+    margin: 50px 36px;
     align-self: end;
 }
 
@@ -46,6 +46,8 @@ body {
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
+    position: absolute;
+    bottom: 0px;
 
     background: rgba(0, 0, 0, 0.20);
 }

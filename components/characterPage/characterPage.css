@@ -36,11 +36,8 @@
     width: 110px;
     margin-bottom: 20px;
     /* margin-top: 50px; */
-}
-
-#bigCard p {
-    text-align: center;
-    margin-top: 10px;
+    grid-column: 2;
+    grid-row: 1;
 }
 
 #bigCardImage {
@@ -52,4 +49,6 @@
 
 #confirmBttn {
     margin-top: 34px;
+    margin-bottom: 34px;
 }
+
