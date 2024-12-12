@@ -67,6 +67,11 @@ export function renderGameBoard(parentID) {
 
         // let selectedChar = null;
 
+        guessBttn.addEventListener("click", () => {
+            guessBttn.classList.add("clicked");
+            console.log("clicked");
+        })
+
         
         cardsArray.forEach((card) => {
             const flipCard = document.createElement("div");
@@ -92,7 +97,15 @@ export function renderGameBoard(parentID) {
            document.getElementById("gameBoard").appendChild(flipCard);
 
             flipCard.addEventListener("click", () => {
-                flipCardInner.classList.toggle("flipped");
+                if (guessBttn.classList.contains("clicked")) {
+                    flipCardInner.classList.remove("flipped");
+                    guessBttn.style.backgroudColor = "pink";
+                    guessBttn.textContent = "Confirm";  
+                    card.classList.toggle("selected");
+                }else {
+                    flipCardInner.classList.toggle("flipped");
+                }
+                
             });
         });
 
