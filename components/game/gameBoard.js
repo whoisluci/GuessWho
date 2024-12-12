@@ -65,16 +65,21 @@ export function renderGameBoard(parentID) {
     }
         // let selectedChar = null;
 
-    
-    cardsArray.forEach((card) => {
-        const flipCard = document.createElement("div");
-        flipCard.className = "flipCard";
-    
-        const flipCardInner = document.createElement("div");
-        flipCardInner.className = "flipCardInner";
-    
-        const flipCardBack = document.createElement("div");
-        flipCardBack.className = "flipCardBack";
+        guessBttn.addEventListener("click", () => {
+            guessBttn.classList.add("clicked");
+            console.log("clicked");
+        })
+
+        
+        cardsArray.forEach((card) => {
+            const flipCard = document.createElement("div");
+            flipCard.className = "flipCard";
+        
+            const flipCardInner = document.createElement("div");
+            flipCardInner.className = "flipCardInner";
+        
+            const flipCardBack = document.createElement("div");
+            flipCardBack.className = "flipCardBack";
 
         const logo = document.createElement('img');
         logo.src = '../static/media/logga.png';
@@ -89,8 +94,17 @@ export function renderGameBoard(parentID) {
     
         document.getElementById("gameBoard").appendChild(flipCard);
 
-        flipCard.addEventListener("click", () => {
-            flipCardInner.classList.toggle("flipped");
+            flipCard.addEventListener("click", () => {
+                if (guessBttn.classList.contains("clicked")) {
+                    flipCardInner.classList.remove("flipped");
+                    guessBttn.style.backgroudColor = "pink";
+                    guessBttn.textContent = "Confirm";  
+                    card.classList.toggle("selected");
+                }else {
+                    flipCardInner.classList.toggle("flipped");
+                }
+                
+            });
         });
     });
 }
