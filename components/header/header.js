@@ -1,4 +1,5 @@
 import { createButton } from "../buttons/buttons.js";
+import { renderPopupHowTo } from "../popUpHowTo/popUpHowTo.js";
 
 export function header (parentID) {
     const container = document.createElement("div");
@@ -27,6 +28,10 @@ export function header (parentID) {
     const helpBttn = createButton("wrapper", "?", "#FF5252", "35px");
     helpBttn.id = "helpBttnHeader";
     container.append(helpBttn);
+
+    helpBttn.addEventListener("click", () => { 
+        renderPopupHowTo("Wrapper");
+    });
 
 
 }
