@@ -4,7 +4,7 @@
   }*/
 
 
-*{
+* {
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
@@ -17,21 +17,11 @@
     color: white;
     border: none;
     border-radius: 100px;
-    cursor: pointer;    
+    cursor: pointer;
 }
 
 
-#wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #4A90E2;
-    /* background-image: url('../bakgrund.jpg'); */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
+
 
 #theme_container {
     height: 250px;
@@ -42,7 +32,3 @@
     gap: 32px;
     margin-bottom: 128px;
 }
-
-
-
-
