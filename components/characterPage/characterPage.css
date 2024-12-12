@@ -12,7 +12,8 @@
 
 .card img {
     height: 74px;
-    width: 74px;
+    
+    /*width: 74px;*/
 }
 
 #cardsBoard {
@@ -43,7 +44,7 @@
 #bigCardImage {
     margin-top: -5px;
     height: 97px;
-    width: 97px;
+   /* width: 97px;*/
 
 }
 
