@@ -62,39 +62,35 @@ export function renderGameBoard(parentID) {
         case "Disney":
             cardsArray = renderCards(db[2], "gameBoard");
             break;
-        }
-
-
+    }
         // let selectedChar = null;
 
-        
-        cardsArray.forEach((card) => {
-            const flipCard = document.createElement("div");
-            flipCard.className = "flipCard";
-        
-            const flipCardInner = document.createElement("div");
-            flipCardInner.className = "flipCardInner";
-        
-            const flipCardBack = document.createElement("div");
-            flipCardBack.className = "flipCardBack";
+    
+    cardsArray.forEach((card) => {
+        const flipCard = document.createElement("div");
+        flipCard.className = "flipCard";
+    
+        const flipCardInner = document.createElement("div");
+        flipCardInner.className = "flipCardInner";
+    
+        const flipCardBack = document.createElement("div");
+        flipCardBack.className = "flipCardBack";
 
-            const logo = document.createElement('img');
-            logo.src = '../static/media/logga.png';
-            logo.id = "cardLogo";
-            flipCardBack.appendChild(logo);
+        const logo = document.createElement('img');
+        logo.src = '../static/media/logga.png';
+        logo.id = "cardLogo";
+        flipCardBack.appendChild(logo);
 
-            card.classList.add("frontCard");
-        
-            flipCardInner.appendChild(card); 
-            flipCardInner.appendChild(flipCardBack); 
-            flipCard.appendChild(flipCardInner);
-        
-           document.getElementById("gameBoard").appendChild(flipCard);
+        card.classList.add("frontCard");
+    
+        flipCardInner.appendChild(card); 
+        flipCardInner.appendChild(flipCardBack); 
+        flipCard.appendChild(flipCardInner);
+    
+        document.getElementById("gameBoard").appendChild(flipCard);
 
-            flipCard.addEventListener("click", () => {
-                flipCardInner.classList.toggle("flipped");
-            });
+        flipCard.addEventListener("click", () => {
+            flipCardInner.classList.toggle("flipped");
         });
-
-
+    });
 }
