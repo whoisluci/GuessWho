@@ -36,46 +36,69 @@ export function renderWaitingRoom(parentID) {
     });
 
     /* Temat som valdes */
+    switch (STATE.selectedTheme) {
+        case "Marvel":
+            /* Bild för Marvel */
+            break;
+            
+        case "Pixar": 
+            /* Bild för Pixar */
+            break;
 
+        case "Disney":
+            /* Bild för Disney */
+            break;
+        }
+        
     /* Player 1 vs Player 2 */
+    const playersDiv = document.createElement("div");
+    document.getElementById(parentID).appendChild(playersDiv);
+
     if (STATE.room.players.length === 1) {
-        const firstPlayerName = document.createElement("h4");
+        const firstPlayerName = document.createElement("h3");
         firstPlayerName.id = "firstPlayerName";
         firstPlayerName.textContent = STATE.room.players[0].name;
-        document.getElementById(parentID).appendChild(firstPlayerName);
+        playersDiv.appendChild(firstPlayerName);
         
-
         /* Bilden för spelare nr1 */
 
-        const vs = document.createElement("h4");
-        vs.textContent = "vs";
-        document.getElementById(parentID).appendChild(vs);
+        const firstPlayerDiv = document.createElement("div");
+        firstPlayerDiv.id = "firstPlayerImg";
+        playersDiv.appendChild(firstPlayerDiv);
 
-        const secondPlayerName = document.createElement("h4");
+        const vs = document.createElement("h3");
+        vs.textContent = "vs";
+        playersDiv.appendChild(vs);
+
+        const secondPlayerName = document.createElement("h3");
         secondPlayerName.id = "secondPlayerName";
         secondPlayerName.textContent = "Waiting...";
-        document.getElementById(parentID).appendChild(secondPlayerName);
+        playersDiv.appendChild(secondPlayerName);
 
         /* Tom bild för spelare nr2 */
-
-        /* Uppdatera namn när spelare nr 2 har joinat --> joinPage.js */
-        /* Uppdatera bild när spelare nr 2 har valt karaktär --> characterPage.js */
+        const secondPlayerDiv = document.createElement("div");
+        secondPlayerDiv.id = "secondPlayerImg";
+        playersDiv.appendChild(secondPlayerDiv);
 
     } else if (STATE.room.players.length === 2) {
-        const firstPlayerName = document.createElement("h4");
-        firstPlayerName.textContent = STATE.room.players[0].name;
-
+        
+        const firstPlayerName = document.createElement("h3");
+        firstPlayerName.id = "firstPlayerName";
+        firstPlayerName.textContent = STATE.room.players[1].name;
+        playersDiv.appendChild(firstPlayerName);
         /* Bilden för spelare nr1 */
 
-        const vs = document.createElement("h4");
+        const vs = document.createElement("h3");
         vs.textContent = "vs";
+        playersDiv.appendChild(vs);
 
-
-        const secondPlayerName = document.createElement("h4");
-        secondPlayerName.textContent = STATE.room.players[1].name;
+        const secondPlayerName = document.createElement("h3");
+        secondPlayerName.id = "secondPlayerName";
+        secondPlayerName.textContent = STATE.room.players[0].name; ;
+        playersDiv.appendChild(secondPlayerName);
 
         /* Bilden för spelare nr2 */
-        startGame();
+        // startGame();
     }
 }
 
@@ -88,14 +111,6 @@ export function updateName (updatedName) {
     secondPlayerName.textContent = updatedName;
 }
 
-export function updateChar (selectedChar) {
-    console.log(selectedChar);
-    /* Ska anropas när spelare nr2 har valt karaktär */
-    const secondPlayerChar = document.getElementById("");
-    /* selectedChar = { name, imagePath } */
-    /* startGame(); */
-}
-
-function startGame () {
+export function startGame () {
     setTimeout(renderGameBoard, 10000) /* <- 10 sekunder */
 }

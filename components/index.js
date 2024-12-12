@@ -1,5 +1,7 @@
 import { landingPage } from "./landingPage/landingPage.js";
-import { updateChar, updateName } from "./waitingRoom/waitingRoom.js";
+import { updateName } from "./waitingRoom/waitingRoom.js";
+import { renderCharacterPage } from "./characterPage/characterPage.js";
+import { renderGameBoard } from "./game/gameBoard.js";
 
 function renderApp() {
     const wrapper = document.createElement("div");
@@ -12,8 +14,6 @@ function renderApp() {
 renderApp();
 
 // <------------------------------- CLIENT ---------------------------------------->
-
-// Client guest name, connection (i.e. socket), clientID and gameID
 export const STATE = {
     "client": null,
     "socket": null,
@@ -32,7 +32,7 @@ export let db = null;
 globalThis.addEventListener("load", () => {
     STATE.socket = new WebSocket("ws://localhost:8888");
 
-    STATE.socket.addEventListener("open", async (event) => {
+    STATE.socket.addEventListener("open", (event) => {
         STATE.client = event;
         console.info("[CLIENT]: Connection established!");
     });
@@ -41,7 +41,6 @@ globalThis.addEventListener("load", () => {
         const message = JSON.parse(event.data);
         
         switch (message.event) {
-            //cases
             case "connect":
                 STATE.clientID = message.data.clientID;
                 db = message.data.db;
@@ -64,9 +63,16 @@ globalThis.addEventListener("load", () => {
 
                 STATE.roomID = message.data.id;
                 STATE.room = message.data;
+                STATE.selectedTheme = message.data.selectedTheme;
 
-                const name = message.data.players[1].name;
-                updateName(name);
+                
+                if (STATE.clientID === message.data.players[0].id) {
+                    const name = message.data.players[1].name;
+                    updateName(name);
+                } else {
+                    renderCharacterPage("wrapper");
+                }
+
 
                 console.log(`[CLIENT]: Joined room ${STATE.roomID} successfully`);
                 break;
@@ -77,9 +83,15 @@ globalThis.addEventListener("load", () => {
                 console.log(`[CLIENT]: Character chosen successfully`);
 
                 if (STATE.room.players.length === 2) {
-                    updateChar(STATE.room.players[1].selectedChar);
+                    if (STATE.room.players[1].selectedCharacter !== null || undefined) {
+                        renderGameBoard("wrapper");
+                    }
                 }
-                
+
+                break;
+            
+            case "guess":     
+                console.log(`[CLIENT]: `);
                 break;
 
             default:

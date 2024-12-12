@@ -1,7 +1,6 @@
 import { createButton } from "../buttons/buttons.js";
 import { header } from "../header/header.js";
 import { STATE } from "../index.js";
-import { updateChar } from "../waitingRoom/waitingRoom.js";
 import { renderWaitingRoom } from "../waitingRoom/waitingRoom.js";
 import { renderCards } from "../cards/cards.js";
 import { db } from "../index.js";
@@ -32,8 +31,6 @@ export function renderCharacterPage (parentID) {
     board.id = "cardsBoard";
     document.getElementById(parentID).append(board);
 
-    /* När korten är på plats och det läggs eventListener på dem, så ska man lagra karaktären som spelaren har valt */
-
     let cardsArray = null;
 
     switch (STATE.selectedTheme) {
@@ -50,48 +47,43 @@ export function renderCharacterPage (parentID) {
             break;
         }
 
-        const confirmBttn = createButton("wrapper", "Confirm", "#D25D6F", "190px");
-        confirmBttn.id = "confirmBttn";
+    const confirmBttn = createButton("wrapper", "Confirm", "#D25D6F", "190px");
+    confirmBttn.id = "confirmBttn";
 
-        let selectedChar = null;
+    let selectedChar = null;
 
-        cardsArray.forEach( (card) => {
-            card.addEventListener ("click", () => {
+    cardsArray.forEach( (card) => {
+        card.addEventListener ("click", () => {
 
-                if (card.classList.contains("selected")) {
-                    confirmBttn.style.backgroundColor = "#D25D6F";
-                    bigCard.removeChild(img);
-                    bigCard.removeChild(nameAvatar);
-                    card.classList.remove("selected");
+            if (card.classList.contains("selected")) {
+                confirmBttn.style.backgroundColor = "#D25D6F";
+                bigCard.removeChild(img);
+                bigCard.removeChild(nameAvatar);
+                card.classList.remove("selected");
 
-                } else {
-                    card.classList.add("selected");
-                    selectedChar = card;
-                    confirmBttn.style.backgroundColor = "#FF5252";
-                    bigCard.append(img);
-                    document.getElementById("bigCard").append(nameAvatar);
-                    img.src = card.firstChild.src;
-                    nameAvatar.textContent = card.lastChild.textContent;
-                }
-            })
-        });
-        
-        confirmBttn.addEventListener("click", () => { 
-            const data = {
-                event: "pickChar",
-                data: {
-                    "clientID": STATE.clientID,
-                    "roomID": STATE.roomID,
-                    "selectedChar": { name: selectedChar.lastChild.textContent, imagePath: selectedChar.firstChild.src}
-                }
-            };
-
-            STATE.socket.send(JSON.stringify(data));
-
-            if (STATE.room.players.length === 2) {
-                /* updateChar(karaktären (objekt) man har valt) */
+            } else {
+                card.classList.add("selected");
+                selectedChar = card;
+                confirmBttn.style.backgroundColor = "#FF5252";
+                bigCard.append(img);
+                document.getElementById("bigCard").append(nameAvatar);
+                img.src = card.firstChild.src;
+                nameAvatar.textContent = card.lastChild.textContent;
             }
+        })
+    });
+    
+    confirmBttn.addEventListener("click", () => { 
+        const data = {
+            event: "pickChar",
+            data: {
+                "clientID": STATE.clientID,
+                "roomID": STATE.roomID,
+                "selectedChar": { name: selectedChar.lastChild.textContent, imagePath: selectedChar.firstChild.src}
+            }
+        };
 
-            renderWaitingRoom("wrapper");
-        }); 
+        STATE.socket.send(JSON.stringify(data));
+        renderWaitingRoom("wrapper");
+    }); 
 }

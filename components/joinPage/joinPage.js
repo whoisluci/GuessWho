@@ -2,7 +2,6 @@ import { createButton } from "../buttons/buttons.js";
 import { header } from "../header/header.js";
 import { STATE } from "../index.js";
 import { renderCharacterPage } from "../characterPage/characterPage.js";
-import { updateName } from "../waitingRoom/waitingRoom.js";
 
 export function joinPage(parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -59,11 +58,9 @@ export function joinPage(parentID) {
 
         if (STATE.roomID === null || undefined) {
             /* Pop-Up varning: No room with this ID was found */ 
-            console.warn("No room with this ID was found!");
-            
+            console.warn("No room with this ID was found!");   
         }
-        
-        renderCharacterPage("wrapper");
+        // renderCharacterPage("wrapper");
     });
     
 };

@@ -2,9 +2,6 @@ import { createButton } from "../buttons/buttons.js";
 import { renderCreatePage } from "../createPage/createPage.js";
 import { STATE } from "../index.js";
 import { header } from "../header/header.js"
-import { renderCards } from "../cards/cards.js";
-
-
 
 export function selectThemePage (parentID) {
     document.getElementById(parentID).innerHTML = "";
