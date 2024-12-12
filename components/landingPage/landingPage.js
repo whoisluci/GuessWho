@@ -3,10 +3,15 @@
 import { createButton } from "../buttons/buttons.js";
 import { joinPage } from "../joinPage/joinPage.js";
 import { selectThemePage } from "../selectThemePage/selectThemePage.js";
+import { renderPopupHowTo } from "../popUpHowTo/popUpHowTo.js";
 
 export function landingPage (parentID) {
     const helpBttn = createButton("wrapper", "?", "#FF5252", "35px");
     helpBttn.id = "helpBttn";
+
+    helpBttn.addEventListener("click", () => { 
+        renderPopupHowTo("Wrapper");
+    });
 
     const img = document.createElement('img');
     img.src = './static/media/logga.png';
@@ -26,7 +31,6 @@ export function landingPage (parentID) {
 
     container.appendChild(joinBttn);
     container.appendChild(createBttn);
-
 
     joinBttn.addEventListener("click", () => {
         joinPage("wrapper");
