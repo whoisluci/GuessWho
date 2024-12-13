@@ -189,7 +189,7 @@ Deno.serve( {
                 broadcastToRoom(socket, "pickChar", room);
               }
 
-              send(socket, "pickChar", room);
+              send(socket, "pickChar", room); 
               break;
               
             } else {
