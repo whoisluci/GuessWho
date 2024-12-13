@@ -15,7 +15,8 @@ export function header (parentID) {
 
     const arrowBack = document.createElement("span");
     arrowBack.id = "arrowBack";
-    arrowBack.innerHTML = `&#8592`;
+    //arrowBack.innerHTML = `&#8592`;
+    arrowBack.innerHTML = "←";
     container.append(arrowBack);
 
     const logo = document.createElement('img');
@@ -32,6 +33,4 @@ export function header (parentID) {
     helpBttn.addEventListener("click", () => { 
         renderPopupHowTo("Wrapper");
     });
-
-
 }
