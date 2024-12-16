@@ -7,10 +7,11 @@
 
 
 #themeDisplay {
-    height: 39px;
-    width: 145px;
+    width: 170px;
     margin-bottom: 37px;
-    border: 1px solid black;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 
 }
 
