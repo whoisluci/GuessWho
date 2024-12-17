@@ -5,25 +5,30 @@
 }
 
 
-
+#buttonContainer, #helpBttn, #logo {
+    position: absolute;
+}
 
 #buttonContainer {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    top: 454px;
 }
 
 #helpBttn {
     width: 35px;
     height: 35px;
     flex-shrink: 0;
-    margin: 50px 36px;
     align-self: end;
+    top: 48px;
+    right: 36px;
 }
 
 #logo {
     height: 200px;
-    margin-bottom: 84px;
+    top: 191px;
+   
 }
 
 #createBttn {
