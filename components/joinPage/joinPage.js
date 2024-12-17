@@ -61,5 +61,4 @@ export function joinPage(parentID) {
         }
         // renderCharacterPage("wrapper");
     });
-    
 };

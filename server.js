@@ -163,11 +163,12 @@ Deno.serve( {
               room.players.push(player); 
               broadcastToRoom(STATE.roomID, "join", room);
               break;
+            } else {
+              console.log(`[SERVER]: No room with this ID was found`);
+              send(socket, "join", {"Error": "Unable to find a room with this ID"});
+              break;
             }
           }
-          
-          console.log(`[SERVER]: No room with this ID was found`);
-          send(socket, "join", {"Error": "Unable to find a room with this ID"});
           break;
         }
 
@@ -201,10 +202,31 @@ Deno.serve( {
 
           break;
         
-        case "guess": 
-        
-          break;
+        case "guess": {
+          STATE.roomID = message.data.roomID;
+          STATE.clientID = message.data.clientID;
+          
+          const guess = message.data.guess;
 
+          for (const room of STATE.rooms) {        
+            if (room.id === STATE.roomID) {
+
+              for (const player of room.players) {
+                if (player.id != STATE.clientID) {
+                  if (player.selectedChar === guess) {
+                    broadcastToRoom(STATE.roomID, "guess", "Correct");
+                    break;
+                  } else {
+                    broadcastToRoom(STATE.roomID, "guess", "Wrong");
+                  }
+                }
+              }
+            }
+          }
+
+          break;
+        }
+      
         case "rematch": 
 
           break;
@@ -214,6 +236,7 @@ Deno.serve( {
           break;
       }
     });
+  
 
     socket.addEventListener("close", () => {
       console.log(`[SERVER]: Disconnect :: Goodbye ${STATE.clientID}`);
@@ -229,4 +252,4 @@ Deno.serve( {
 
     return response;
   }
-}); 
+});

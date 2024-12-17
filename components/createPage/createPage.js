@@ -6,13 +6,8 @@ import { header } from "../header/header.js";
 export function renderCreatePage (parentID) {
 
     //Displayar vald kategori, kommer ändras till en bild
-<<<<<<< HEAD
     const theme = STATE.selectedTheme;
-    const themeDisplay = document.createElement('div');
-=======
-    const theme = pickedTheme;
     const themeDisplay = document.createElement('img');
->>>>>>> main
     themeDisplay.id = "themeDisplay";
 
     switch (theme) {
