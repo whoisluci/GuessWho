@@ -6,8 +6,13 @@ import { selectThemePage } from "../selectThemePage/selectThemePage.js";
 import { renderPopupHowTo } from "../popUpHowTo/popUpHowTo.js";
 
 export function landingPage (parentID) {
-    const helpBttn = createButton("wrapper", "?", "#FF5252", "35px");
+    // const helpBttn = createButton("wrapper", "?", "#FF5252", "35px");
+    // helpBttn.id = "helpBttn";
+
+    const helpBttn = document.createElement('img');
+    helpBttn.src = '../../static/media/infoBtn.png';
     helpBttn.id = "helpBttn";
+   document.getElementById(parentID).appendChild(helpBttn);
 
     helpBttn.addEventListener("click", () => { 
         renderPopupHowTo("Wrapper");
