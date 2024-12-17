@@ -101,6 +101,8 @@ export function renderGameBoard(parentID) {
 
         })
 
+        console.log("hääär", STATE.selectedCharacter)
+
         
         cardsArray.forEach((card) => {
             const flipCard = document.createElement("div");
@@ -118,6 +120,8 @@ export function renderGameBoard(parentID) {
             flipCardBack.appendChild(logo);
 
             card.classList.add("frontCard");
+
+            
         
             flipCardInner.appendChild(card); 
             flipCardInner.appendChild(flipCardBack); 
