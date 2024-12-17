@@ -112,5 +112,7 @@ export function updateName (updatedName) {
 }
 
 export function startGame () {
-    setTimeout(renderGameBoard, 10000) /* <- 10 sekunder */
+    setTimeout( () => {
+        renderGameBoard("wrapper");
+    }, 5000); /* <- 10 sekunder */
 }

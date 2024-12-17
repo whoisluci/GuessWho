@@ -1,7 +1,7 @@
 import { landingPage } from "./landingPage/landingPage.js";
 import { updateName } from "./waitingRoom/waitingRoom.js";
 import { renderCharacterPage } from "./characterPage/characterPage.js";
-import { renderGameBoard } from "./game/gameBoard.js";
+import { startGame } from "./waitingRoom/waitingRoom.js";
 
 function renderApp() {
     const wrapper = document.createElement("div");
@@ -65,7 +65,6 @@ globalThis.addEventListener("load", () => {
                 STATE.roomID = message.data.id;
                 STATE.room = message.data;
                 STATE.selectedTheme = message.data.selectedTheme;
-
                 
                 if (STATE.clientID === message.data.players[0].id) {
                     const name = message.data.players[1].name;
@@ -73,7 +72,6 @@ globalThis.addEventListener("load", () => {
                 } else {
                     renderCharacterPage("wrapper");
                 }
-
 
                 console.log(`[CLIENT]: Joined room ${STATE.roomID} successfully`);
                 break;
@@ -85,10 +83,9 @@ globalThis.addEventListener("load", () => {
 
                 if (STATE.room.players.length === 2) {
                     if (STATE.room.players[1].selectedCharacter !== null || undefined) {
-                        renderGameBoard("wrapper");
+                        startGame();
                     }
                 }
-
                 break;
             
             case "guess":     

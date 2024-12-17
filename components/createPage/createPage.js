@@ -2,7 +2,6 @@ import { createButton } from "../buttons/buttons.js";
 import { STATE } from "../index.js";
 import { renderCharacterPage } from "../characterPage/characterPage.js";
 import { header } from "../header/header.js";
-import { renderGameBoard } from "../game/gameBoard.js";
 
 export function renderCreatePage (parentID) {
 
@@ -76,8 +75,7 @@ export function renderCreatePage (parentID) {
         /* Den här if-satsen kanske inte behövs? */
         if (STATE.selectedTheme != null) {            
             STATE.socket.send(JSON.stringify(data));
-            //renderCharacterPage("wrapper");
-            renderGameBoard("wrapper")
+            renderCharacterPage("wrapper");
         } else {
             console.warn("You selected no theme");
             

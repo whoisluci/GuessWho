@@ -3,7 +3,6 @@ import { header } from "../header/header.js";
 import { STATE } from "../index.js";
 import { renderWaitingRoom } from "../waitingRoom/waitingRoom.js";
 import { renderCards } from "../cards/cards.js";
-import { renderGameBoard } from "../game/gameBoard.js";
 import { db } from "../index.js";
 
 export function renderCharacterPage (parentID) {
@@ -84,7 +83,7 @@ export function renderCharacterPage (parentID) {
                 "selectedChar": { name: selectedChar.lastChild.textContent, imagePath: selectedChar.firstChild.src}
             }
         };
-        
+
         STATE.socket.send(JSON.stringify(data));
         renderWaitingRoom("wrapper");
     }); 

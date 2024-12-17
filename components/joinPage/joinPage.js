@@ -1,7 +1,6 @@
 import { createButton } from "../buttons/buttons.js";
 import { header } from "../header/header.js";
 import { STATE } from "../index.js";
-import { renderCharacterPage } from "../characterPage/characterPage.js";
 
 export function joinPage(parentID) {
     document.getElementById(parentID).innerHTML = "";
