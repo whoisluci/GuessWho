@@ -6,25 +6,33 @@ import { header } from "../header/header.js";
 export function renderCreatePage (parentID) {
 
     //Displayar vald kategori, kommer ändras till en bild
+<<<<<<< HEAD
     const theme = STATE.selectedTheme;
     const themeDisplay = document.createElement('div');
+=======
+    const theme = pickedTheme;
+    const themeDisplay = document.createElement('img');
+>>>>>>> main
     themeDisplay.id = "themeDisplay";
 
-    switch(theme) {
-
+    switch (theme) {
         case "Disney":
-            themeDisplay.innerText = "Disney";
+            console.log(theme);
+            themeDisplay.src = `../static/media/${theme}/logo.png`;
             break;
-
+    
         case "Marvel":
-            themeDisplay.innerText = "Marvel";
+            themeDisplay.src = `../static/media/${theme}/logo.png`;
             break;
-
+    
         case "Pixar":
-            themeDisplay.innerText = "Pixar";
+            themeDisplay.src = `../static/media/${theme}/logo.png`;
             break;
-
+    
+        default:
+            console.error("Invalid theme:", theme);
     }
+    
 
     document.getElementById(parentID).innerHTML = "";
     const createForm = document.createElement("form");

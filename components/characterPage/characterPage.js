@@ -53,27 +53,26 @@ export function renderCharacterPage (parentID) {
 
     let selectedChar = null;
 
-    cardsArray.forEach( (card) => {
-        card.addEventListener ("click", () => {
-
-            if (card.classList.contains("selected")) {
-                confirmBttn.style.backgroundColor = "#D25D6F";
-                bigCard.removeChild(img);
-                bigCard.removeChild(nameAvatar);
-                card.classList.remove("selected");
-
+    cardsArray.forEach((card) => {
+        card.addEventListener("click", () => {
+            cardsArray.forEach((c) => c.classList.remove("selected"));
+            
+            bigCard.innerHTML = "";
+    
+            if (card === selectedChar) {
+                selectedChar = null; 
+                confirmBttn.style.backgroundColor = "#D25D6F"; 
             } else {
                 card.classList.add("selected");
                 selectedChar = card;
                 confirmBttn.style.backgroundColor = "#FF5252";
-                bigCard.append(img);
-                document.getElementById("bigCard").append(nameAvatar);
                 img.src = card.firstChild.src;
                 nameAvatar.textContent = card.lastChild.textContent;
+                bigCard.append(img, nameAvatar);
             }
-        })
+        });
     });
-    
+
     confirmBttn.addEventListener("click", () => { 
         const data = {
             event: "pickChar",
