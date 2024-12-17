@@ -62,94 +62,75 @@ export function renderGameBoard(parentID) {
         case "Disney":
             cardsArray = renderCards(db[2], "gameBoard");
             break;
+    }
+    // let selectedChar = null;
+
+    //create chat element, own function??
+    const chatElement = document.createElement("div");
+    chatElement.id = "chatContainer";
+    document.getElementById(parentID).append(chatElement);
+
+
+    const chat = document.createElement("label");
+    chat.for = "msg";
+    chat.id = "chat";
+    
+    
+    const textArea = document.createElement("textarea");
+    textArea.id = "msg";
+    textArea.placeholder = "Ask a question";
+
+    const submitButton = document.createElement("button");
+    submitButton.type = "submit";
+    submitButton.className = "btn";  
+    submitButton.textContent = "Send";  
+
+    document.getElementById("chatContainer").append(chat, textArea, submitButton);
+
+
+    //EventListener on guess button
+    guessBttn.addEventListener("click", () => {
+
+        if (guessBttn.textContent === "Guess") {
+            guessBttn.classList.add("clicked");
+            guessBttn.textContent = "Who do you guess?"
+            guessBttn.classList.remove("highlighted");
+        }else {
+            document.getElementById("gameBoard").removeChild(".flipcard")
+            guessBttn.textContent = "Guess";
         }
 
-        //create chat element, own function??
-        const chatElement = document.createElement("div");
-        chatElement.id = "chatContainer";
-        document.getElementById(parentID).append(chatElement);
+    });
 
+    card.classList.add("frontCard");
 
-        const chat = document.createElement("label");
-        chat.for = "msg";
-        chat.id = "chat";
-        
-     
-        const textArea = document.createElement("textarea");
-        textArea.id = "msg";
-        textArea.placeholder = "Ask a question";
+    flipCardInner.appendChild(card); 
+    flipCardInner.appendChild(flipCardBack); 
+    flipCard.appendChild(flipCardInner);
 
-        const submitButton = document.createElement("button");
-        submitButton.type = "submit";
-        submitButton.className = "btn";  
-        submitButton.textContent = "Send";  
+    document.getElementById("gameBoard").appendChild(flipCard);
 
-        document.getElementById("chatContainer").append(chat, textArea, submitButton);
+    let selectedChar = null;
 
+    flipCard.addEventListener("click", () => {
+        cardsArray.forEach((c) => c.classList.remove("selected"));
 
-        //EventListener on guess button
-        guessBttn.addEventListener("click", () => {
-
-            if (guessBttn.textContent === "Guess") {
-                guessBttn.classList.add("clicked");
-                guessBttn.textContent = "Who do you guess?"
+        if (guessBttn.classList.contains("clicked")) {
+            guessBttn.classList.remove("highlighted");
+            guessBttn.textContent = "Who do you guess?"
+            if (selectedChar === card) {
+                selectedChar = null;
+                guessBttn.style.background = "#7ED321"; 
                 guessBttn.classList.remove("highlighted");
-            }else {
-                document.getElementById("gameBoard").removeChild(".flipcard")
-                guessBttn.textContent = "Guess";
+                
+            } else{
+                selectedChar = card;
+                guessBttn.textContent = "Confirm";
+                guessBttn.classList.add("highlighted");
+                card.classList.add("selected");
             }
-
-        })
-
-        
-        cardsArray.forEach((card) => {
-            const flipCard = document.createElement("div");
-            flipCard.className = "flipCard";
-        
-            const flipCardInner = document.createElement("div");
-            flipCardInner.className = "flipCardInner";
-        
-            const flipCardBack = document.createElement("div");
-            flipCardBack.className = "flipCardBack";
-
-            const logo = document.createElement('img');
-            logo.src = '../static/media/logga.png';
-            logo.id = "cardLogo";
-            flipCardBack.appendChild(logo);
-
-            card.classList.add("frontCard");
-        
-            flipCardInner.appendChild(card); 
-            flipCardInner.appendChild(flipCardBack); 
-            flipCard.appendChild(flipCardInner);
-        
-           document.getElementById("gameBoard").appendChild(flipCard);
-
-           let selectedChar = null;
-
-           flipCard.addEventListener("click", () => {
-            cardsArray.forEach((c) => c.classList.remove("selected"));
-
-            if (guessBttn.classList.contains("clicked")) {
-                guessBttn.classList.remove("highlighted");
-                guessBttn.textContent = "Who do you guess?"
-                if (selectedChar === card) {
-                    selectedChar = null;
-                    guessBttn.style.background = "#7ED321"; 
-                    guessBttn.classList.remove("highlighted");
-                    
-                } else{
-                    selectedChar = card;
-                    guessBttn.textContent = "Confirm";
-                    guessBttn.classList.add("highlighted");
-                    card.classList.add("selected");
-                }
-            } else {
-                flipCardInner.classList.toggle("flipped");
-            }
-        });
-        
+        } else {
+            flipCardInner.classList.toggle("flipped");
+        }
     });
 }
-
-

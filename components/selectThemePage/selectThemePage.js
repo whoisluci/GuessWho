@@ -2,13 +2,13 @@ import { createButton } from "../buttons/buttons.js";
 import { renderCreatePage } from "../createPage/createPage.js";
 import { STATE } from "../index.js";
 import { header } from "./../header/header.js"
-// import { renderCards } from "../cards/cards.js";
 import { landingPage } from "./../landingPage/landingPage.js";
+
 
 export function selectThemePage (parentID) {
     document.getElementById(parentID).innerHTML = "";
     const themeContainer = document.createElement("div");
-    header("wrapper");
+    const _header = header("wrapper");
 
     document.getElementById(parentID).innerHTML += "<h2>Select theme</h2>";
 
@@ -21,7 +21,8 @@ export function selectThemePage (parentID) {
 
     const nextBttn = createButton("wrapper", "Next", "#D25D6F", "190px");
     nextBttn.id = "nextBttn";
-    nextBttn.style.backgroundColor = "#FF5252C2"; 
+    nextBttn.style.backgroundColor = "#FF5252C2";
+    nextBttn.disabled = true;
     
     for (let i = 0; i < themeArray.length; i++) {
         const themeButton = document.createElement("button");
@@ -47,6 +48,7 @@ export function selectThemePage (parentID) {
                 console.log(themeButton, btn)
                 btn.style.border = "2px solid black"; 
                 nextBttn.style.backgroundColor = "#FF5252";
+                nextBttn.disabled = false;
             } else {
                 btn.style.border = "";
             }
@@ -58,6 +60,7 @@ export function selectThemePage (parentID) {
         
 
         if (STATE.selectedTheme === null) {
+
             /* Här ska det ske någon typ av varning som säger att man måste välja tema */
         } else {
             renderCreatePage("wrapper", STATE.selectedTheme);
