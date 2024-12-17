@@ -13,8 +13,9 @@ export function selectThemePage (parentID) {
     themeContainer.id = "theme_container";
     document.getElementById(parentID).append(themeContainer);
 
-
     const themeArray = ["Disney", "Marvel", "Pixar"] 
+
+    const themeLogo = ["../static/media/Disney/logo.png", "../static/media/marvel/logo.png", "../static/media/Pixar/logo.png"] 
 
     const nextBttn = createButton("wrapper", "Next", "#D25D6F", "190px");
     nextBttn.id = "nextBttn";
@@ -25,8 +26,15 @@ export function selectThemePage (parentID) {
         const themeButton = document.createElement("button");
         themeButton.id = `${themeArray[i]}Button`;
         themeButton.className = "themeButton"; 
-        themeButton.textContent = themeArray[i];  
-        themeContainer.append(themeButton); 
+
+        const img = document.createElement("img");
+        img.src = themeLogo[i];
+        img.alt = `${themeArray[i]} Logo`;
+        img.style.height = "40px"; // Adjust as needed
+        img.style.width = "auto";  // Keep aspect ratio
+        
+        themeButton.append(img);
+        themeContainer.append(themeButton);
 
         themeButton.addEventListener("click", () => {    
             STATE.selectedTheme = themeArray[i];
@@ -35,6 +43,7 @@ export function selectThemePage (parentID) {
 
             document.querySelectorAll(".themeButton").forEach((btn) => {
             if (themeButton === btn) {
+                console.log(themeButton, btn)
                 btn.style.border = "2px solid black"; 
                 nextBttn.style.backgroundColor = "#FF5252";
                 nextBttn.disabled = false;
@@ -53,7 +62,7 @@ export function selectThemePage (parentID) {
 
             /* Här ska det ske någon typ av varning som säger att man måste välja tema */
         } else {
-            renderCreatePage("wrapper");
+            renderCreatePage("wrapper", STATE.selectedTheme);
         }
     });
 }
