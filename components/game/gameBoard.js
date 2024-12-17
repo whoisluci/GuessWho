@@ -135,11 +135,22 @@ export function renderGameBoard(parentID) {
                     guessBttn.style.background = "#7ED321"; 
                     guessBttn.classList.remove("highlighted");
                     
-                } else{
+                } else {
                     selectedChar = card;
                     guessBttn.textContent = "Confirm";
                     guessBttn.classList.add("highlighted");
                     card.classList.add("selected");
+
+                    const data = {
+                        event: "guess",
+                        data: {
+                            clientID: STATE.clientID,
+                            roomID: STATE.roomID,
+                            guess: selectedChar
+                        }
+                    };
+
+                    STATE.socket.send(JSON.stringify(data));
                 }
             } else {
                 flipCardInner.classList.toggle("flipped");
@@ -148,5 +159,3 @@ export function renderGameBoard(parentID) {
         
     });
 }
-
-
