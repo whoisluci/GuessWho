@@ -1,7 +1,9 @@
 import { createButton } from "../buttons/buttons.js";
 import { renderCreatePage } from "../createPage/createPage.js";
 import { STATE } from "../index.js";
-import { header } from "../header/header.js"
+import { header } from "./../header/header.js"
+import { landingPage } from "./../landingPage/landingPage.js";
+
 
 export function selectThemePage (parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -53,7 +55,6 @@ export function selectThemePage (parentID) {
             });
         });
     }
-
 
     nextBttn.addEventListener("click", () => {
         
