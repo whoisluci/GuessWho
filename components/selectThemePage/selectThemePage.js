@@ -10,25 +10,24 @@ export function selectThemePage (parentID) {
     document.getElementById(parentID).innerHTML = "";
     const themeContainer = document.createElement("div");
     header("wrapper");
-
-    document.getElementById(parentID).innerHTML += "<h2>Select theme</h2>";
-
     themeContainer.id = "theme_container";
     document.getElementById(parentID).append(themeContainer);
-
+    
+    const selectedThemeTitle = document.createElement('h2');
+    selectedThemeTitle.id = "selectThemeTitle";
+    selectedThemeTitle.innerText = "Select theme";
+    themeContainer.appendChild(selectedThemeTitle);
+   
     const themeArray = ["Disney", "Marvel", "Pixar"] 
 
     const themeLogo = ["../static/media/Disney/logo.png", "../static/media/marvel/logo.png", "../static/media/Pixar/logo.png"] 
 
-    const nextBttn = createButton("wrapper", "Next", "#D25D6F", "190px");
-    nextBttn.id = "nextBttn";
-    nextBttn.style.backgroundColor = "#FF5252C2"; 
     
     for (let i = 0; i < themeArray.length; i++) {
         const themeButton = document.createElement("button");
         themeButton.id = `${themeArray[i]}Button`;
         themeButton.className = "themeButton"; 
-
+        
         const img = document.createElement("img");
         img.src = themeLogo[i];
         img.alt = `${themeArray[i]} Logo`;
@@ -37,24 +36,29 @@ export function selectThemePage (parentID) {
         
         themeButton.append(img);
         themeContainer.append(themeButton);
-
+        
         themeButton.addEventListener("click", () => {    
             STATE.selectedTheme = themeArray[i];
-
+            
             console.log(themeArray[i], STATE.selectedTheme);
-
+            
             document.querySelectorAll(".themeButton").forEach((btn) => {
-            if (themeButton === btn) {
-                console.log(themeButton, btn)
-                btn.style.border = "2px solid black"; 
-                nextBttn.style.backgroundColor = "#FF5252";
-            } else {
-                btn.style.border = "";
-            }
+                if (themeButton === btn) {
+                    console.log(themeButton, btn)
+                    btn.style.border = "2px solid black"; 
+                    nextBttn.style.backgroundColor = "#FF5252";
+                } else {
+                    btn.style.border = "";
+                }
             });
         });
-    }
 
+
+    }
+    
+    const nextBttn = createButton("wrapper", "Next", "#D25D6F", "190px");
+    nextBttn.id = "nextBttn";
+    nextBttn.style.backgroundColor = "#FF5252C2"; 
 
     nextBttn.addEventListener("click", () => {
         

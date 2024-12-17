@@ -14,13 +14,10 @@ export function renderGameBoard(parentID) {
     const child = document.getElementById("miniLogo");
     parent.removeChild(child); 
     
-    const title = document.createElement("h2");
-    title.textContent = "Your card";
-    document.getElementById(parentID).append(title)
 
     const bigCard = document.createElement("div");
     bigCard.id = "yourAvatarCard";
-    document.getElementById("headerContainer").append(bigCard);
+    document.getElementById("wrapper").append(bigCard);
     // const img = document.createElement("img");
     //const choosenChar = STATE.selectedCharacter;
     // console.log("hallo", STATE)
