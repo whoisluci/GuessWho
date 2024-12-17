@@ -32,9 +32,7 @@ export function header (parentID) {
 
     const helpBttn = document.createElement('img');
     helpBttn.src = '../static/media/infoBtn.png';
-    helpBttn.id = "helpBttnHeader";
-    helpBttn.style.width = "45px"; // Bredd på knappen
-    helpBttn.style.height = "45px";
+    helpBttn.id = "helpBttnHeader"; 
     container.append(helpBttn); // Lägger till elementet i containern
 
     helpBttn.addEventListener("click", () => { 
