@@ -89,7 +89,7 @@ globalThis.addEventListener("load", () => {
                 break;
             
             case "guess":     
-                console.log(`[CLIENT]: `);
+                console.log(`[CLIENT]: A guess was made`);
                 break;
 
             default:

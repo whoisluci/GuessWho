@@ -91,8 +91,7 @@ export function renderGameBoard(parentID) {
                 guessBttn.classList.add("clicked");
                 guessBttn.textContent = "Who do you guess?"
                 guessBttn.classList.remove("highlighted");
-            }else {
-                document.getElementById("gameBoard").removeChild(".flipcard")
+            } else {
                 guessBttn.textContent = "Guess";
             }
 
@@ -136,7 +135,11 @@ export function renderGameBoard(parentID) {
                     guessBttn.classList.remove("highlighted");
                     
                 } else {
-                    selectedChar = card;
+                    selectedChar = {
+                        "name": card.innerText,
+                        "imagePath": card.firstChild.src
+                    };
+
                     guessBttn.textContent = "Confirm";
                     guessBttn.classList.add("highlighted");
                     card.classList.add("selected");
