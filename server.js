@@ -158,18 +158,17 @@ Deno.serve( {
 
               if (room.players.length === 2) {
                 console.log(`[SERVER]: Max. players reached`);
+                break;
               }
 
               room.players.push(player); 
               broadcastToRoom(STATE.roomID, "join", room);
-
               break;
-            } else {
-              console.log(`[SERVER]: No room with this ID was found`);
-              send(socket, "join", {"Error": "Unable to find a room with this ID"});
             }
           }
           
+          console.log(`[SERVER]: No room with this ID was found`);
+          send(socket, "join", {"Error": "Unable to find a room with this ID"});
           break;
         }
 
@@ -183,23 +182,15 @@ Deno.serve( {
               for (const player of room.players) {
                 if (player.id === STATE.clientID) {
                   player["selectedChar"] = message.data.selectedChar;
+                  broadcastToRoom(STATE.roomID, "pickChar", room);                  
+                  break;
                 }
               }
-
-              if (room.players.length === 2) {
-                broadcastToRoom(socket, "pickChar", room);
-              }
-
-              send(socket, "pickChar", room); 
-              break;
-              
-            } else {
-              console.log(`[SERVER]: No room with this ID was found`);
-              send(socket, "join", {"Error": "Unable to find a room with this ID"});
             }
           }
-
-          /* Om det finns 2 spelare i rummet så ska detta broadcastas till alla */
+          
+          console.log(`[SERVER]: No room with this ID was found`);
+          send(socket, "join", {"Error": "Unable to find a room with this ID"});
           break;
         }
 
@@ -212,7 +203,7 @@ Deno.serve( {
           break;
         
         case "guess": 
-
+        
           break;
 
         case "rematch": 
