@@ -22,7 +22,6 @@ export function renderCharacterPage (parentID) {
     img.id = "bigCardImage";
     const nameAvatar = document.createElement("p");
 
-
     const title = document.createElement("h2");
     title.textContent = "Pick your character";
     document.getElementById(parentID).append(title)
