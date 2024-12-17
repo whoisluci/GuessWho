@@ -84,6 +84,4 @@ export function renderCreatePage (parentID) {
             
         }
     });
-        
 }
-
