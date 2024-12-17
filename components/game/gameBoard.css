@@ -72,13 +72,63 @@
 
 
 .flipCardBack {
-    background-color: rgb(158, 158, 158);
+    /* background-color: rgb(158, 158, 158); */
     color: white;
     transform: rotateY(180deg);
+    background-image: url('/static/media/bakgrund.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
 }
 
 #cardLogo {
-    height: 70px;
-    width: 55px;
+    height: 58px;
     flex-shrink: 0;
 }
+
+
+/* gussbutton */
+.clicked {
+    background-color: #203e00;
+}
+
+.highlighted {
+    box-shadow: 0px 0px 5px white, 0px 0px 10px white;
+}
+
+
+/* chatt */
+#chatContainer {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;  
+    margin-top: 10px;
+    width: 365px;
+    justify-content: space-between;
+}
+
+#chat {
+    margin: 0; 
+}
+
+textarea {
+    flex-grow: 1; 
+    width: 350px; 
+    height: 35px; 
+    padding: 8px; 
+    font-size: 14px; 
+    border-radius: 5px; 
+    border: 1px solid #ccc; 
+    margin-right: 10px;
+}
+
+.btn {
+    padding: 5px 10px; 
+    font-size: 14px; 
+    border: none; 
+    border-radius: 5px; 
+    height: 35px;
+}
+
+

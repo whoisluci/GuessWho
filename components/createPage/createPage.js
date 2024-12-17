@@ -10,24 +10,27 @@ export function renderCreatePage (parentID, pickedTheme) {
 
     //Displayar vald kategori, kommer ändras till en bild
     const theme = pickedTheme;
-    const themeDisplay = document.createElement('div');
+    const themeDisplay = document.createElement('img');
     themeDisplay.id = "themeDisplay";
 
-    switch(theme) {
-
+    switch (theme) {
         case "Disney":
-            themeDisplay.innerText = "Disney";
+            console.log(theme);
+            themeDisplay.src = `../static/media/${theme}/logo.png`;
             break;
-
+    
         case "Marvel":
-            themeDisplay.innerText = "Marvel";
+            themeDisplay.src = `../static/media/${theme}/logo.png`;
             break;
-
+    
         case "Pixar":
-            themeDisplay.innerText = "Pixar";
+            themeDisplay.src = `../static/media/${theme}/logo.png`;
             break;
-
+    
+        default:
+            console.error("Invalid theme:", theme);
     }
+    
 
     document.getElementById(parentID).innerHTML = "";
     const createForm = document.createElement("form");
