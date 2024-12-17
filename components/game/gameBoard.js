@@ -18,12 +18,19 @@ export function renderGameBoard(parentID) {
     const bigCard = document.createElement("div");
     bigCard.id = "yourAvatarCard";
     document.getElementById("wrapper").append(bigCard);
-    // const img = document.createElement("img");
-    //const choosenChar = STATE.selectedCharacter;
-    // console.log("hallo", STATE)
-    //img.src =;
-    // const nameAvatar = document.createElement("p");
-    //document.getElementById(yourAvatarCard).append(nameAvatar);
+
+    const choosenChar = STATE.selectedCharacter.name;
+    const choosenCharImg = STATE.selectedCharacter.imagePath;
+    const img = document.createElement("img");
+    img.src = choosenCharImg;
+    img.style.height = "100px";
+  
+    const nameAvatar = document.createElement("p");
+    nameAvatar.textContent = choosenChar;
+
+    // Lägg till direkt på bigCard istället för att hämta det igen
+    bigCard.append(img, nameAvatar);
+
 
     const bttnContainer = document.createElement("div");
     bttnContainer.id = "bttnContainer";
@@ -65,7 +72,6 @@ export function renderGameBoard(parentID) {
         const chatElement = document.createElement("div");
         chatElement.id = "chatContainer";
         document.getElementById(parentID).append(chatElement);
-
 
         const chat = document.createElement("label");
         chat.for = "msg";

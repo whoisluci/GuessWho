@@ -2,6 +2,7 @@ import { STATE } from "../index.js";
 import { header } from "../header/header.js";
 import { renderGameBoard } from "../game/gameBoard.js";
 
+
 export function renderWaitingRoom(parentID) {
     document.getElementById(parentID).innerHTML = "";
     

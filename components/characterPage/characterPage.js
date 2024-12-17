@@ -73,12 +73,14 @@ export function renderCharacterPage (parentID) {
     });
 
     confirmBttn.addEventListener("click", () => { 
+        STATE.selectedCharacter = { name: selectedChar.lastChild.textContent, imagePath: selectedChar.firstChild.src};
+
         const data = {
             event: "pickChar",
             data: {
                 "clientID": STATE.clientID,
                 "roomID": STATE.roomID,
-                "selectedChar": { name: selectedChar.lastChild.textContent, imagePath: selectedChar.firstChild.src}
+                "selectedChar": STATE.selectedCharacter
             }
         };
 

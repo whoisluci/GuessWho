@@ -79,6 +79,7 @@ export function renderCreatePage (parentID) {
         if (STATE.selectedTheme != null) {            
             STATE.socket.send(JSON.stringify(data));
             renderCharacterPage("wrapper");
+            //renderGameBoard("wrapper")
         } else {
             console.warn("You selected no theme");
             
