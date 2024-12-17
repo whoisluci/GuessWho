@@ -138,60 +138,58 @@ Deno.serve( {
         }
 
         case "join": {
-          STATE.clientID = message.data.clientID;
-          STATE.roomID = message.data.roomID;
-
-          let player = null;
-
-          for (const client of STATE.clients) {
-            
-            if (client.id === STATE.clientID) {
-              player = client;
-              player.name = message.data.name;
-              player.color = "purple";
-            }
-
-          }
-
-          for (const room of STATE.rooms) {        
-            if (room.id === STATE.roomID) {
-
-              if (room.players.length === 2) {
-                console.log(`[SERVER]: Max. players reached`);
-                break;
+          try {
+            STATE.clientID = message.data.clientID;
+            STATE.roomID = message.data.roomID;
+  
+            let player = null;
+  
+            for (const client of STATE.clients) {
+              
+              if (client.id === STATE.clientID) {
+                player = client;
+                player.name = message.data.name;
+                player.color = "purple";
               }
-
-              room.players.push(player); 
-              broadcastToRoom(STATE.roomID, "join", room);
-              break;
-            } else {
-              console.log(`[SERVER]: No room with this ID was found`);
-              send(socket, "join", {"Error": "Unable to find a room with this ID"});
-              break;
+  
             }
+  
+            for (const room of STATE.rooms) {        
+              if (room.id === STATE.roomID) {
+  
+                if (room.players.length === 2) {
+                  console.log(`[SERVER]: Max. players reached`);
+                  break;
+                }
+  
+                room.players.push(player); 
+                broadcastToRoom(STATE.roomID, "join", room);
+                break;
+              } 
+            }
+          } catch(error) {
+            console.log(`[SERVER]: No room with this ID was found`);
+            send(socket, "join", {"Error": "Unable to find a room with this ID"});
           }
-          break;
-        }
+            break;
+          }
 
         case "pickChar": {
-          STATE.roomID = message.data.roomID;
-          STATE.clientID = message.data.clientID;
-
-          for (const room of STATE.rooms) {        
-            if (room.id === STATE.roomID) {
-
-              for (const player of room.players) {
-                if (player.id === STATE.clientID) {
-                  player["selectedChar"] = message.data.selectedChar;
-                  broadcastToRoom(STATE.roomID, "pickChar", room);                  
-                  break;
+            STATE.roomID = message.data.roomID;
+            STATE.clientID = message.data.clientID;
+  
+            for (const room of STATE.rooms) {        
+              if (room.id === STATE.roomID) {
+  
+                for (const player of room.players) {
+                  if (player.id === STATE.clientID) {
+                    player["selectedChar"] = message.data.selectedChar;
+                    broadcastToRoom(STATE.roomID, "pickChar", room);                  
+                    break;
+                  }
                 }
               }
             }
-          }
-          
-          console.log(`[SERVER]: No room with this ID was found`);
-          send(socket, "join", {"Error": "Unable to find a room with this ID"});
           break;
         }
 
@@ -214,17 +212,20 @@ Deno.serve( {
 
               for (const player of room.players) {
                 if (player.id != STATE.clientID) {
-                  if (player.selectedChar === guess) {
-                    broadcastToRoom(STATE.roomID, "guess", "Correct");
+                  if (player.selectedChar.name === guess.name) {
+                    broadcastToRoom(STATE.roomID, "guess", {Guess: "Correct"});
                     break;
                   } else {
-                    broadcastToRoom(STATE.roomID, "guess", "Wrong");
+                    broadcastToRoom(STATE.roomID, "guess", {Guess: "Wrong"});
                   }
                 }
               }
             }
           }
+          break;
+        }
 
+        case "switchTurns": {
           break;
         }
       

@@ -18,12 +18,19 @@ export function renderGameBoard(parentID) {
     const bigCard = document.createElement("div");
     bigCard.id = "yourAvatarCard";
     document.getElementById("wrapper").append(bigCard);
-    // const img = document.createElement("img");
-    //const choosenChar = STATE.selectedCharacter;
-    // console.log("hallo", STATE)
-    //img.src =;
-    // const nameAvatar = document.createElement("p");
-    //document.getElementById(yourAvatarCard).append(nameAvatar);
+
+    const choosenChar = STATE.selectedCharacter.name;
+    const choosenCharImg = STATE.selectedCharacter.imagePath;
+    const img = document.createElement("img");
+    img.src = choosenCharImg;
+    img.style.height = "100px";
+  
+    const nameAvatar = document.createElement("p");
+    nameAvatar.textContent = choosenChar;
+
+    // Lägg till direkt på bigCard istället för att hämta det igen
+    bigCard.append(img, nameAvatar);
+
 
     const bttnContainer = document.createElement("div");
     bttnContainer.id = "bttnContainer";
@@ -66,14 +73,6 @@ export function renderGameBoard(parentID) {
         chatElement.id = "chatContainer";
         document.getElementById(parentID).append(chatElement);
 
-            card.classList.add("frontCard");
-        
-            flipCardInner.appendChild(card); 
-            flipCardInner.appendChild(flipCardBack); 
-            flipCard.appendChild(flipCardInner);
-        
-           document.getElementById("gameBoard").appendChild(flipCard);
-
         const chat = document.createElement("label");
         chat.for = "msg";
         chat.id = "chat";
@@ -98,8 +97,7 @@ export function renderGameBoard(parentID) {
                 guessBttn.classList.add("clicked");
                 guessBttn.textContent = "Who do you guess?"
                 guessBttn.classList.remove("highlighted");
-            }else {
-                document.getElementById("gameBoard").removeChild(".flipcard")
+            } else {
                 guessBttn.textContent = "Guess";
             }
 
@@ -143,7 +141,11 @@ export function renderGameBoard(parentID) {
                     guessBttn.classList.remove("highlighted");
                     
                 } else {
-                    selectedChar = card;
+                    selectedChar = {
+                        "name": card.innerText,
+                        "imagePath": card.firstChild.src
+                    };
+
                     guessBttn.textContent = "Confirm";
                     guessBttn.classList.add("highlighted");
                     card.classList.add("selected");
