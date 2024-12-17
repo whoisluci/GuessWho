@@ -14,13 +14,10 @@ export function renderGameBoard(parentID) {
     const child = document.getElementById("miniLogo");
     parent.removeChild(child); 
     
-    const title = document.createElement("h2");
-    title.textContent = "Your card";
-    document.getElementById(parentID).append(title)
 
     const bigCard = document.createElement("div");
     bigCard.id = "yourAvatarCard";
-    document.getElementById("headerContainer").append(bigCard);
+    document.getElementById("wrapper").append(bigCard);
     // const img = document.createElement("img");
     //const choosenChar = STATE.selectedCharacter;
     // console.log("hallo", STATE)
@@ -62,45 +59,12 @@ export function renderGameBoard(parentID) {
         case "Disney":
             cardsArray = renderCards(db[2], "gameBoard");
             break;
-    }
-    // let selectedChar = null;
-
-    //create chat element, own function??
-    const chatElement = document.createElement("div");
-    chatElement.id = "chatContainer";
-    document.getElementById(parentID).append(chatElement);
-
-
-    const chat = document.createElement("label");
-    chat.for = "msg";
-    chat.id = "chat";
-    
-    
-    const textArea = document.createElement("textarea");
-    textArea.id = "msg";
-    textArea.placeholder = "Ask a question";
-
-    const submitButton = document.createElement("button");
-    submitButton.type = "submit";
-    submitButton.className = "btn";  
-    submitButton.textContent = "Send";  
-
-    document.getElementById("chatContainer").append(chat, textArea, submitButton);
-
-
-    //EventListener on guess button
-    guessBttn.addEventListener("click", () => {
-
-        if (guessBttn.textContent === "Guess") {
-            guessBttn.classList.add("clicked");
-            guessBttn.textContent = "Who do you guess?"
-            guessBttn.classList.remove("highlighted");
-        }else {
-            document.getElementById("gameBoard").removeChild(".flipcard")
-            guessBttn.textContent = "Guess";
         }
 
-    });
+        //create chat element, own function??
+        const chatElement = document.createElement("div");
+        chatElement.id = "chatContainer";
+        document.getElementById(parentID).append(chatElement);
 
             card.classList.add("frontCard");
         
@@ -110,27 +74,95 @@ export function renderGameBoard(parentID) {
         
            document.getElementById("gameBoard").appendChild(flipCard);
 
-    let selectedChar = null;
+        const chat = document.createElement("label");
+        chat.for = "msg";
+        chat.id = "chat";
+        
+     
+        const textArea = document.createElement("textarea");
+        textArea.id = "msg";
+        textArea.placeholder = "Ask a question";
 
-    flipCard.addEventListener("click", () => {
-        cardsArray.forEach((c) => c.classList.remove("selected"));
+        const submitButton = document.createElement("button");
+        submitButton.type = "submit";
+        submitButton.className = "btn";  
+        submitButton.textContent = "Send";  
 
-        if (guessBttn.classList.contains("clicked")) {
-            guessBttn.classList.remove("highlighted");
-            guessBttn.textContent = "Who do you guess?"
-            if (selectedChar === card) {
-                selectedChar = null;
-                guessBttn.style.background = "#7ED321"; 
+        document.getElementById("chatContainer").append(chat, textArea, submitButton);
+
+
+        //EventListener on guess button
+        guessBttn.addEventListener("click", () => {
+
+            if (guessBttn.textContent === "Guess") {
+                guessBttn.classList.add("clicked");
+                guessBttn.textContent = "Who do you guess?"
                 guessBttn.classList.remove("highlighted");
-                
-            } else{
-                selectedChar = card;
-                guessBttn.textContent = "Confirm";
-                guessBttn.classList.add("highlighted");
-                card.classList.add("selected");
+            }else {
+                document.getElementById("gameBoard").removeChild(".flipcard")
+                guessBttn.textContent = "Guess";
             }
-        } else {
-            flipCardInner.classList.toggle("flipped");
-        }
+
+        })
+
+        
+        cardsArray.forEach((card) => {
+            const flipCard = document.createElement("div");
+            flipCard.className = "flipCard";
+        
+            const flipCardInner = document.createElement("div");
+            flipCardInner.className = "flipCardInner";
+        
+            const flipCardBack = document.createElement("div");
+            flipCardBack.className = "flipCardBack";
+
+            const logo = document.createElement('img');
+            logo.src = '../static/media/logga.png';
+            logo.id = "cardLogo";
+            flipCardBack.appendChild(logo);
+
+            card.classList.add("frontCard");
+        
+            flipCardInner.appendChild(card); 
+            flipCardInner.appendChild(flipCardBack); 
+            flipCard.appendChild(flipCardInner);
+        
+           document.getElementById("gameBoard").appendChild(flipCard);
+
+           let selectedChar = null;
+
+           flipCard.addEventListener("click", () => {
+            cardsArray.forEach((c) => c.classList.remove("selected"));
+
+            if (guessBttn.classList.contains("clicked")) {
+                guessBttn.classList.remove("highlighted");
+                guessBttn.textContent = "Who do you guess?"
+                if (selectedChar === card) {
+                    selectedChar = null;
+                    guessBttn.style.background = "#7ED321"; 
+                    guessBttn.classList.remove("highlighted");
+                    
+                } else {
+                    selectedChar = card;
+                    guessBttn.textContent = "Confirm";
+                    guessBttn.classList.add("highlighted");
+                    card.classList.add("selected");
+
+                    const data = {
+                        event: "guess",
+                        data: {
+                            clientID: STATE.clientID,
+                            roomID: STATE.roomID,
+                            guess: selectedChar
+                        }
+                    };
+
+                    STATE.socket.send(JSON.stringify(data));
+                }
+            } else {
+                flipCardInner.classList.toggle("flipped");
+            }
+        });
+        
     });
 }

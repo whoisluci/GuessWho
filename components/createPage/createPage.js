@@ -7,7 +7,7 @@ export function renderCreatePage (parentID) {
 
     //Displayar vald kategori, kommer ändras till en bild
     const theme = STATE.selectedTheme;
-    const themeDisplay = document.createElement('div');
+    const themeDisplay = document.createElement('img');
     themeDisplay.id = "themeDisplay";
 
     switch (theme) {

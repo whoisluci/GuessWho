@@ -17,11 +17,10 @@ export function renderCharacterPage (parentID) {
 
     const bigCard = document.createElement("div");
     bigCard.id = "bigCard";
-    document.getElementById("headerContainer").append(bigCard);
+    document.getElementById("wrapper").append(bigCard);
     const img = document.createElement("img");
     img.id = "bigCardImage";
     const nameAvatar = document.createElement("p");
-
 
     const title = document.createElement("h2");
     title.textContent = "Pick your character";

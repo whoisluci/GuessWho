@@ -12,23 +12,14 @@
 
 .button {
     height: 50px;
-    font-size: 16px;
+    font-size: 28px;
     font-family: "chewy";
     color: white;
     border: none;
     border-radius: 100px;
     cursor: pointer;
+
 }
 
 
 
-
-#theme_container {
-    height: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 32px;
-    margin-bottom: 128px;
-}
