@@ -4,6 +4,7 @@
     gap: 16px;
     position: absolute;
     top: 312px;
+    align-items: center;
     
     
 }
@@ -17,7 +18,7 @@
 #enterNameInput, #enterCodeInput {
     border: none;
     height: 50px;
-    width: 100%;
+    width: 321px;
 
     text-align: center;
     text-transform: capitalize;
