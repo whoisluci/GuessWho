@@ -19,56 +19,91 @@ export function renderWaitingRoom(parentID) {
     codeDiv.id = "codeDiv";
     document.getElementById(parentID).appendChild(codeDiv);
     codeDiv.innerHTML = `
-    <p>Code:</p> <br>
-    <p id="code">${STATE.roomID}</p>
+    <p>Code:</p>
+    <div id='codeContainer'>
+    <p id="code">#${STATE.roomID}</p>
+    </div>
     `;
 
     /* Ikon för att kopiera koden */
-    const CTCIcon = document.createElement("div");
+    const CTCIcon = document.createElement("img");
+    const codeContainer = document.getElementById('codeContainer');
     CTCIcon.id = "copyToClipboardIcon";
-    codeDiv.appendChild(CTCIcon);
+    CTCIcon.src = "../static/media/copy.svg"
+    codeContainer.appendChild(CTCIcon);
 
     /* Lägg till ikon, just nu: tom div */
 
-    CTCIcon.addEventListener("click", () => {
+    
+    codeContainer.addEventListener("click", () => {
         const code = STATE.roomID;
-
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(code);
-            console.log("Content copied to clipboard");
+    
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(code)
+                .then(() => {
+                    console.log("Content copied to clipboard");
+                })
+                .catch(err => {
+                    console.error("Failed to copy text: ", err);
+                });
+        } else {
+            codeDiv.value = code;
+            codeDiv.focus();
+            codeDiv.select();
+            const successful = document.execCommand("copy");
+            if (successful) {
+                console.log("Content copied to clipboard");
+            } else {
+                console.error("Failed to copy text using execCommand");
+            }
         }
-
-        codeDiv.focus();
-        codeDiv.select();
-        document.execCommand("copy");
     });
+    
+
+    const imageContainer = document.createElement('div');
+    imageContainer.id = "imageContainer";
+    wrapper.appendChild(imageContainer);
 
     /* Temat som valdes */
     switch (STATE.selectedTheme) {
         case "Marvel":
             /* Bild för Marvel */
+            imageContainer.className = "theme_marvel";
             break;
             
         case "Pixar": 
             /* Bild för Pixar */
+            imageContainer.className = "theme_pixar";
             break;
 
         case "Disney":
             /* Bild för Disney */
+            imageContainer.className = "theme_disney";
             break;
         }
         
-    /* Player 1 vs Player 2 */
+    /* Player 1 vs Player 2 Waiting for opponent + loading circle */ 
     const playersDiv = document.createElement("div");
+    playersDiv.id = "playersDiv";
     document.getElementById(parentID).appendChild(playersDiv);
+    
+    const h2 = document.createElement('h2');
+    h2.id = "waitingForOpponent";
+    h2.textContent = "Waiting for opponent";
+    playersDiv.appendChild(h2);
 
-    if (STATE.room.players.length === 1) {
+    const loadingCircle = document.createElement('div');
+    loadingCircle.id = "loadingCircle";
+    playersDiv.appendChild(loadingCircle);
+
+
+   /* if (STATE.room.players.length === 1) {
         const firstPlayerName = document.createElement("h3");
         firstPlayerName.id = "firstPlayerName";
         firstPlayerName.textContent = STATE.room.players[0].name;
         playersDiv.appendChild(firstPlayerName);
         
-        /* Bilden för spelare nr1 */
+        /* Bilden för spelare nr1 
 
         const firstPlayerDiv = document.createElement("div");
         firstPlayerDiv.id = "firstPlayerImg";
@@ -83,7 +118,7 @@ export function renderWaitingRoom(parentID) {
         secondPlayerName.textContent = "Waiting...";
         playersDiv.appendChild(secondPlayerName);
 
-        /* Tom bild för spelare nr2 */
+        /* Tom bild för spelare nr2 
         const secondPlayerDiv = document.createElement("div");
         secondPlayerDiv.id = "secondPlayerImg";
         playersDiv.appendChild(secondPlayerDiv);
@@ -94,7 +129,7 @@ export function renderWaitingRoom(parentID) {
         firstPlayerName.id = "firstPlayerName";
         firstPlayerName.textContent = STATE.room.players[1].name;
         playersDiv.appendChild(firstPlayerName);
-        /* Bilden för spelare nr1 */
+        /* Bilden för spelare nr1 
 
         const vs = document.createElement("h3");
         vs.textContent = "vs";
@@ -105,9 +140,9 @@ export function renderWaitingRoom(parentID) {
         secondPlayerName.textContent = STATE.room.players[0].name; ;
         playersDiv.appendChild(secondPlayerName);
 
-        /* Bilden för spelare nr2 */
+        /* Bilden för spelare nr2 
         // startGame();
-    }
+    }*/
 }
 
 export function updateName (updatedName) {
