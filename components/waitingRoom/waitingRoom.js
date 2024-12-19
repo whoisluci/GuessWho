@@ -35,19 +35,30 @@ export function renderWaitingRoom(parentID) {
     /* Lägg till ikon, just nu: tom div */
 
     
-
-    CTCIcon.addEventListener("click", () => {
+    codeContainer.addEventListener("click", () => {
         const code = STATE.roomID;
-
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(code);
-            console.log("Content copied to clipboard");
+    
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(code)
+                .then(() => {
+                    console.log("Content copied to clipboard");
+                })
+                .catch(err => {
+                    console.error("Failed to copy text: ", err);
+                });
+        } else {
+            codeDiv.value = code;
+            codeDiv.focus();
+            codeDiv.select();
+            const successful = document.execCommand("copy");
+            if (successful) {
+                console.log("Content copied to clipboard");
+            } else {
+                console.error("Failed to copy text using execCommand");
+            }
         }
-
-        codeDiv.focus();
-        codeDiv.select();
-        document.execCommand("copy");
     });
+    
 
     const imageContainer = document.createElement('div');
     imageContainer.id = "imageContainer";

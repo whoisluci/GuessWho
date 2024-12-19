@@ -16,6 +16,11 @@
     top: 144px;
 }
 
+#codeDiv div {
+    letter-spacing: 1.5px;
+    -webkit-text-stroke: 0.1px black;
+}
+
 #copyToClipboardIcon {
     height: 30px;
     width: 30px;
@@ -25,6 +30,10 @@
 #codeContainer {
     display: flex;
     gap: 8px;
+}
+
+#copyToClipboardIcon:active {
+    transform: scale(0.9); 
 }
 
 
