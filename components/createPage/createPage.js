@@ -2,6 +2,7 @@ import { createButton } from "../buttons/buttons.js";
 import { STATE } from "../index.js";
 import { renderCharacterPage } from "../characterPage/characterPage.js";
 import { header } from "../header/header.js";
+import { selectThemePage } from "../selectThemePage/selectThemePage.js";
 
 export function renderCreatePage (parentID) {
 
@@ -33,6 +34,13 @@ export function renderCreatePage (parentID) {
     const createForm = document.createElement("form");
     createForm.id = "createForm";
     header("wrapper");
+
+    const arrowBack = document.querySelector("#wrapper > #headerContainer > #arrowBack");
+    arrowBack.addEventListener("click", () => {
+        document.getElementById(parentID).innerHTML = "";
+        selectThemePage("wrapper");
+    })
+
     document.getElementById(parentID).appendChild(createForm);
     createForm.appendChild(themeDisplay);
 
@@ -63,8 +71,6 @@ export function renderCreatePage (parentID) {
         event.preventDefault();
 
         const name = document.getElementById("enterNameInput").value;
-
-        console.log(name);
 
         const data = {
             event: "create",

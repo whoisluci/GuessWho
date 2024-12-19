@@ -1,6 +1,7 @@
 import { STATE } from "../index.js";
 import { header } from "../header/header.js";
 import { renderGameBoard } from "../game/gameBoard.js";
+import { renderCharacterPage } from "../characterPage/characterPage.js";
 
 
 export function renderWaitingRoom(parentID) {
@@ -8,7 +9,12 @@ export function renderWaitingRoom(parentID) {
     
     const _header = header("wrapper");
 
-    /*Code #1234 */
+    const arrowBack = document.querySelector("#wrapper > #headerContainer > #arrowBack");
+    arrowBack.addEventListener("click", () => {
+        document.getElementById(parentID).innerHTML = "";
+        renderCharacterPage("wrapper");
+    })
+
     const codeDiv = document.createElement("div");
     codeDiv.id = "codeDiv";
     document.getElementById(parentID).appendChild(codeDiv);

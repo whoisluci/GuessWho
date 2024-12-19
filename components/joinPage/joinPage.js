@@ -1,13 +1,20 @@
 import { createButton } from "../buttons/buttons.js";
 import { header } from "../header/header.js";
+import { landingPage } from "../landingPage/landingPage.js";
 import { STATE } from "../index.js";
 
 export function joinPage(parentID) {
     document.getElementById(parentID).innerHTML = "";
     const joinForm = document.createElement("form");
     joinForm.id = "joinForm";
-    header("wrapper");
+    header("wrapper")
     document.getElementById(parentID).appendChild(joinForm);
+
+    const arrowBack = document.querySelector("#wrapper > #headerContainer > #arrowBack");
+    arrowBack.addEventListener("click", () => {
+        document.getElementById(parentID).innerHTML = "";
+        landingPage("wrapper");
+    })
 
     const titel = document.createElement("h2");
     titel.innerText = "JOIN GAME";
