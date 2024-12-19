@@ -4,6 +4,7 @@ import { header } from "../header/header.js";
 import { createButton } from "../buttons/buttons.js";
 import { landingPage } from "../landingPage/landingPage.js";
 import { db } from "../index.js";
+import { renderpopUpExit } from "../popUpExit/popUpExit.js";
 
 export function renderGameBoard(parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -17,9 +18,7 @@ export function renderGameBoard(parentID) {
 
     const arrowBack = document.querySelector("#wrapper > #headerContainer > #arrowBack");
     arrowBack.addEventListener("click", () => {
-        document.getElementById(parentID).innerHTML = "";
-        //En popup som frågar spelaren om de vill avsluta spelet? om ja tillbaka till startsidan
-        landingPage("wrapper");
+        renderpopUpExit();
     })
     
 
