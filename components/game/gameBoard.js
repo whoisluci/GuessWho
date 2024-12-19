@@ -2,22 +2,31 @@ import { STATE } from "../index.js";
 import { renderCards } from "../cards/cards.js";
 import { header } from "../header/header.js";
 import { createButton } from "../buttons/buttons.js";
+import { landingPage } from "../landingPage/landingPage.js";
 import { db } from "../index.js";
 
 export function renderGameBoard(parentID) {
     document.getElementById(parentID).innerHTML = "";
 
-    const _header = header("wrapper")
+    header("wrapper")
     const parent = document.getElementById("headerContainer");
     parent.style.marginBottom = "0px";
     parent.style.alignItems = "start";
     const child = document.getElementById("miniLogo");
     parent.removeChild(child); 
+
+    const arrowBack = document.querySelector("#wrapper > #headerContainer > #arrowBack");
+    arrowBack.addEventListener("click", () => {
+        document.getElementById(parentID).innerHTML = "";
+        //En popup som frågar spelaren om de vill avsluta spelet? om ja tillbaka till startsidan
+        landingPage("wrapper");
+    })
     
 
     const bigCard = document.createElement("div");
     bigCard.id = "yourAvatarCard";
     document.getElementById("wrapper").append(bigCard);
+
 
     const choosenChar = STATE.selectedCharacter.name;
     const choosenCharImg = STATE.selectedCharacter.imagePath;

@@ -2,8 +2,7 @@ import { createButton } from "../buttons/buttons.js";
 import { renderCreatePage } from "../createPage/createPage.js";
 import { STATE } from "../index.js";
 import { header } from "../header/header.js"
-import { renderCards } from "../cards/cards.js";
-
+import { landingPage } from "../landingPage/landingPage.js";
 
 
 export function selectThemePage (parentID) {
@@ -12,6 +11,12 @@ export function selectThemePage (parentID) {
     header("wrapper");
     themeContainer.id = "theme_container";
     document.getElementById(parentID).append(themeContainer);
+
+    const arrowBack = document.querySelector("#wrapper > #headerContainer > #arrowBack");
+    arrowBack.addEventListener("click", () => {
+        document.getElementById(parentID).innerHTML = "";
+        landingPage("wrapper");
+    })
     
     const selectedThemeTitle = document.createElement('h2');
     selectedThemeTitle.id = "selectThemeTitle";
