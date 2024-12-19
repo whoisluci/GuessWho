@@ -18,11 +18,11 @@ export function renderCreatePage (parentID) {
             break;
     
         case "Marvel":
-            themeDisplay.src = `../static/media/${theme}/logo.png`;
+            themeDisplay.src = `../static/media/${theme}/marvelLogo.png`;
             break;
     
         case "Pixar":
-            themeDisplay.src = `../static/media/${theme}/logo.png`;
+            themeDisplay.src = `../static/media/${theme}/pixarLogo.png`;
             break;
     
         default:
