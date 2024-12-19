@@ -61,9 +61,9 @@ export function renderCreatePage (parentID) {
 
     enterNameInput.addEventListener("input", () => {
         if (enterNameInput.value !== "") {
-            createBttn.style.backgroundColor = "#FF5252"; // Change button color
+            createBttn.style.backgroundColor = "#FF5252"; 
         } else {
-            createBttn.style.backgroundColor = "#D25D6F"; // Reset to original color
+            createBttn.style.backgroundColor = "#D25D6F"; 
         }
     });
         
@@ -85,7 +85,6 @@ export function renderCreatePage (parentID) {
         if (STATE.selectedTheme != null) {            
             STATE.socket.send(JSON.stringify(data));
             renderCharacterPage("wrapper");
-            //renderGameBoard("wrapper")
         } else {
             console.warn("You selected no theme");
             

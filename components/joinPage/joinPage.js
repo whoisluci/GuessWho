@@ -35,20 +35,53 @@ export function joinPage(parentID) {
     joinBttn.id = "formJoinBttn";
     joinBttn.setAttribute("type", "submit");
     joinForm.appendChild(joinBttn);
+
+    const inputs = [enterNameInput, enterCodeInput];
+
+    inputs.forEach((inp) => {
+        inp.addEventListener("input", () => {
+            if (enterNameInput.value !== "" && enterCodeInput.value !== "") {
+                joinBttn.style.backgroundColor = "#FF5252"; 
+            } else {
+                joinBttn.style.backgroundColor = "#D25D6F"; 
+            }
+        });
+    });
+    
     
     joinForm.addEventListener("submit", (event) => {
         event.preventDefault();
         const name = document.getElementById("enterNameInput").value;
         const code = document.getElementById("enterCodeInput").value;
+        
 
-        if (name.length === 0) {
-            /* Pop-Up som varnar om att fylla i namn*/
-            console.log("You have to fill in the name-field to continue");
-        }
-
+        // if (name.length === 0) {
+        //     if (!document.getElementById("nameWarning")) {
+        //         let text = document.createElement("p");
+        //         text.textContent = "You have to fill in the name-field to continue";
+        //         text.id = "nameWarning"; 
+        //         document.getElementById("joinForm").appendChild(text);
+        //     }
+        // } else {
+        //     const nameWarning = document.getElementById("nameWarning");
+        //     if (nameWarning) {
+        //         nameWarning.remove();
+        //     }
+        // }
+        
         if (code.length === 0) {
-            /* Pop-Up som varnar om att fylla i kod*/
+            if (!document.getElementById("codeWarning")) {
+                let text = document.createElement("p");
+                text.textContent = "You have to fill in the code-field to continue";
+                text.id = "codeWarning"; 
+                document.getElementById("joinForm").appendChild(text);
+            }
             console.log("You have to fill in the code-field to continue");
+        } else {
+            const codeWarning = document.getElementById("codeWarning");
+            if (codeWarning) {
+                codeWarning.remove();
+            }
         }
 
         const data = {
@@ -62,10 +95,20 @@ export function joinPage(parentID) {
 
         STATE.socket.send(JSON.stringify(data));
 
-        if (STATE.roomID === null || undefined) {
-            /* Pop-Up varning: No room with this ID was found */ 
-            console.warn("No room with this ID was found!");   
+        if ((STATE.roomID === null || STATE.roomID === undefined) && enterCode.value !== "") {
+            if (!document.getElementById("wrongCodeWarning")) {
+                let text = document.createElement("p");
+                text.textContent = "No room with this code was found, please try again";
+                text.id = "wrongCodeWarning"; 
+                document.getElementById("joinForm").appendChild(text);
+            }
+            console.warn("No room with this code was found!");
+        } else {
+            const wrongCodeWarning = document.getElementById("wrongCodeWarning");
+            if (wrongCodeWarning) {
+                wrongCodeWarning.remove();
+            }
         }
-        // renderCharacterPage("wrapper");
+        
     });
 };

@@ -85,7 +85,6 @@ export function renderGameBoard(parentID) {
         chat.for = "msg";
         chat.id = "chat";
         
-     
         const textArea = document.createElement("textarea");
         textArea.id = "msg";
         textArea.placeholder = "Ask a question";
@@ -96,7 +95,6 @@ export function renderGameBoard(parentID) {
         submitButton.textContent = "Send";  
 
         document.getElementById("chatContainer").append(chat, textArea, submitButton);
-
 
         //EventListener on guess button
         guessBttn.addEventListener("click", () => {

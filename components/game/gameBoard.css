@@ -28,6 +28,7 @@
 #yourAvatarCard p {
     text-align: center;
     margin-top: 10px;
+    font-family: "cabinCondensed";
 }
 
 #bttnContainer {
@@ -106,6 +107,8 @@
     margin-top: 10px;
     width: 365px;
     justify-content: space-between;
+    position: absolute;
+    bottom: 28px;
 }
 
 #chat {
