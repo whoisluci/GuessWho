@@ -89,7 +89,7 @@ export function renderWaitingRoom(parentID) {
     
     const h2 = document.createElement('h2');
     h2.id = "waitingForOpponent";
-    h2.textContent = "Waiting for opponent";
+    h2.textContent = "Waiting for opponent . . .";
     playersDiv.appendChild(h2);
 
     const loadingCircle = document.createElement('div');

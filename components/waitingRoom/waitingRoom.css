@@ -1,19 +1,17 @@
-
-
 #codeDiv {
     font-family: 'chewy';
     font-size: 24px;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-    color: #f5f5f5;
+    color: #00e7ff;
     position: absolute;
     top: 140px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 8px;
 
     position: absolute;
-    top: 144px;
+    top: 680px;
 }
 
 #codeDiv div {
@@ -39,26 +37,24 @@
 
 #imageContainer {
     width: 150px;
-
     background-size: cover;
     background-position: center;
-
     position: absolute;
-        top: 265px;
+    top: 245px;
 }
 
 .theme_marvel {
-    background-image: url(../../static/media/marvel/logo.png);
+    background-image: url('../../static/media/marvel/marvelLogo.png');
     height: 60px;
 }
 
 .theme_pixar {
-    background-image: url(../../static/media/pixar/logo.png);
+    background-image: url('../../static/media/pixar/pixarLogo.png');
     height: 46px;
 }
 
 .theme_disney {
-    background-image: url(../../static/media/disney/logo.png);
+    background-image: url('../../static/media/disney/logo.png');
     height: 63px;
 }
 
