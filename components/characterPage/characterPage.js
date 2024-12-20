@@ -3,7 +3,10 @@ import { header } from "../header/header.js";
 import { STATE } from "../index.js";
 import { renderWaitingRoom } from "../waitingRoom/waitingRoom.js";
 import { renderCards } from "../cards/cards.js";
+import { renderCreatePage } from "../createPage/createPage.js";
+import { joinPage } from "../joinPage/joinPage.js";
 import { db } from "../index.js";
+import { landingPage } from "../landingPage/landingPage.js";
 
 export function renderCharacterPage (parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -17,10 +20,17 @@ export function renderCharacterPage (parentID) {
 
     const bigCard = document.createElement("div");
     bigCard.id = "bigCard";
-    document.getElementById("headerContainer").append(bigCard);
+    document.getElementById("wrapper").append(bigCard);
     const img = document.createElement("img");
     img.id = "bigCardImage";
     const nameAvatar = document.createElement("p");
+
+
+    const arrowBack = document.querySelector("#wrapper > #headerContainer > #arrowBack");
+    arrowBack.addEventListener("click", () => {
+        document.getElementById(parentID).innerHTML = "";
+            renderCreatePage("wrapper");
+    })    
 
     const title = document.createElement("h2");
     title.textContent = "Pick your character";
@@ -73,12 +83,14 @@ export function renderCharacterPage (parentID) {
     });
 
     confirmBttn.addEventListener("click", () => { 
+        STATE.selectedCharacter = { name: selectedChar.lastChild.textContent, imagePath: selectedChar.firstChild.src};
+
         const data = {
             event: "pickChar",
             data: {
                 "clientID": STATE.clientID,
                 "roomID": STATE.roomID,
-                "selectedChar": {name: selectedChar.lastChild.textContent, imagePath: selectedChar.firstChild.src}
+                "selectedChar": STATE.selectedCharacter
             }
         };
 

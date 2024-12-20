@@ -2,28 +2,43 @@ import { STATE } from "../index.js";
 import { renderCards } from "../cards/cards.js";
 import { header } from "../header/header.js";
 import { createButton } from "../buttons/buttons.js";
+import { landingPage } from "../landingPage/landingPage.js";
 import { db } from "../index.js";
+import { renderpopUpExit } from "../popUpExit/popUpExit.js";
 
 export function renderGameBoard(parentID) {
     document.getElementById(parentID).innerHTML = "";
 
-    const _header = header("wrapper")
+    header("wrapper")
     const parent = document.getElementById("headerContainer");
     parent.style.marginBottom = "0px";
     parent.style.alignItems = "start";
     const child = document.getElementById("miniLogo");
     parent.removeChild(child); 
+
+    const arrowBack = document.querySelector("#wrapper > #headerContainer > #arrowBack");
+    arrowBack.addEventListener("click", () => {
+        renderpopUpExit();
+    })
     
 
     const bigCard = document.createElement("div");
     bigCard.id = "yourAvatarCard";
     document.getElementById("wrapper").append(bigCard);
-    // const img = document.createElement("img");
-    //const choosenChar = STATE.selectedCharacter;
-    // console.log("hallo", STATE)
-    //img.src =;
-    // const nameAvatar = document.createElement("p");
-    //document.getElementById(yourAvatarCard).append(nameAvatar);
+
+
+    const choosenChar = STATE.selectedCharacter.name;
+    const choosenCharImg = STATE.selectedCharacter.imagePath;
+    const img = document.createElement("img");
+    img.src = choosenCharImg;
+    img.style.height = "100px";
+  
+    const nameAvatar = document.createElement("p");
+    nameAvatar.textContent = choosenChar;
+
+    // Lägg till direkt på bigCard istället för att hämta det igen
+    bigCard.append(img, nameAvatar);
+
 
     const bttnContainer = document.createElement("div");
     bttnContainer.id = "bttnContainer";
@@ -80,12 +95,10 @@ export function renderGameBoard(parentID) {
         chatElement.id = "chatContainer";
         document.getElementById(parentID).append(chatElement);
 
-
         const chat = document.createElement("label");
         chat.for = "msg";
         chat.id = "chat";
         
-     
         const textArea = document.createElement("textarea");
         textArea.id = "msg";
         textArea.placeholder = "Ask a question";
@@ -96,7 +109,6 @@ export function renderGameBoard(parentID) {
         submitButton.textContent = "Send";  
 
         document.getElementById("chatContainer").append(chat, textArea, submitButton);
-
 
         //EventListener on guess button
         guessBttn.addEventListener("click", () => {

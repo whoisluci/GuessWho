@@ -1,5 +1,7 @@
 import { createButton } from "../buttons/buttons.js";
 import { renderPopupHowTo } from "../popUpHowTo/popUpHowTo.js";
+import { landingPage } from "../landingPage/landingPage.js";
+
 
 export function header (parentID) {
     const container = document.createElement("div");
@@ -13,12 +15,6 @@ export function header (parentID) {
     arrow.style.height = "40px";
     container.append(arrow); 
 
-    // const arrowBack = document.createElement("span");
-    // arrowBack.id = "arrowBack";
-    // //arrowBack.innerHTML = `&#8592`;
-    // arrowBack.innerHTML = "←";
-    // container.append(arrowBack);
-
     const logo = document.createElement('img');
     logo.src = '../static/media/logga.png';
     logo.id = "miniLogo";
@@ -26,18 +22,18 @@ export function header (parentID) {
     logo.style.height = "75px";
     container.append(logo); 
 
-    // const helpBttn = createButton("wrapper", "?", "#FF5252", "35px");
-    // helpBttn.id = "helpBttnHeader";
-    // container.append(helpBttn);
+    logo.addEventListener("click", () => {
+        document.getElementById(parentID).innerHTML = "";
+        landingPage("wrapper");
+    })
 
     const helpBttn = document.createElement('img');
     helpBttn.src = '../static/media/infoBtn.png';
-    helpBttn.id = "helpBttnHeader";
-    helpBttn.style.width = "45px"; // Bredd på knappen
-    helpBttn.style.height = "45px";
+    helpBttn.id = "helpBttnHeader"; 
     container.append(helpBttn); // Lägger till elementet i containern
 
     helpBttn.addEventListener("click", () => { 
         renderPopupHowTo("Wrapper");
     });
+
 }

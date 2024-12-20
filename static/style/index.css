@@ -19,6 +19,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     height: 100vh;
+    overflow: hidden;
 }
 
 #wrapper {
@@ -27,20 +28,16 @@ body {
     justify-content: center;
     align-items: center;
     background-color: rgba(74, 144, 226, 0.8);
-    height: 100%; 
-    /* ta bort height?? */
-}
-
-
-.button {
-    font-family: 'chewy';
-    color: white;
+    height: 100%;
+    position: relative;
+    
 }
 
 h2 {
     font-family: "montserrat";
     font-weight: bold;
     color: white;
+    text-transform: uppercase;
 }
 
 .card p {

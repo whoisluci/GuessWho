@@ -2,6 +2,7 @@ import { createButton } from "../buttons/buttons.js";
 import { STATE } from "../index.js";
 import { renderCharacterPage } from "../characterPage/characterPage.js";
 import { header } from "../header/header.js";
+import { selectThemePage } from "../selectThemePage/selectThemePage.js";
 
 export function renderCreatePage (parentID) {
 
@@ -17,11 +18,11 @@ export function renderCreatePage (parentID) {
             break;
     
         case "Marvel":
-            themeDisplay.src = `../static/media/${theme}/logo.png`;
+            themeDisplay.src = `../static/media/${theme}/marvelLogo.png`;
             break;
     
         case "Pixar":
-            themeDisplay.src = `../static/media/${theme}/logo.png`;
+            themeDisplay.src = `../static/media/${theme}/pixarLogo.png`;
             break;
     
         default:
@@ -33,6 +34,13 @@ export function renderCreatePage (parentID) {
     const createForm = document.createElement("form");
     createForm.id = "createForm";
     header("wrapper");
+
+    const arrowBack = document.querySelector("#wrapper > #headerContainer > #arrowBack");
+    arrowBack.addEventListener("click", () => {
+        document.getElementById(parentID).innerHTML = "";
+        selectThemePage("wrapper");
+    })
+
     document.getElementById(parentID).appendChild(createForm);
     createForm.appendChild(themeDisplay);
 
@@ -53,9 +61,9 @@ export function renderCreatePage (parentID) {
 
     enterNameInput.addEventListener("input", () => {
         if (enterNameInput.value !== "") {
-            createBttn.style.backgroundColor = "#FF5252"; // Change button color
+            createBttn.style.backgroundColor = "#FF5252"; 
         } else {
-            createBttn.style.backgroundColor = "#D25D6F"; // Reset to original color
+            createBttn.style.backgroundColor = "#D25D6F"; 
         }
     });
         
@@ -63,8 +71,6 @@ export function renderCreatePage (parentID) {
         event.preventDefault();
 
         const name = document.getElementById("enterNameInput").value;
-
-        console.log(name);
 
         const data = {
             event: "create",
