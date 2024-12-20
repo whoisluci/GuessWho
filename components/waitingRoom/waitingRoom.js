@@ -112,7 +112,19 @@ export function updateName (updatedName) {
 }
 
 export function startGame () {
+    /* Skickas två gånger, en per klient */
+
+    const data = {
+        event: "start",
+        data: {
+            clientID: STATE.clientID,
+            roomID: STATE.roomID
+        }
+    };
+
+    STATE.socket.send(JSON.stringify(data));
+
     setTimeout( () => {
         renderGameBoard("wrapper");
-    }, 5000); /* <- 10 sekunder */
+    }, 5000); /* <- 5 sekunder */
 }

@@ -131,4 +131,6 @@ textarea {
     height: 35px;
 }
 
-
+.disabled {
+    cursor: not-allowed;
+}

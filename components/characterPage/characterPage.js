@@ -78,7 +78,7 @@ export function renderCharacterPage (parentID) {
             data: {
                 "clientID": STATE.clientID,
                 "roomID": STATE.roomID,
-                "selectedChar": { name: selectedChar.lastChild.textContent, imagePath: selectedChar.firstChild.src}
+                "selectedChar": {name: selectedChar.lastChild.textContent, imagePath: selectedChar.firstChild.src}
             }
         };
 
