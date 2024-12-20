@@ -20,8 +20,21 @@ function broadcastToRoom(roomID, event, data) {
 
 
 function generateClientID() {
-  const id = crypto.randomUUID();
-  return id;
+  let d = new Date().getTime();
+	
+	if( globalThis.performance && typeof globalThis.performance.now === "function" )
+	{
+		d += performance.now();
+	}
+	
+	const uuid = 'xxxxxxxx-xxxx-8xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c)
+	{
+		const r = (d + Math.random()*16)%16 | 0;
+		d = Math.floor(d/16);
+		return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+	});
+
+  return uuid;
 }
 
 
@@ -167,9 +180,9 @@ Deno.serve( {
                 break;
               } 
             }
-          } catch(error) {
+          } catch(err) {
             console.log(`[SERVER]: No room with this ID was found`);
-            send(socket, "join", {"Error": "Unable to find a room with this ID"});
+            send(socket, "join", {"Error": err, "Description": "Unable to find a room with this ID"});
           }
             break;
           }
@@ -190,6 +203,22 @@ Deno.serve( {
                 }
               }
             }
+          break;
+        }
+
+        case "start": {
+          STATE.roomID = message.data.roomID;
+          STATE.clientID = message.data.clientID;
+
+          for (const room of STATE.rooms) {
+            if (room.id === STATE.roomID) {
+              for (const player of room.players) {
+                player.isTurn = room.players.indexOf(player) === 0 ;
+              }
+              broadcastToRoom(STATE.roomID, "start", room);
+              break;
+            }
+          }
           break;
         }
 
@@ -226,6 +255,21 @@ Deno.serve( {
         }
 
         case "switchTurns": {
+          STATE.clientID = message.data.clientID;
+          STATE.roomID = message.data.roomID;
+
+          for (const room of STATE.rooms) {        
+            if (room.id === STATE.roomID) {
+              for (const player of room.players) {
+                if (player.id === STATE.clientID){
+                  player.isTurn = false;
+                } else {
+                  player.isTurn = true;
+                }
+              }
+            }
+            broadcastToRoom(STATE.roomID, "switchTurns", room);
+          }
           break;
         }
       
@@ -242,10 +286,32 @@ Deno.serve( {
 
     socket.addEventListener("close", () => {
       console.log(`[SERVER]: Disconnect :: Goodbye ${STATE.clientID}`);
-      /* Ta bort klienten */
-      // delete clients[clientID];
 
-      /* Om rummet inte har några spelare kvar, ta bort*/
+      for (const client of STATE.clients) {
+        if (client.id === STATE.clientID) {
+          const i = STATE.clients.indexOf(client);
+          STATE.clients.splice(i,1);
+        }
+      }
+
+      for (const room of STATE.rooms) {
+        for (const player of room.players) {
+          if (player.id === STATE.clientID) {
+            const i = room.players.indexOf(player);
+            room.players.splice(i,1);
+          }
+
+          if (room.players.length === 0) {
+            const i = STATE.rooms.indexOf(room);
+            STATE.rooms.splice(i, 1);
+            console.log(`Room with ${STATE.roomID} was deleted`);
+          }
+        }
+      }
+
+      console.log ("The currenct clients are:", STATE.clients);
+      console.log("The current rooms are:", STATE.rooms);
+      
     });
 
     socket.addEventListener("error", (error) => {

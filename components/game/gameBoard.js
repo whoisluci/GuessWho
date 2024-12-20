@@ -47,6 +47,25 @@ export function renderGameBoard(parentID) {
     guessBttn.id = "guessBttn";
     const endTurnBttn = createButton("wrapper", "End turn", "#FF5252", "181px");
     endTurnBttn.id = "endTurnBttn";
+    
+    if (!STATE.isTurn) {
+        endTurnBttn.disabled = true;
+        guessBttn.disabled = true;
+
+        endTurnBttn.style.backgroundColor = "#F87471";
+        guessBttn.style.backgroundColor = "#67B363";
+
+        endTurnBttn.classList.add("disabled");
+        guessBttn.classList.add("disabled");
+
+        endTurnBttn.addEventListener("click", () => {
+            /* Feedback */
+        });
+
+        guessBttn.addEventListener("click", () => {
+            /* Feedback */
+        });
+    }
 
     bttnContainer.append(guessBttn);
     bttnContainer.append(endTurnBttn);
@@ -54,11 +73,6 @@ export function renderGameBoard(parentID) {
     const board = document.createElement("div");
     board.id = "gameBoard";
     document.getElementById(parentID).append(board);
-
-    /*fixa korten så att de kan
-
-
-    /* När korten är på plats och det läggs eventListener på dem, så ska man lagra karaktären som spelaren har valt */
 
     let cardsArray = null;
 
@@ -171,6 +185,47 @@ export function renderGameBoard(parentID) {
                 flipCardInner.classList.toggle("flipped");
             }
         });
-        
     });
+
+    endTurnBttn.addEventListener("click", () => {
+        const data = {
+            event: "switchTurns",
+            data: {
+                roomID: STATE.roomID,
+                clientID: STATE.clientID
+            }
+        };
+
+        STATE.socket.send(JSON.stringify(data));
+    });
+}
+
+export function updateBttnState () {
+    if (!STATE.isTurn) {
+        endTurnBttn.disabled = true;
+        guessBttn.disabled = true;
+
+        endTurnBttn.style.backgroundColor = "#F87471";
+        guessBttn.style.backgroundColor = "#67B363";
+
+        endTurnBttn.classList.add("disabled");
+        guessBttn.classList.add("disabled");
+
+        endTurnBttn.addEventListener("click", () => {
+            /* Feedback */
+        });
+
+        guessBttn.addEventListener("click", () => {
+            /* Feedback */
+        });
+    } else {
+        endTurnBttn.disabled = false;
+        guessBttn.disabled = false;
+
+        endTurnBttn.style.backgroundColor = "#FF5252";
+        guessBttn.style.backgroundColor = "#7ED321";
+
+        endTurnBttn.classList.remove("disabled");
+        guessBttn.classList.remove("disabled");
+    }
 }

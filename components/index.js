@@ -2,6 +2,7 @@ import { landingPage } from "./landingPage/landingPage.js";
 import { updateName } from "./waitingRoom/waitingRoom.js";
 import { renderCharacterPage } from "./characterPage/characterPage.js";
 import { startGame } from "./waitingRoom/waitingRoom.js";
+import { updateBttnState } from "./game/gameBoard.js";
 
 function renderApp() {
     const wrapper = document.createElement("div");
@@ -22,6 +23,7 @@ export const STATE = {
     "room": null,
     "selectedTheme": null,
     "selectedCharacter": null,
+    "isTurn": null
 };
 
 export let db = null;
@@ -82,12 +84,35 @@ globalThis.addEventListener("load", () => {
                 console.log(`[CLIENT]: Character chosen successfully`);
 
                 if (STATE.room.players.length === 2) {
-                    if (STATE.room.players[1].selectedCharacter !== null || undefined) {
+                    if (STATE.room.players[1].selectedCharacter !== null || STATE.room.players[1].selectedCharacter !== undefined) {
                         startGame();
                     }
                 }
                 break;
-            
+
+            case "start": 
+                STATE.room = message.data;
+                for (const player of STATE.room.players){
+                    if (STATE.clientID === player.id) {
+                        STATE.isTurn = player.isTurn;
+                    }
+                }
+                console.log(`[CLIENT]: Player with ${STATE.clientID} is ready to play`);
+                break;
+
+            case "switchTurns":
+                STATE.room = message.data;
+
+                for (const player of STATE.room.players) {
+                    if (player.id === STATE.clientID) {
+                        STATE.isTurn = player.isTurn;
+                        updateBttnState();
+                    }
+                }
+
+                console.log(`[CLIENT]: Turns have switched`);
+                break;
+
             case "guess":     
                 console.log(`[CLIENT]: A guess was made`);
                 break;
