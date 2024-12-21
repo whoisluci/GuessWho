@@ -1,6 +1,7 @@
 "use strict";
 
 import { serveFile, serveDir } from "jsr:@std/http/file-server";
+//import { renderPopUpGuess } from "./components/popUpGuess/popUpGuess.js";
 
 // Sends a message as { event: event, data: data } to `socket` (i.e. a connection)
 function send(socket, event, data) {
@@ -243,9 +244,11 @@ Deno.serve( {
                 if (player.id != STATE.clientID) {
                   if (player.selectedChar.name === guess.name) {
                     broadcastToRoom(STATE.roomID, "guess", {Guess: "Correct"});
+                  
                     break;
                   } else {
                     broadcastToRoom(STATE.roomID, "guess", {Guess: "Wrong"});
+                   // renderGuessPopUp('wrapper', 'player1', guess);
                   }
                 }
               }
