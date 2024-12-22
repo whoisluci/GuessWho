@@ -3,6 +3,7 @@ import { updateName } from "./waitingRoom/waitingRoom.js";
 import { renderCharacterPage } from "./characterPage/characterPage.js";
 import { startGame } from "./waitingRoom/waitingRoom.js";
 import { updateBttnState } from "./game/gameBoard.js";
+import { renderPopUpGuess } from "./popUpGuess/popUpGuess.js";
 
 function renderApp() {
     const wrapper = document.createElement("div");
@@ -115,6 +116,7 @@ globalThis.addEventListener("load", () => {
 
             case "guess":     
                 console.log(`[CLIENT]: A guess was made`);
+                renderPopUpGuess(player, guess, isCorrect);
                 break;
 
             default:

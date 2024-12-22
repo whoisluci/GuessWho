@@ -248,7 +248,6 @@ Deno.serve( {
                     break;
                   } else {
                     broadcastToRoom(STATE.roomID, "guess", {Guess: "Wrong"});
-                   // renderGuessPopUp('wrapper', 'player1', guess);
                   }
                 }
               }

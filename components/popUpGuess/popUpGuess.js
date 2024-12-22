@@ -1,7 +1,10 @@
-export function renderPopUpGuess(parent, player, guess) {
+export function renderPopUpGuess(player, guess, isCorrect) {
 
-const guessData = guess;
+    const guessData = guess;
+    console.log("this is guessData: ", guessData);
+    const wrapper = document.getElementById('wrapper');
 
+    // Prevent multiple popups from being created
     if (document.querySelector(".popup-overlay")) return;
 
     const overlay = document.createElement("div");
@@ -11,23 +14,25 @@ const guessData = guess;
 
     const title = document.createElement("h2");
     title.className = "popup-title";
-    title.textContent = "Incorrect Guess";
     popupContainer.appendChild(title);
 
-    // Create the message element for the incorrect guess / Player 1 or 2 change to whatever server.js says
     const message = document.createElement("p");
-    switch (player) {
-        case 1:
-            message.textContent = `Player 1 guessed: "${guessData.name}"`;
-            break;
-        case 2:
-            message.textContent = `Player 2 guessed "${guessData.name}"`;
-            break;
-        default:
-            message.textContent = "Something went wrong";
-    }
-    popupContainer.appendChild(message);
 
+    //Correct guess
+    if (isCorrect) {
+        
+        title.textContent = "Correct Guess!";
+        message.textContent = `Player ${player} guessed correctly! The character is "${guessData.name}".`;
+        console.log(`Player ${player} wins!`);
+    } else {
+        
+    // Incorrect guess
+        title.textContent = "Incorrect Guess";
+        message.textContent = `Player ${player} guessed: "${guessData.name}". Try again!`;
+        console.log(`Player ${player} incorrect guess.`);
+    }
+
+    popupContainer.appendChild(message);
 
     const closeButton = document.createElement("button");
     closeButton.className = "popup-close-button";
@@ -36,8 +41,7 @@ const guessData = guess;
         overlay.remove();
     };
     popupContainer.appendChild(closeButton);
+
     overlay.appendChild(popupContainer);
-    parent.appendChild(overlay);
+    wrapper.appendChild(overlay);
 }
-
-
