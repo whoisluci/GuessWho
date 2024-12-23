@@ -1,7 +1,6 @@
-export function renderPopUpGuess(player, guess, isCorrect) {
 
-    const guessData = guess;
-    console.log("this is guessData: ", guessData);
+
+export function renderPopUpGuess(isCorrect, isGuesser) {
     const wrapper = document.getElementById('wrapper');
 
     // Prevent multiple popups from being created
@@ -11,25 +10,56 @@ export function renderPopUpGuess(player, guess, isCorrect) {
     overlay.className = "popup-overlay";
     const popupContainer = document.createElement("div");
     popupContainer.className = "popup-container";
+    popupContainer.id = "popupContainer";
 
     const title = document.createElement("h2");
     title.className = "popup-title";
+    title.id = "guessed-title";
     popupContainer.appendChild(title);
+
 
     const message = document.createElement("p");
 
-    //Correct guess
-    if (isCorrect) {
-        
-        title.textContent = "Correct Guess!";
-        message.textContent = `Player ${player} guessed correctly! The character is "${guessData.name}".`;
-        console.log(`Player ${player} wins!`);
+    if (isGuesser) {
+        // Message for the player who made the guess
+        if (isCorrect) {
+            title.textContent = "You Win";
+            const trophy = document.createElement('img');
+            trophy.id = "trophy";
+            trophy.src = "../static/media/trophy.png";
+            popupContainer.appendChild(trophy);
+
+            const quitButton = document.createElement("button");
+            quitButton.textContent = "Quit";
+            quitButton.id = "quitButton";
+            quitButton.className = 'button';
+            quitButton.onclick = () => {
+                window.location.href = "/index.html"; 
+            };
+            popupContainer.appendChild(quitButton);
+           
+        } else {
+            title.textContent = "Your Guess Was Incorrect";
+            message.textContent = "Try again!";
+        }
     } else {
-        
-    // Incorrect guess
-        title.textContent = "Incorrect Guess";
-        message.textContent = `Player ${player} guessed: "${guessData.name}". Try again!`;
-        console.log(`Player ${player} incorrect guess.`);
+        // Message for the opponent
+        if (isCorrect) {
+            title.textContent = "You lose";
+            
+            const quitButton = document.createElement("button");
+            quitButton.textContent = "Quit";
+            quitButton.id = "quitButton";
+            quitButton.className = 'button';
+            quitButton.onclick = () => {
+                window.location.href = "/index.html"; 
+            };
+            popupContainer.appendChild(quitButton);
+            
+        } else {
+            title.textContent = "Opponent made a guess.";
+            message.textContent = "The opponent's guess was wrong.";
+        }
     }
 
     popupContainer.appendChild(message);

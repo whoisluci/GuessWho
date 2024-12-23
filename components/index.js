@@ -29,10 +29,8 @@ export const STATE = {
 
 export let db = null;
 
-
 // Client Event Handlers
 // ==============================================================
-
 globalThis.addEventListener("load", () => {
     STATE.socket = new WebSocket("ws://localhost:8888");
 
@@ -43,7 +41,7 @@ globalThis.addEventListener("load", () => {
 
     STATE.socket.addEventListener("message", (event) => {
         const message = JSON.parse(event.data);
-        
+
         switch (message.event) {
             case "connect":
                 STATE.clientID = message.data.clientID;
@@ -55,7 +53,7 @@ globalThis.addEventListener("load", () => {
             case "create":
                 STATE.roomID = message.data.id;
                 STATE.room = message.data;
-                
+
                 console.log(`[CLIENT]: Room successfully created with id ${STATE.roomID}`);
                 break;
 
@@ -68,7 +66,7 @@ globalThis.addEventListener("load", () => {
                 STATE.roomID = message.data.id;
                 STATE.room = message.data;
                 STATE.selectedTheme = message.data.selectedTheme;
-                
+
                 if (STATE.clientID === message.data.players[0].id) {
                     const name = message.data.players[1].name;
                     updateName(name);
@@ -93,7 +91,7 @@ globalThis.addEventListener("load", () => {
 
             case "start": 
                 STATE.room = message.data;
-                for (const player of STATE.room.players){
+                for (const player of STATE.room.players) {
                     if (STATE.clientID === player.id) {
                         STATE.isTurn = player.isTurn;
                     }
@@ -114,10 +112,25 @@ globalThis.addEventListener("load", () => {
                 console.log(`[CLIENT]: Turns have switched`);
                 break;
 
-            case "guess":     
-                console.log(`[CLIENT]: A guess was made`);
-                renderPopUpGuess(player, guess, isCorrect);
-                break;
+                case "guess":     
+    console.log(`[CLIENT]: A guess was made`);
+    console.log("Received message:", message);
+
+    // Extract the result of the guess and the guesser's ID
+    const guessResult = message.data.Guess; // "Correct" or "Wrong"
+    const guesserID = message.data.guesserID; // The player who made the guess
+
+    // Log for debugging
+    console.log(`[CLIENT]: Guesser ID: ${guesserID}, Result: ${guessResult}`);
+
+    // Determine if the current player is the guesser
+    const isGuesser = STATE.clientID === guesserID;
+
+    // Render the appropriate pop-up
+    renderPopUpGuess(guessResult === "Correct", isGuesser);
+    break;
+
+
 
             default:
                 console.error(`[CLIENT]: Error :: Unknown event ${message.event}`);
@@ -137,5 +150,3 @@ globalThis.addEventListener("load", () => {
 
     // FIXME: handle the `error` event
 });
-
-

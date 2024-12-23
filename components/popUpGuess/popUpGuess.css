@@ -21,6 +21,14 @@
       position: relative;
       text-align: Center;
       position: relative;
+
+    }
+    
+    #popupContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
   }
   
   .popup-title {
@@ -42,5 +50,26 @@
       text-align: center;
   }
   
+#trophy {
+    height: 100px;
+    width: 100px;
+}
 
+#guessed-title {
+    font-family: 'chewy';
+    text-transform: uppercase;
+    font-size: 32px;
+}
   
+#quitButton {
+    background-color: #FF5252;
+    width: 166px;
+    font-family: 'chewy';
+}
+
+#popupContainer > p{
+    font-family: 'montserrat';
+    font-size: 20px;
+
+}
+
