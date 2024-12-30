@@ -242,10 +242,10 @@ Deno.serve( {
               for (const player of room.players) {
                 if (player.id != STATE.clientID) {
                   if (player.selectedChar.name === guess.name) {
-                    broadcastToRoom(STATE.roomID, "guess", {Guess: "Correct"});
+                    broadcastToRoom(STATE.roomID, "guess", {Result: "Correct"});
                     break;
                   } else {
-                    broadcastToRoom(STATE.roomID, "guess", {Guess: "Wrong"});
+                    broadcastToRoom(STATE.roomID, "guess", {Result: "Wrong"});
                   }
                 }
               }

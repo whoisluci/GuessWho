@@ -113,9 +113,22 @@ globalThis.addEventListener("load", () => {
                 console.log(`[CLIENT]: Turns have switched`);
                 break;
 
-            case "guess":     
+            case "guess": {
                 console.log(`[CLIENT]: A guess was made`);
+
+                const guessResult = message.data.Result;
+
+                if (guessResult === "Correct") {
+                    console.log("You guessed correctly and won!!!!");
+                    /* Do something */
+                } else if (guessResult === "Wrong") {
+                    console.log("You guessed wrong:/");
+                    /* Do something */
+                } else {
+                    console.log("Something didn't go quite right");
+                }
                 break;
+            }
 
             default:
                 console.error(`[CLIENT]: Error :: Unknown event ${message.event}`);
