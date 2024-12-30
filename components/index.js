@@ -112,25 +112,24 @@ globalThis.addEventListener("load", () => {
                 console.log(`[CLIENT]: Turns have switched`);
                 break;
 
-                case "guess":     
-    console.log(`[CLIENT]: A guess was made`);
-    console.log("Received message:", message);
+            case "guess": {     
+                console.log(`[CLIENT]: A guess was made`);
+                console.log("Received message:", message);
 
-    // Extract the result of the guess and the guesser's ID
-    const guessResult = message.data.Guess; // "Correct" or "Wrong"
-    const guesserID = message.data.guesserID; // The player who made the guess
+                // Extract the result of the guess and the guesser's ID
+                const guessResult = message.data.Guess; // "Correct" or "Wrong"
+                const guesserID = message.data.guesserID; // The player who made the guess
 
-    // Log for debugging
-    console.log(`[CLIENT]: Guesser ID: ${guesserID}, Result: ${guessResult}`);
+                // Log for debugging
+                console.log(`[CLIENT]: Guesser ID: ${guesserID}, Result: ${guessResult}`);
 
-    // Determine if the current player is the guesser
-    const isGuesser = STATE.clientID === guesserID;
+                // Determine if the current player is the guesser
+                const isGuesser = STATE.clientID === guesserID;
 
-    // Render the appropriate pop-up
-    renderPopUpGuess(guessResult === "Correct", isGuesser);
-    break;
-
-
+                // Render the appropriate pop-up
+                renderPopUpGuess(guessResult === "Correct", isGuesser);
+                break;
+            } 
 
             default:
                 console.error(`[CLIENT]: Error :: Unknown event ${message.event}`);
