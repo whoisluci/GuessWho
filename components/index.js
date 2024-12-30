@@ -70,6 +70,7 @@ globalThis.addEventListener("load", () => {
                 if (STATE.clientID === message.data.players[0].id) {
                     const name = message.data.players[1].name;
                     updateName(name);
+                    
                 } else {
                     renderCharacterPage("wrapper");
                 }

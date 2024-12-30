@@ -4,9 +4,7 @@ import { STATE } from "../index.js";
 import { renderWaitingRoom } from "../waitingRoom/waitingRoom.js";
 import { renderCards } from "../cards/cards.js";
 import { renderCreatePage } from "../createPage/createPage.js";
-import { joinPage } from "../joinPage/joinPage.js";
 import { db } from "../index.js";
-import { landingPage } from "../landingPage/landingPage.js";
 
 export function renderCharacterPage (parentID) {
     document.getElementById(parentID).innerHTML = "";

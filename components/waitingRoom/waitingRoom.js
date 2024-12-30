@@ -21,7 +21,7 @@ export function renderWaitingRoom(parentID) {
     codeDiv.innerHTML = `
     <p>Code:</p>
     <div id='codeContainer'>
-    <p id="code">#${STATE.roomID}</p>
+    <textarea readonly id="code">${STATE.roomID}</textarea>
     </div>
     `;
 
@@ -31,32 +31,31 @@ export function renderWaitingRoom(parentID) {
     CTCIcon.id = "copyToClipboardIcon";
     CTCIcon.src = "../static/media/copy.svg"
     codeContainer.appendChild(CTCIcon);
-
-    /* Lägg till ikon, just nu: tom div */
-
     
-    codeContainer.addEventListener("click", () => {
+    codeContainer.addEventListener("click", async () => {
         const code = STATE.roomID;
-    
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(code)
-                .then(() => {
-                    console.log("Content copied to clipboard");
-                })
-                .catch(err => {
-                    console.error("Failed to copy text: ", err);
-                });
-        } else {
-            codeDiv.value = code;
-            codeDiv.focus();
-            codeDiv.select();
-            const successful = document.execCommand("copy");
-            if (successful) {
+        console.log(code);
+        
+        if (navigator.clipboard){
+            try {
+                await navigator.clipboard.writeText(code);
                 console.log("Content copied to clipboard");
-            } else {
-                console.error("Failed to copy text using execCommand");
+                return;
+            } catch (err) {
+                console.error("Unable to copy to clipboard", err);
             }
         }
+
+        try {
+            document.getElementById("code").select();
+            document.execCommand("copy");
+            console.log("Content copied to clipboard");
+        } catch (err) {
+            console.error("Unable to copy to clipboard", err);
+        }
+        
+
+        
     });
     
 
@@ -86,11 +85,18 @@ export function renderWaitingRoom(parentID) {
     const playersDiv = document.createElement("div");
     playersDiv.id = "playersDiv";
     document.getElementById(parentID).appendChild(playersDiv);
+
     
     const h2 = document.createElement('h2');
     h2.id = "waitingForOpponent";
-    h2.textContent = "Waiting for opponent . . .";
     playersDiv.appendChild(h2);
+    
+    if (STATE.room.players.length === 2){
+
+        h2.textContent = `Waiting for ${STATE.room.players[0].name} . . .`;
+    } else {
+        h2.textContent = "Waiting for opponent . . .";
+    }
 
     const loadingCircle = document.createElement('div');
     loadingCircle.id = "loadingCircle";
@@ -146,12 +152,18 @@ export function renderWaitingRoom(parentID) {
 }
 
 export function updateName (updatedName) {
-    const secondPlayerName = document.getElementById("secondPlayerName");
-    if (secondPlayerName === null) {
+    const text = document.getElementById("waitingForOpponent");
+    console.log(text);
+    
+    if (text === null) {
         return;
     }
-    secondPlayerName.textContent = null;
-    secondPlayerName.textContent = updatedName;
+
+    text.textContent = null;
+    text.textContent = `Waiting for ${updatedName}. . .`;
+
+    console.log(text);
+    
 }
 
 export function startGame () {

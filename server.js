@@ -231,44 +231,44 @@ Deno.serve( {
 
           break;
         
-          case "guess": {
-            const roomID = message.data.roomID; 
-            const clientID = message.data.clientID; 
-            const guess = message.data.guess; 
-            console.log(`[SERVER]: Guess received - Room: ${message.data.roomID}, Guesser: ${message.data.clientID}, Guess:`, message.data.guess);
+        case "guess": {
+          const roomID = message.data.roomID; 
+          const clientID = message.data.clientID; 
+          const guess = message.data.guess; 
+          console.log(`[SERVER]: Guess received - Room: ${message.data.roomID}, Guesser: ${message.data.clientID}, Guess:`, message.data.guess);
 
-            // Find the relevant room
-            const room = STATE.rooms.find(room => room.id === roomID);
-            if (!room) {
-                console.error(`[SERVER]: Room ${roomID} not found`);
-                return;
-            }
-        
-            // Find the player making the guess
-            const guesser = room.players.find(player => player.id === clientID);
-            if (!guesser) {
-                console.error(`[SERVER]: Player ${clientID} not found in room ${roomID}`);
-                return;
-            }
-            console.log(`[SERVER]: Room found: ${room.id}`);
+          // Find the relevant room
+          const room = STATE.rooms.find(room => room.id === roomID);
+          if (!room) {
+              console.error(`[SERVER]: Room ${roomID} not found`);
+              return;
+          }
+      
+          // Find the player making the guess
+          const guesser = room.players.find(player => player.id === clientID);
+          if (!guesser) {
+              console.error(`[SERVER]: Player ${clientID} not found in room ${roomID}`);
+              return;
+          }
+          console.log(`[SERVER]: Room found: ${room.id}`);
 
-            // Check if the guess matches the selected character of any opponent
-            let isCorrect = false;
-            for (const player of room.players) {
-                if (player.id !== clientID && player.selectedChar?.name === guess.name) {
-                    isCorrect = true;
-                    break;
-                }
-            }
-            
-            // Broadcast the guess result to the room
-            broadcastToRoom(roomID, "guess", {
-                guesserID: clientID, // Player who made the guess
-                Guess: isCorrect ? "Correct" : "Wrong", // Result of the guess
-            });
-        
-            break;
-        }
+          // Check if the guess matches the selected character of any opponent
+          let isCorrect = false;
+          for (const player of room.players) {
+              if (player.id !== clientID && player.selectedChar?.name === guess.name) {
+                  isCorrect = true;
+                  break;
+              }
+          }
+          
+          // Broadcast the guess result to the room
+          broadcastToRoom(roomID, "guess", {
+              guesserID: clientID, // Player who made the guess
+              Guess: isCorrect ? "Correct" : "Wrong", // Result of the guess
+          });
+      
+          break;
+      }
 
         case "switchTurns": {
           STATE.clientID = message.data.clientID;
@@ -312,16 +312,21 @@ Deno.serve( {
 
       for (const room of STATE.rooms) {
         for (const player of room.players) {
+          if (player === null) {
+            console.log("Null?");
+            return;
+          }
+
           if (player.id === STATE.clientID) {
             const i = room.players.indexOf(player);
             room.players.splice(i,1);
           }
+        }
 
-          if (room.players.length === 0) {
-            const i = STATE.rooms.indexOf(room);
-            STATE.rooms.splice(i, 1);
-            console.log(`Room with ${STATE.roomID} was deleted`);
-          }
+        if (room.players.length === 0) {
+          const i = STATE.rooms.indexOf(room);
+          STATE.rooms.splice(i, 1);
+          console.log(`Room with ${STATE.roomID} was deleted`);
         }
       }
 
