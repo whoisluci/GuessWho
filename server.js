@@ -1,6 +1,7 @@
 "use strict";
 
 import { serveFile, serveDir } from "jsr:@std/http/file-server";
+//import { renderPopUpGuess } from "./components/popUpGuess/popUpGuess.js";
 
 // Sends a message as { event: event, data: data } to `socket` (i.e. a connection)
 function send(socket, event, data) {
@@ -230,28 +231,43 @@ Deno.serve( {
 
           break;
         
-        case "guess": {
-          STATE.roomID = message.data.roomID;
-          STATE.clientID = message.data.clientID;
-          
-          const guess = message.data.guess;
+          case "guess": {
+            const roomID = message.data.roomID; 
+            const clientID = message.data.clientID; 
+            const guess = message.data.guess; 
+            console.log(`[SERVER]: Guess received - Room: ${message.data.roomID}, Guesser: ${message.data.clientID}, Guess:`, message.data.guess);
 
-          for (const room of STATE.rooms) {        
-            if (room.id === STATE.roomID) {
-
-              for (const player of room.players) {
-                if (player.id != STATE.clientID) {
-                  if (player.selectedChar.name === guess.name) {
-                    broadcastToRoom(STATE.roomID, "guess", {Result: "Correct"});
-                    break;
-                  } else {
-                    broadcastToRoom(STATE.roomID, "guess", {Result: "Wrong"});
-                  }
-                }
-              }
+            // Find the relevant room
+            const room = STATE.rooms.find(room => room.id === roomID);
+            if (!room) {
+                console.error(`[SERVER]: Room ${roomID} not found`);
+                return;
             }
-          }
-          break;
+        
+            // Find the player making the guess
+            const guesser = room.players.find(player => player.id === clientID);
+            if (!guesser) {
+                console.error(`[SERVER]: Player ${clientID} not found in room ${roomID}`);
+                return;
+            }
+            console.log(`[SERVER]: Room found: ${room.id}`);
+
+            // Check if the guess matches the selected character of any opponent
+            let isCorrect = false;
+            for (const player of room.players) {
+                if (player.id !== clientID && player.selectedChar?.name === guess.name) {
+                    isCorrect = true;
+                    break;
+                }
+            }
+            
+            // Broadcast the guess result to the room
+            broadcastToRoom(roomID, "guess", {
+                guesserID: clientID, // Player who made the guess
+                Guess: isCorrect ? "Correct" : "Wrong", // Result of the guess
+            });
+        
+            break;
         }
 
         case "switchTurns": {

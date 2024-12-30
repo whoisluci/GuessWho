@@ -4,6 +4,7 @@ import { header } from "../header/header.js";
 import { createButton } from "../buttons/buttons.js";
 import { landingPage } from "../landingPage/landingPage.js";
 import { db } from "../index.js";
+import { renderPopUpGuess } from "../popUpGuess/popUpGuess.js";
 import { renderpopUpExit } from "../popUpExit/popUpExit.js";
 
 export function renderGameBoard(parentID) {
@@ -110,7 +111,20 @@ export function renderGameBoard(parentID) {
 
         document.getElementById("chatContainer").append(chat, textArea, submitButton);
 
-        //EventListener on guess button
+    //eventListner for chat. Send this to client
+        submitButton.addEventListener("click", () => {
+            
+            if (textArea != "") {
+                console.log('Chat sent')
+                const value = textArea.value;
+                console.log(value);
+            }
+            else {
+                console.log('Write a question')
+            }
+        });
+
+        //EventListener on guess button. 
         guessBttn.addEventListener("click", () => {
 
             if (guessBttn.textContent === "Guess") {

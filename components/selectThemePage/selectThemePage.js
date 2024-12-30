@@ -50,10 +50,10 @@ export function selectThemePage (parentID) {
             document.querySelectorAll(".themeButton").forEach((btn) => {
                 if (themeButton === btn) {
                     console.log(themeButton, btn)
-                    btn.style.border = "2px solid black"; 
+                    btn.classList.add("themeSelected");
                     nextBttn.style.backgroundColor = "#FF5252";
                 } else {
-                    btn.style.border = "";
+                    btn.classList.remove("themeSelected");
                 }
             });
         });
