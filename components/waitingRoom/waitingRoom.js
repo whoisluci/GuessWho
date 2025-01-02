@@ -92,8 +92,7 @@ export function renderWaitingRoom(parentID) {
     playersDiv.appendChild(h2);
     
     if (STATE.room.players.length === 2){
-
-        h2.textContent = `Waiting for ${STATE.room.players[0].name} . . .`;
+        h2.textContent = `Now loading game. . .`;
     } else {
         h2.textContent = "Waiting for opponent . . .";
     }
@@ -151,19 +150,15 @@ export function renderWaitingRoom(parentID) {
     }*/
 }
 
-export function updateName (updatedName) {
+export function updateWaitingText (newText) {
     const text = document.getElementById("waitingForOpponent");
-    console.log(text);
     
     if (text === null) {
         return;
     }
 
     text.textContent = null;
-    text.textContent = `Waiting for ${updatedName}. . .`;
-
-    console.log(text);
-    
+    text.textContent = newText;
 }
 
 export function startGame () {
