@@ -1,9 +1,10 @@
 import { landingPage } from "./landingPage/landingPage.js";
-import { updateName } from "./waitingRoom/waitingRoom.js";
+import { updateWaitingText } from "./waitingRoom/waitingRoom.js";
 import { renderCharacterPage } from "./characterPage/characterPage.js";
 import { startGame } from "./waitingRoom/waitingRoom.js";
 import { updateBttnState } from "./game/gameBoard.js";
 import { renderPopUpGuess } from "./popUpGuess/popUpGuess.js";
+import { showWarning } from "./warningText/renderWarning.js";
 
 function renderApp() {
     const wrapper = document.createElement("div");
@@ -60,6 +61,7 @@ globalThis.addEventListener("load", () => {
             case "join": {
                 if (message.data["Error"] != undefined || null) {
                     console.log(`[CLIENT]: Error :: ${message.data["Error"]}`);
+                    showWarning(message.data["Error"], "joinForm");
                     break;
                 }
 
@@ -69,7 +71,7 @@ globalThis.addEventListener("load", () => {
 
                 if (STATE.clientID === message.data.players[0].id) {
                     const name = message.data.players[1].name;
-                    updateName(name);
+                    updateWaitingText(`Waiting for ${name}. . .`);
                     
                 } else {
                     renderCharacterPage("wrapper");
@@ -85,6 +87,7 @@ globalThis.addEventListener("load", () => {
 
                 if (STATE.room.players.length === 2) {
                     if (STATE.room.players[1].selectedCharacter !== null || STATE.room.players[1].selectedCharacter !== undefined) {
+                        updateWaitingText(`Now loading game. . .`);
                         startGame();
                     }
                 }

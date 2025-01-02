@@ -1,7 +1,6 @@
 "use strict";
 
 import { serveFile, serveDir } from "jsr:@std/http/file-server";
-//import { renderPopUpGuess } from "./components/popUpGuess/popUpGuess.js";
 
 // Sends a message as { event: event, data: data } to `socket` (i.e. a connection)
 function send(socket, event, data) {
@@ -18,7 +17,6 @@ function broadcastToRoom(roomID, event, data) {
     }
   }
 }
-
 
 function generateClientID() {
   let d = new Date().getTime();
@@ -81,8 +79,6 @@ async function getDatabase () {
   }
 }
 
-
-
 //hashmap
 const STATE = {
   "clients": [],
@@ -93,7 +89,7 @@ const STATE = {
 
 let db = null;
 
-//server
+/*                                      SERVER                                                 */
 Deno.serve( {
   port: 8888,
   handler: (rqst) => {
@@ -125,14 +121,12 @@ Deno.serve( {
   
       switch (message.event) {
         /* Gör om till funktioner som bara anropas här? */
-
         case "create": {
           let creator = null;
           for (const client of STATE.clients) {     
             if (client["id"] === STATE.clientID) {
               client["name"] = message.data.inputName;
               creator = client;
-              creator.color = "orange";
             }
           }
 
@@ -140,12 +134,10 @@ Deno.serve( {
           const room = {
             "id": STATE.roomID,
             "selectedTheme": message.data.theme,
-            "players": [],
+            "players": [creator],
           };
           
-          room.players.push(creator);
           STATE.rooms.push(room);
-
           send(socket, "create", room);
 
           break;
@@ -159,31 +151,40 @@ Deno.serve( {
             let player = null;
   
             for (const client of STATE.clients) {
-              
               if (client.id === STATE.clientID) {
                 player = client;
                 player.name = message.data.name;
-                player.color = "purple";
+                console.log(`[SERVER]: Player found with ID: ${STATE.clientID}`);
               }
-  
             }
-  
-            for (const room of STATE.rooms) {        
-              if (room.id === STATE.roomID) {
-  
-                if (room.players.length === 2) {
-                  console.log(`[SERVER]: Max. players reached`);
+
+            if (player) {
+              let roomFound = false;
+              for (const room of STATE.rooms) {        
+                if (room.id === STATE.roomID) {
+                  roomFound = true;
+                  console.log(`[SERVER]: Room found with ID: ${STATE.roomID}`);
+    
+                  if (room.players.length === 2) {
+                    console.log(`[SERVER]: Max. players reached`);
+                    throw new Error (`Max players reached for room: ${STATE.roomID}`);
+                  }
+    
+                  room.players.push(player); 
+                  console.log(`[SERVER]: Player added to room. Current players: ${room.players}`);
+                  broadcastToRoom(STATE.roomID, "join", room);
                   break;
-                }
-  
-                room.players.push(player); 
-                broadcastToRoom(STATE.roomID, "join", room);
-                break;
-              } 
+                } 
+              }
+
+              if (!roomFound) {
+                throw new Error(`No room with ID ${STATE.roomID} was found`);
+              }
             }
+  
           } catch(err) {
-            console.log(`[SERVER]: No room with this ID was found`);
-            send(socket, "join", {"Error": err, "Description": "Unable to find a room with this ID"});
+            console.log(`[SERVER]: Error during join operation: ${err.message}`);
+            send(socket, "join", err);
           }
             break;
           }
