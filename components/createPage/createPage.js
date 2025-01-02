@@ -3,6 +3,7 @@ import { STATE } from "../index.js";
 import { renderCharacterPage } from "../characterPage/characterPage.js";
 import { header } from "../header/header.js";
 import { selectThemePage } from "../selectThemePage/selectThemePage.js";
+import { showWarning } from "../warningText/renderWarning.js";
 
 export function renderCreatePage (parentID) {
 
@@ -56,14 +57,23 @@ export function renderCreatePage (parentID) {
     
     const createBttn = createButton("createForm", "Create", "#D25D6F", "190px");
     createBttn.id = "formCreateBttn";
+    createBttn.disabled = true;
+    createBttn.style.cursor = 'not-allowed';
     createBttn.setAttribute("type", "submit");
     createForm.appendChild(createBttn);
 
     enterNameInput.addEventListener("input", () => {
-        if (enterNameInput.value !== "") {
-            createBttn.style.backgroundColor = "#FF5252"; 
+        if (enterNameInput.value.length === 0) {
+            createBttn.style.backgroundColor = "#D25D6F";
+            createBttn.disabled = true;
+            createBttn.style.cursor = 'not-allowed';
+            const text = 'You need to enter a name to continue';
+            showWarning(text, "createForm")
+
         } else {
-            createBttn.style.backgroundColor = "#D25D6F"; 
+            createBttn.disabled = false;
+            createBttn.style.cursor = 'pointer';
+            createBttn.style.backgroundColor = "#FF5252"; 
         }
     });
         
