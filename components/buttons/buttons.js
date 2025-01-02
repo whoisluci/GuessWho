@@ -1,5 +1,3 @@
-console.log(document.getElementById("wrapper"));
-
 export function createButton(parentID, text, color, width) {
     const button = document.createElement("button");
 
@@ -21,7 +19,3 @@ export function createButton(parentID, text, color, width) {
 
     return button;
 }
-
-
-
-
