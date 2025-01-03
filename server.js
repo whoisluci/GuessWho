@@ -84,7 +84,7 @@ const STATE = {
   "clients": [],
   "clientID": null,
   "rooms": [],
-  "roomID": null
+  "roomID": null,
 };
 
 let db = null;
@@ -135,6 +135,7 @@ Deno.serve( {
             "id": STATE.roomID,
             "selectedTheme": message.data.theme,
             "players": [creator],
+            "chatHistory": []
           };
           
           STATE.rooms.push(room);
@@ -289,7 +290,38 @@ Deno.serve( {
           }
           break;
         }
-      
+
+        case "chatMsg": {
+          STATE.clientID = message.data.clientID;
+          STATE.roomID = message.data.roomID;
+
+          let name = null;
+          
+          for (const client of STATE.clients) {
+            if (client.id === STATE.clientID) {
+              name = client.name;
+              console.log(`[SERVER]: Player found with ID: ${STATE.clientID}`);
+            }
+          }
+
+          const msg = {
+            text: message.data.message,
+            name: name,
+          };
+
+          let _roomFound = false;
+          for (const room of STATE.rooms) {        
+            if (room.id === STATE.roomID) {
+              _roomFound = true;
+              console.log(`[SERVER]: Room found with ID: ${STATE.roomID}`);
+              room.chatHistory.push(msg);
+            }
+          }
+
+          broadcastToRoom(STATE.roomID, "chatMsg", msg);
+          break;
+        }
+        
         case "rematch": 
 
           break;

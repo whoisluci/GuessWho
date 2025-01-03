@@ -6,6 +6,7 @@ import { landingPage } from "../landingPage/landingPage.js";
 import { db } from "../index.js";
 import { renderPopUpGuess } from "../popUpGuess/popUpGuess.js";
 import { renderpopUpExit } from "../popUpExit/popUpExit.js";
+import { renderChat } from "../chat/gameChat.js";
 
 export function renderGameBoard(parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -91,38 +92,7 @@ export function renderGameBoard(parentID) {
             break;
         }
 
-        //create chat element, own function??
-        const chatElement = document.createElement("div");
-        chatElement.id = "chatContainer";
-        document.getElementById(parentID).append(chatElement);
-
-        const chat = document.createElement("label");
-        chat.for = "msg";
-        chat.id = "chat";
-        
-        const textArea = document.createElement("textarea");
-        textArea.id = "msg";
-        textArea.placeholder = "Ask a question";
-
-        const submitButton = document.createElement("button");
-        submitButton.type = "submit";
-        submitButton.className = "btn";  
-        submitButton.textContent = "Send";  
-
-        document.getElementById("chatContainer").append(chat, textArea, submitButton);
-
-    //eventListner for chat. Send this to client
-        submitButton.addEventListener("click", () => {
-            
-            if (textArea != "") {
-                console.log('Chat sent')
-                const value = textArea.value;
-                console.log(value);
-            }
-            else {
-                console.log('Write a question')
-            }
-        });
+        const _chat = renderChat(parentID);
 
         //EventListener on guess button. 
         guessBttn.addEventListener("click", () => {
