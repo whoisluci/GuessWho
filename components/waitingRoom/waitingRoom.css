@@ -2,7 +2,7 @@
     font-family: 'chewy';
     font-size: 26px;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-    color: #00e7ff;
+    color: #fff;
     position: absolute;
     top: 140px;
     display: flex;
@@ -15,6 +15,24 @@
 #codeDiv div {
     letter-spacing: 1.5px;
     -webkit-text-stroke: 0.1px black;
+}
+
+#code {
+    background: transparent;
+    border: none;
+    font-family: 'chewy';
+    font-size: 26px;
+    resize: none;
+    width: 75px;
+    margin: 0;
+    color: #fff;
+    overflow: hidden;
+    padding: 0;
+}
+
+#code::selection {
+    outline: none;
+    border: none;
 }
 
 #copyToClipboardIcon {
@@ -74,29 +92,21 @@
     
 }
 
-#loadingCircle 
-    {
-        width: 87px;
-        height: 87px;
-        border: 13px solid rgba(0, 0, 0, 0.3); 
-        border-top: 13px solid #000; 
-        border-radius: 100%; 
-        animation: spin 1s linear infinite; 
+#loadingCircle {
+    width: 87px;
+    height: 87px;
+    border: 13px solid rgba(0, 0, 0, 0.3); 
+    border-top: 13px solid #000; 
+    border-radius: 100%; 
+    animation: spin 1s linear infinite; 
+}
 
 
-      }
-
-
-      @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-
-      }
-
-
-
-
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

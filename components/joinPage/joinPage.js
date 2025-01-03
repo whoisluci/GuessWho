@@ -54,24 +54,9 @@ export function joinPage(parentID) {
         const name = document.getElementById("enterNameInput").value;
         const code = document.getElementById("enterCodeInput").value;
         
-
-        // if (name.length === 0) {
-        //     if (!document.getElementById("nameWarning")) {
-        //         let text = document.createElement("p");
-        //         text.textContent = "You have to fill in the name-field to continue";
-        //         text.id = "nameWarning"; 
-        //         document.getElementById("joinForm").appendChild(text);
-        //     }
-        // } else {
-        //     const nameWarning = document.getElementById("nameWarning");
-        //     if (nameWarning) {
-        //         nameWarning.remove();
-        //     }
-        // }
-        
         if (code.length === 0) {
             if (!document.getElementById("codeWarning")) {
-                let text = document.createElement("p");
+                const text = document.createElement("p");
                 text.textContent = "You have to fill in the code-field to continue";
                 text.id = "codeWarning"; 
                 document.getElementById("joinForm").appendChild(text);
@@ -94,21 +79,5 @@ export function joinPage(parentID) {
         };
 
         STATE.socket.send(JSON.stringify(data));
-
-        if ((STATE.roomID === null || STATE.roomID === undefined) && enterCode.value !== "") {
-            if (!document.getElementById("wrongCodeWarning")) {
-                let text = document.createElement("p");
-                text.textContent = "No room with this code was found, please try again";
-                text.id = "wrongCodeWarning"; 
-                document.getElementById("joinForm").appendChild(text);
-            }
-            console.warn("No room with this code was found!");
-        } else {
-            const wrongCodeWarning = document.getElementById("wrongCodeWarning");
-            if (wrongCodeWarning) {
-                wrongCodeWarning.remove();
-            }
-        }
-        
     });
 };

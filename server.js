@@ -1,7 +1,6 @@
 "use strict";
 
 import { serveFile, serveDir } from "jsr:@std/http/file-server";
-//import { renderPopUpGuess } from "./components/popUpGuess/popUpGuess.js";
 
 // Sends a message as { event: event, data: data } to `socket` (i.e. a connection)
 function send(socket, event, data) {
@@ -18,7 +17,6 @@ function broadcastToRoom(roomID, event, data) {
     }
   }
 }
-
 
 function generateClientID() {
   let d = new Date().getTime();
@@ -81,19 +79,17 @@ async function getDatabase () {
   }
 }
 
-
-
 //hashmap
 const STATE = {
   "clients": [],
   "clientID": null,
   "rooms": [],
-  "roomID": null
+  "roomID": null,
 };
 
 let db = null;
 
-//server
+/*                                      SERVER                                                 */
 Deno.serve( {
   port: 8888,
   handler: (rqst) => {
@@ -125,14 +121,12 @@ Deno.serve( {
   
       switch (message.event) {
         /* Gör om till funktioner som bara anropas här? */
-
         case "create": {
           let creator = null;
           for (const client of STATE.clients) {     
             if (client["id"] === STATE.clientID) {
               client["name"] = message.data.inputName;
               creator = client;
-              creator.color = "orange";
             }
           }
 
@@ -140,12 +134,11 @@ Deno.serve( {
           const room = {
             "id": STATE.roomID,
             "selectedTheme": message.data.theme,
-            "players": [],
+            "players": [creator],
+            "chatHistory": []
           };
           
-          room.players.push(creator);
           STATE.rooms.push(room);
-
           send(socket, "create", room);
 
           break;
@@ -159,31 +152,40 @@ Deno.serve( {
             let player = null;
   
             for (const client of STATE.clients) {
-              
               if (client.id === STATE.clientID) {
                 player = client;
                 player.name = message.data.name;
-                player.color = "purple";
+                console.log(`[SERVER]: Player found with ID: ${STATE.clientID}`);
               }
-  
             }
-  
-            for (const room of STATE.rooms) {        
-              if (room.id === STATE.roomID) {
-  
-                if (room.players.length === 2) {
-                  console.log(`[SERVER]: Max. players reached`);
+
+            if (player) {
+              let roomFound = false;
+              for (const room of STATE.rooms) {        
+                if (room.id === STATE.roomID) {
+                  roomFound = true;
+                  console.log(`[SERVER]: Room found with ID: ${STATE.roomID}`);
+    
+                  if (room.players.length === 2) {
+                    console.log(`[SERVER]: Max. players reached`);
+                    throw new Error (`Max players reached for room: ${STATE.roomID}`);
+                  }
+    
+                  room.players.push(player); 
+                  console.log(`[SERVER]: Player added to room. Current players: ${room.players}`);
+                  broadcastToRoom(STATE.roomID, "join", room);
                   break;
-                }
-  
-                room.players.push(player); 
-                broadcastToRoom(STATE.roomID, "join", room);
-                break;
-              } 
+                } 
+              }
+
+              if (!roomFound) {
+                throw new Error(`No room with ID ${STATE.roomID} was found`);
+              }
             }
+  
           } catch(err) {
-            console.log(`[SERVER]: No room with this ID was found`);
-            send(socket, "join", {"Error": err, "Description": "Unable to find a room with this ID"});
+            console.log(`[SERVER]: Error during join operation: ${err.message}`);
+            send(socket, "join", err);
           }
             break;
           }
@@ -231,44 +233,44 @@ Deno.serve( {
 
           break;
         
-          case "guess": {
-            const roomID = message.data.roomID; 
-            const clientID = message.data.clientID; 
-            const guess = message.data.guess; 
-            console.log(`[SERVER]: Guess received - Room: ${message.data.roomID}, Guesser: ${message.data.clientID}, Guess:`, message.data.guess);
+        case "guess": {
+          const roomID = message.data.roomID; 
+          const clientID = message.data.clientID; 
+          const guess = message.data.guess; 
+          console.log(`[SERVER]: Guess received - Room: ${message.data.roomID}, Guesser: ${message.data.clientID}, Guess:`, message.data.guess);
 
-            // Find the relevant room
-            const room = STATE.rooms.find(room => room.id === roomID);
-            if (!room) {
-                console.error(`[SERVER]: Room ${roomID} not found`);
-                return;
-            }
-        
-            // Find the player making the guess
-            const guesser = room.players.find(player => player.id === clientID);
-            if (!guesser) {
-                console.error(`[SERVER]: Player ${clientID} not found in room ${roomID}`);
-                return;
-            }
-            console.log(`[SERVER]: Room found: ${room.id}`);
+          // Find the relevant room
+          const room = STATE.rooms.find(room => room.id === roomID);
+          if (!room) {
+              console.error(`[SERVER]: Room ${roomID} not found`);
+              return;
+          }
+      
+          // Find the player making the guess
+          const guesser = room.players.find(player => player.id === clientID);
+          if (!guesser) {
+              console.error(`[SERVER]: Player ${clientID} not found in room ${roomID}`);
+              return;
+          }
+          console.log(`[SERVER]: Room found: ${room.id}`);
 
-            // Check if the guess matches the selected character of any opponent
-            let isCorrect = false;
-            for (const player of room.players) {
-                if (player.id !== clientID && player.selectedChar?.name === guess.name) {
-                    isCorrect = true;
-                    break;
-                }
-            }
-            
-            // Broadcast the guess result to the room
-            broadcastToRoom(roomID, "guess", {
-                guesserID: clientID, // Player who made the guess
-                Guess: isCorrect ? "Correct" : "Wrong", // Result of the guess
-            });
-        
-            break;
-        }
+          // Check if the guess matches the selected character of any opponent
+          let isCorrect = false;
+          for (const player of room.players) {
+              if (player.id !== clientID && player.selectedChar?.name === guess.name) {
+                  isCorrect = true;
+                  break;
+              }
+          }
+          
+          // Broadcast the guess result to the room
+          broadcastToRoom(roomID, "guess", {
+              guesserID: clientID, // Player who made the guess
+              Guess: isCorrect ? "Correct" : "Wrong", // Result of the guess
+          });
+      
+          break;
+      }
 
         case "switchTurns": {
           STATE.clientID = message.data.clientID;
@@ -288,7 +290,38 @@ Deno.serve( {
           }
           break;
         }
-      
+
+        case "chatMsg": {
+          STATE.clientID = message.data.clientID;
+          STATE.roomID = message.data.roomID;
+
+          let name = null;
+          
+          for (const client of STATE.clients) {
+            if (client.id === STATE.clientID) {
+              name = client.name;
+              console.log(`[SERVER]: Player found with ID: ${STATE.clientID}`);
+            }
+          }
+
+          const msg = {
+            text: message.data.message,
+            name: name,
+          };
+
+          let _roomFound = false;
+          for (const room of STATE.rooms) {        
+            if (room.id === STATE.roomID) {
+              _roomFound = true;
+              console.log(`[SERVER]: Room found with ID: ${STATE.roomID}`);
+              room.chatHistory.push(msg);
+            }
+          }
+
+          broadcastToRoom(STATE.roomID, "chatMsg", msg);
+          break;
+        }
+        
         case "rematch": 
 
           break;
@@ -312,16 +345,21 @@ Deno.serve( {
 
       for (const room of STATE.rooms) {
         for (const player of room.players) {
+          if (player === null) {
+            console.log("Null?");
+            return;
+          }
+
           if (player.id === STATE.clientID) {
             const i = room.players.indexOf(player);
             room.players.splice(i,1);
           }
+        }
 
-          if (room.players.length === 0) {
-            const i = STATE.rooms.indexOf(room);
-            STATE.rooms.splice(i, 1);
-            console.log(`Room with ${STATE.roomID} was deleted`);
-          }
+        if (room.players.length === 0) {
+          const i = STATE.rooms.indexOf(room);
+          STATE.rooms.splice(i, 1);
+          console.log(`Room with ${STATE.roomID} was deleted`);
         }
       }
 
