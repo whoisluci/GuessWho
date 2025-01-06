@@ -5,7 +5,7 @@ import { createButton } from "../buttons/buttons.js";
 import { landingPage } from "../landingPage/landingPage.js";
 import { db } from "../index.js";
 import { renderPopUpGuess } from "../popUpGuess/popUpGuess.js";
-import { renderpopUpExit } from "../popUpExit/popUpExit.js";
+import { renderPopUp } from "../popUp/popUp.js";
 import { renderChat } from "../chat/gameChat.js";
 
 export function renderGameBoard(parentID) {
@@ -20,8 +20,9 @@ export function renderGameBoard(parentID) {
 
     const arrowBack = document.querySelector("#wrapper > #headerContainer > #arrowBack");
     arrowBack.addEventListener("click", () => {
-        renderpopUpExit();
-    })
+        const heading = 'Are you sure you want to exit?';
+        const _exitPopUp = renderPopUp("exitPopUp", heading);
+    });
     
 
     const bigCard = document.createElement("div");
