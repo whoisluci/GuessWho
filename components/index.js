@@ -4,6 +4,7 @@ import { renderCharacterPage } from "./characterPage/characterPage.js";
 import { startGame } from "./waitingRoom/waitingRoom.js";
 import { updateBttnState } from "./game/gameBoard.js";
 import { renderPopUpGuess } from "./popUpGuess/popUpGuess.js";
+import { renderPopUp } from "./popUp/popUp.js";
 import { showWarning } from "./warningText/renderWarning.js";
 import { handleChatMessage } from "./chat/gameChat.js";
 
@@ -134,7 +135,7 @@ globalThis.addEventListener("load", () => {
                 const isGuesser = STATE.clientID === guesserID;
 
                 // Render the appropriate pop-up
-                renderPopUpGuess(guessResult === "Correct", isGuesser);
+                renderPopUp("guessPopUp", null, null, guessResult === "Correct", isGuesser);
                 break;
             }
 

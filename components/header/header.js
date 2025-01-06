@@ -1,6 +1,6 @@
 import { createButton } from "../buttons/buttons.js";
-import { renderPopupHowTo } from "../popUpHowTo/popUpHowTo.js";
 import { landingPage } from "../landingPage/landingPage.js";
+import { renderPopUp } from "../popUp/popUp.js";
 
 
 export function header (parentID) {
@@ -33,7 +33,10 @@ export function header (parentID) {
     container.append(helpBttn); // Lägger till elementet i containern
 
     helpBttn.addEventListener("click", () => { 
-        renderPopupHowTo("Wrapper");
+        const heading =  'How to play "Guess Who?"';
+        const body = '"Guess Who?" is a classic two-player game where each player secretly picks a character from a set of faces. Taking turns, players ask clever yes-or-no questions to narrow down the options and uncover their opponents chosen character. The first to guess correctly wins!';
+
+        renderPopUp("howToPopUp", heading, body);
     });
 
 }
