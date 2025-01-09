@@ -3,10 +3,10 @@ import { updateWaitingText } from "./waitingRoom/waitingRoom.js";
 import { renderCharacterPage } from "./characterPage/characterPage.js";
 import { startGame } from "./waitingRoom/waitingRoom.js";
 import { updateBttnState } from "./game/gameBoard.js";
-import { renderPopUpGuess } from "./popUpGuess/popUpGuess.js";
 import { renderPopUp } from "./popUp/popUp.js";
 import { showWarning } from "./warningText/renderWarning.js";
 import { handleChatMessage } from "./chat/gameChat.js";
+import { renderChatAlert } from "./chat/gameChat.js";
 
 function renderApp() {
     const wrapper = document.createElement("div");
@@ -141,9 +141,28 @@ globalThis.addEventListener("load", () => {
 
             case "chatMsg": {
                 console.log(`[CLIENT]: A message was sent!`);
-                const msg = message.data;
 
+                const msg = message.data;
                 handleChatMessage(msg);
+
+                break;
+            }
+
+            case "incomingMsg": {
+                console.log(`[CLIENT]: There is an incoming message`);
+                
+                STATE.room = message.data;
+                if(!document.querySelector("#chatOverlay")) {
+                    renderChatAlert();
+                }
+
+                break;
+            }
+
+            case  "updateChatHistory": {
+                console.log(`[CLIENT]: The chat history was updated`);
+                STATE.room = message.data;
+
                 break;
             }
             
@@ -163,5 +182,5 @@ globalThis.addEventListener("load", () => {
         console.log(`[CLIENT]: ERROR`, error);
     });
 
-    // FIXME: handle the `error` event
+    setInterval(() => { if (socket.readyState === WebSocket.OPEN) { socket.send(JSON.stringify({ type: "ping" })); } }, 30000);
 });

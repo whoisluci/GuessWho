@@ -1,5 +1,3 @@
-import { STATE } from "../index.js";
-
 export function renderPopUp (id, heading, body, isGuesser, isCorrect) {
     if (document.querySelector(id)) { return; }
 
@@ -21,7 +19,7 @@ export function renderPopUp (id, heading, body, isGuesser, isCorrect) {
         popUpContainer.append(msg);
     }
 
-    if (id !== "exitPopUp") {
+    if (id === "howToPopUp") {
         const closeButton = document.createElement("button");
         closeButton.classList.add("popUpCloseBttn");
         closeButton.textContent = "X";
@@ -83,16 +81,19 @@ export function renderPopUp (id, heading, body, isGuesser, isCorrect) {
         } else {
             // Message for the opponent
             if (isCorrect) {
-                title.textContent = "You lose";
+                title.textContent = "Your Guess Was Incorrect";
                 
-                const quitButton = document.createElement("button");
-                quitButton.textContent = "Quit";
-                quitButton.id = "quitButton";
-                quitButton.className = 'button';
-                quitButton.onclick = () => {
-                    globalThis.location.href = "/index.html"; 
+                const continueBttn = document.createElement("button");
+                continueBttn.textContent = "Back to game";
+                continueBttn.id = "continueBttn";
+                continueBttn.className = 'button';
+                continueBttn.onclick = () => {
+                    overlay.remove();
+
+                    const chosenCard = document.querySelector(".selected");
+                    chosenCard.classList.remove("selected");
                 };
-                popUpContainer.appendChild(quitButton);
+                popUpContainer.appendChild(continueBttn);
                 
             } else {
                 title.textContent = "Opponent made a guess.";

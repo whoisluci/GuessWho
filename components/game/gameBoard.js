@@ -4,7 +4,6 @@ import { header } from "../header/header.js";
 import { createButton } from "../buttons/buttons.js";
 import { landingPage } from "../landingPage/landingPage.js";
 import { db } from "../index.js";
-import { renderPopUpGuess } from "../popUpGuess/popUpGuess.js";
 import { renderPopUp } from "../popUp/popUp.js";
 import { renderChat } from "../chat/gameChat.js";
 

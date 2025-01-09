@@ -126,3 +126,8 @@
     height: 50px;
     cursor: pointer;
 }
+
+#continueBttn{
+    width: 181px;
+    background-color: #FF5252;
+}
