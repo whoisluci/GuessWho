@@ -77,7 +77,7 @@ export function joinPage(parentID) {
                 "roomID": code
             }
         };
-
+        
         STATE.socket.send(JSON.stringify(data));
     });
 };

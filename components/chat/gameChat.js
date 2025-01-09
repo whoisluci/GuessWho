@@ -1,5 +1,4 @@
 "use strict";
-
 import { STATE } from "../index.js";
 
 export function renderChat (parentID) {
@@ -43,6 +42,15 @@ export function renderChat (parentID) {
         submitButton.textContent = "Send";  
     
         chatDiv.append(chat, textArea, submitButton);
+
+        const dot = document.querySelector("#notificationDot");
+        if (dot) {
+            dot.remove();
+        }
+
+        if (STATE.room.chatHistory.length > 0) {
+            handleChatHistory(STATE.room.chatHistory);
+        }
     
         submitButton.addEventListener("click", () => {
             
@@ -65,12 +73,6 @@ export function renderChat (parentID) {
                 console.log('Write a question')
             }
         });
-
-        if (STATE.room.chatHistory) {
-            handleChatHistory(STATE.room.chatHistory);
-        }
-
-        /* Rendera historik om det finns ngn! */
     });
 
 
@@ -95,7 +97,15 @@ export function handleChatMessage(data) {
 }
 
 function handleChatHistory(data) {
-    for (const message of data.history) {
-        handleChatMessage({ message });
+    for (const message of data) {
+        handleChatMessage(message);
     }
+}
+
+export function renderChatAlert () {
+    const dot = document.createElement("div");
+    dot.id = "notificationDot";
+    const icon = document.querySelector("#chatIconDiv");
+
+    icon.appendChild(dot);
 }

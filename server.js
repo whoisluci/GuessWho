@@ -18,6 +18,26 @@ function broadcastToRoom(roomID, event, data) {
   }
 }
 
+function broadcast(event, data) {
+  for (const guest in STATE.connections) {
+    const connection = STATE.connections[guest];
+    send(connection, event, data);
+  }
+}
+
+function broadcastToOthers(roomID, event, data) {
+  for (const room of STATE.rooms) {
+    if (room.id === roomID) {
+      for (const player of room.players) {
+        if (player.id === STATE.clientID) {
+          continue;
+        }
+        send(player.connection, event, data);
+      }
+    }
+  }
+}
+
 function generateClientID() {
   let d = new Date().getTime();
 	
@@ -64,6 +84,8 @@ function handleHTTPRequest(rqst) {
     return serveDir(rqst, { fsRoot: "media", urlRoot: "media"});
   } else if (pathname.startsWith("/public")) {
     return serveDir(rqst, { fsRoot: "public", urlRoot: "public"})
+  } else if (pathname === "/debug") {
+    return new Response(JSON.stringify(STATE.rooms));
   }
 
   return serveFile(rqst, "./index.html"); 
@@ -140,6 +162,7 @@ Deno.serve( {
           
           STATE.rooms.push(room);
           send(socket, "create", room);
+          // broadcast("create", room);
 
           break;
         }
@@ -224,14 +247,6 @@ Deno.serve( {
           }
           break;
         }
-
-        case "question": 
-
-          break;
-        
-        case "answer": 
-
-          break;
         
         case "guess": {
           const roomID = message.data.roomID; 
@@ -305,8 +320,8 @@ Deno.serve( {
           }
 
           const msg = {
-            text: message.data.message,
             name: name,
+            text: message.data.message,
           };
 
           let _roomFound = false;
@@ -315,6 +330,8 @@ Deno.serve( {
               _roomFound = true;
               console.log(`[SERVER]: Room found with ID: ${STATE.roomID}`);
               room.chatHistory.push(msg);
+              broadcastToOthers(STATE.roomID, "incomingMsg", room);
+              broadcastToRoom(STATE.roomID, "updateChatHistory", room);
             }
           }
 
@@ -333,7 +350,7 @@ Deno.serve( {
     });
   
 
-    socket.addEventListener("close", () => {
+    socket.addEventListener("close", (event) => {
       console.log(`[SERVER]: Disconnect :: Goodbye ${STATE.clientID}`);
 
       for (const client of STATE.clients) {
@@ -363,14 +380,21 @@ Deno.serve( {
         }
       }
 
-      console.log ("The currenct clients are:", STATE.clients);
+      console.log ("The current clients are:", STATE.clients);
       console.log("The current rooms are:", STATE.rooms);
+      console.log(event.code);
+
+      if (event.code === 1001) {
+        console.log("I think the page was reloaded!");
+      }
       
     });
 
     socket.addEventListener("error", (error) => {
       console.log(`[SERVER]: Error ${error}`);
     });
+
+    setInterval(() => { if (socket.readyState === WebSocket.OPEN) { socket.send(JSON.stringify({ type: "ping" })); } }, 30000);
 
     return response;
   }
