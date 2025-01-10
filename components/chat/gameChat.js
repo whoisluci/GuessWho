@@ -1,7 +1,7 @@
 "use strict";
 import { STATE } from "../index.js";
 
-export function renderChat (parentID) {
+export function renderChat(parentID) {
     const div = document.createElement("div");
     div.id = "chatIconDiv";
     document.getElementById(parentID).append(div);
@@ -31,16 +31,19 @@ export function renderChat (parentID) {
         const chatHistory = document.createElement("div");
         chatHistory.id = "chatHistory";
         chatDiv.append(chatHistory);
-        
+        const title = document.createElement("h1");
+        title.textContent = "Chat history";
+        chatHistory.append(title);
+
         const textArea = document.createElement("textarea");
         textArea.id = "msgInput";
         textArea.placeholder = "Ask a question";
 
         const submitButton = document.createElement("button");
         submitButton.type = "submit";
-        submitButton.id = "sendBttn";  
-        submitButton.textContent = "Send";  
-    
+        submitButton.id = "sendBttn";
+        submitButton.textContent = "Send";
+
         chatDiv.append(chat, textArea, submitButton);
 
         const dot = document.querySelector("#notificationDot");
@@ -51,9 +54,9 @@ export function renderChat (parentID) {
         if (STATE.room.chatHistory.length > 0) {
             handleChatHistory(STATE.room.chatHistory);
         }
-    
+
         submitButton.addEventListener("click", () => {
-            
+
             if (textArea != "") {
                 console.log('Chat sent')
                 const msg = textArea.value;
@@ -79,7 +82,7 @@ export function renderChat (parentID) {
 }
 
 export function handleChatMessage(data) {
-    const chatHistory = document.querySelector("#chatHistory");
+    const chatHistory = document.getElementById("chatHistory");
     const div = document.createElement("div");
     div.classList.add("chatBubble");
 
@@ -87,9 +90,10 @@ export function handleChatMessage(data) {
     //     div.className = "you";
     // }
 
+    console.log(data)
     div.innerHTML = `
-        <span class="guestName">${data.name}
-        </span><span class="msg">${data.text}</span>
+        <span class="guestName">${data.name}</span>
+        <span class="msg">${data.text}</span>
     `;
 
     chatHistory.append(div);
@@ -102,7 +106,7 @@ function handleChatHistory(data) {
     }
 }
 
-export function renderChatAlert () {
+export function renderChatAlert() {
     const dot = document.createElement("div");
     dot.id = "notificationDot";
     const icon = document.querySelector("#chatIconDiv");
