@@ -339,9 +339,11 @@ Deno.serve( {
           break;
         }
         
-        case "rematch": 
-
+        case "ping": {
+          console.log('[SERVER]: Recieved ping, sending pong...');
+          send(socket, 'pong', {});
           break;
+        }
         
         default:
           console.log(`[SERVER]: Error :: Unknown event '${message.event}'`);
@@ -393,8 +395,6 @@ Deno.serve( {
     socket.addEventListener("error", (error) => {
       console.log(`[SERVER]: Error ${error}`);
     });
-
-    setInterval(() => { if (socket.readyState === WebSocket.OPEN) { socket.send(JSON.stringify({ type: "ping" })); } }, 30000);
 
     return response;
   }
