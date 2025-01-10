@@ -143,4 +143,8 @@ textarea {
 
 .disabled {
     cursor: not-allowed;
+    box-shadow: none;
+    opacity: 85%;
+    background-color: #BDBDBD;
+    color: #F5F5F5;
 }

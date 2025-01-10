@@ -6,6 +6,7 @@ import { landingPage } from "../landingPage/landingPage.js";
 import { db } from "../index.js";
 import { renderPopUp } from "../popUp/popUp.js";
 import { renderChat } from "../chat/gameChat.js";
+import { renderAlert } from "../alert/renderAlert.js";
 
 export function renderGameBoard(parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -54,18 +55,17 @@ export function renderGameBoard(parentID) {
         endTurnBttn.disabled = true;
         guessBttn.disabled = true;
 
-        endTurnBttn.style.backgroundColor = "#F87471";
-        guessBttn.style.backgroundColor = "#67B363";
-
         endTurnBttn.classList.add("disabled");
         guessBttn.classList.add("disabled");
 
+        endTurnBttn.textContent = 'Wait for turn';
+
         endTurnBttn.addEventListener("click", () => {
-            /* Feedback */
+            renderAlert("It's not your turn", 'error', 'wrapper');
         });
 
         guessBttn.addEventListener("click", () => {
-            /* Feedback */
+            renderAlert("It's not your turn", 'error', 'wrapper');
         });
     }
 

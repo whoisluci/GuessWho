@@ -56,7 +56,6 @@ function generateClientID() {
   return uuid;
 }
 
-
 function generateRoomID() {
   const allowedChars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const strLen = 6;
@@ -148,7 +147,7 @@ Deno.serve( {
           for (const client of STATE.clients) {     
             if (client["id"] === STATE.clientID) {
               client["name"] = message.data.inputName;
-              creator = client;
+              creator = { ...client };
             }
           }
 
@@ -176,7 +175,7 @@ Deno.serve( {
   
             for (const client of STATE.clients) {
               if (client.id === STATE.clientID) {
-                player = client;
+                player = { ...client };
                 player.name = message.data.name;
                 console.log(`[SERVER]: Player found with ID: ${STATE.clientID}`);
               }
@@ -196,6 +195,7 @@ Deno.serve( {
     
                   room.players.push(player); 
                   console.log(`[SERVER]: Player added to room. Current players: ${room.players}`);
+                  console.log(`[SERVER]: Broadcasting room data`, room); 
                   broadcastToRoom(STATE.roomID, "join", room);
                   break;
                 } 
@@ -208,7 +208,7 @@ Deno.serve( {
   
           } catch(err) {
             console.log(`[SERVER]: Error during join operation: ${err.message}`);
-            send(socket, "join", err);
+            send(socket, "join", { Error: err.message });
           }
             break;
           }
