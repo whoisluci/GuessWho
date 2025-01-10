@@ -173,7 +173,11 @@ globalThis.addEventListener("load", () => {
             case  "updateChatHistory": {
                 console.log(`[CLIENT]: The chat history was updated`);
                 STATE.room = message.data;
+                break;
+            }
 
+            case "pong": {
+                console.log('Pong recieved', message.data);
                 break;
             }
             
@@ -182,6 +186,11 @@ globalThis.addEventListener("load", () => {
                 break;
         }
 
+        const _pingInterval = setInterval(() => {
+            console.log("Sending ping to server...");
+            STATE.socket.send(JSON.stringify({event: "ping", data: {}}));  
+        }, 30000);
+        
         console.log(`[CLIENT]: Message :: ${message.event} :: `, message);
     });
 
@@ -192,6 +201,4 @@ globalThis.addEventListener("load", () => {
     STATE.socket.addEventListener("error", (error) => {
         console.log(`[CLIENT]: ERROR`, error);
     });
-
-    setInterval(() => { if (STATE.socket.readyState === WebSocket.OPEN) { STATE.socket.send(JSON.stringify({ type: "ping" })); } }, 30000);
 });
