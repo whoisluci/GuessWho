@@ -32,7 +32,7 @@ export function renderChat(parentID) {
         chatHistory.id = "chatHistory";
         chatDiv.append(chatHistory);
         const title = document.createElement("h1");
-        title.textContent = "Chat history";
+        title.textContent = "Chat History";
         chatHistory.append(title);
 
         const textArea = document.createElement("textarea");
@@ -56,7 +56,6 @@ export function renderChat(parentID) {
         }
 
         submitButton.addEventListener("click", () => {
-
             if (textArea != "") {
                 const msg = textArea.value;
 
@@ -71,14 +70,13 @@ export function renderChat(parentID) {
 
                 STATE.socket.send(JSON.stringify(data));
                 console.log('Chat sent', data);
+                textArea.value = '';
             }
             else {
                 console.log('Write a question')
             }
         });
     });
-
-
 }
 
 export function handleChatMessage(data) {
