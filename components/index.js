@@ -4,7 +4,7 @@ import { renderCharacterPage } from "./characterPage/characterPage.js";
 import { startGame } from "./waitingRoom/waitingRoom.js";
 import { updateBttnState } from "./game/gameBoard.js";
 import { renderPopUp } from "./popUp/popUp.js";
-import { showWarning } from "./warningText/renderWarning.js";
+import { renderAlert } from "./alert/renderAlert.js";
 import { handleChatMessage } from "./chat/gameChat.js";
 import { renderChatAlert } from "./chat/gameChat.js";
 
@@ -61,10 +61,20 @@ globalThis.addEventListener("load", () => {
                 break;
 
             case "join": {
-                if (message.data["Error"] != undefined || null) {
-                    console.log(`[CLIENT]: Error :: ${message.data["Error"]}`);
-                    showWarning(message.data["Error"], "joinForm");
+                console.log(message);
+                
+                if (message.data.Error) {
+                    console.log(`[CLIENT]: Error :: ${message.data}`);
+                    console.log(message.data.Error);
+                    
+                    renderAlert(message.data["Error"], "error" ,"wrapper");
                     break;
+                }
+
+                if (!message.data || typeof message.data !== "object" || Object.keys(message.data).length === 0) { 
+                    console.error(`[CLIENT]: Received empty or invalid data`); 
+                    renderAlert('Invalid data received', 'error', 'wrapper'); 
+                    break; 
                 }
 
                 STATE.roomID = message.data.id;
@@ -78,6 +88,7 @@ globalThis.addEventListener("load", () => {
                         
                     } else {
                         renderCharacterPage("wrapper");
+                        renderAlert('Joined successfully!', 'success', 'wrapper');
                     }
                     console.log(`[CLIENT]: Joined room ${STATE.roomID} successfully`);
                 }
@@ -182,5 +193,5 @@ globalThis.addEventListener("load", () => {
         console.log(`[CLIENT]: ERROR`, error);
     });
 
-    setInterval(() => { if (socket.readyState === WebSocket.OPEN) { socket.send(JSON.stringify({ type: "ping" })); } }, 30000);
+    setInterval(() => { if (STATE.socket.readyState === WebSocket.OPEN) { STATE.socket.send(JSON.stringify({ type: "ping" })); } }, 30000);
 });
