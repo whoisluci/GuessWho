@@ -58,7 +58,6 @@ export function renderChat(parentID) {
         submitButton.addEventListener("click", () => {
 
             if (textArea != "") {
-                console.log('Chat sent')
                 const msg = textArea.value;
 
                 const data = {
@@ -71,6 +70,7 @@ export function renderChat(parentID) {
                 };
 
                 STATE.socket.send(JSON.stringify(data));
+                console.log('Chat sent', data);
             }
             else {
                 console.log('Write a question')
@@ -90,7 +90,7 @@ export function handleChatMessage(data) {
     //     div.className = "you";
     // }
 
-    console.log(data)
+    console.log(data);
     div.innerHTML = `
         <span class="guestName">${data.name}</span>
         <span class="msg">${data.text}</span>

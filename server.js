@@ -175,8 +175,8 @@ Deno.serve( {
   
             for (const client of STATE.clients) {
               if (client.id === STATE.clientID) {
+                client.name = message.data.name;
                 player = { ...client };
-                player.name = message.data.name;
                 console.log(`[SERVER]: Player found with ID: ${STATE.clientID}`);
               }
             }
@@ -310,32 +310,35 @@ Deno.serve( {
           STATE.clientID = message.data.clientID;
           STATE.roomID = message.data.roomID;
 
-          let name = null;
-          
-          for (const client of STATE.clients) {
-            if (client.id === STATE.clientID) {
-              name = client.name;
-              console.log(`[SERVER]: Player found with ID: ${STATE.clientID}`);
-            }
-          }
-
-          const msg = {
-            name: name,
-            text: message.data.message,
-          };
+          console.log('this is the client list', STATE.clients);
+          console.log('this is the room list', STATE.rooms);
 
           let _roomFound = false;
+          let name = null;
+
           for (const room of STATE.rooms) {        
             if (room.id === STATE.roomID) {
               _roomFound = true;
               console.log(`[SERVER]: Room found with ID: ${STATE.roomID}`);
+
+              for (const player of room.players) {
+                if (player.id === STATE.clientID) {
+                  name = player.name;
+                }
+              }
+
+              const msg = {
+                name: name,
+                text: message.data.message,
+              };
+              console.log(msg);
+
               room.chatHistory.push(msg);
               broadcastToOthers(STATE.roomID, "incomingMsg", room);
               broadcastToRoom(STATE.roomID, "updateChatHistory", room);
+              broadcastToRoom(STATE.roomID, "chatMsg", msg);
             }
           }
-
-          broadcastToRoom(STATE.roomID, "chatMsg", msg);
           break;
         }
         
