@@ -24,11 +24,9 @@ export function renderGameBoard(parentID) {
         const _exitPopUp = renderPopUp("exitPopUp", heading);
     });
     
-
     const bigCard = document.createElement("div");
     bigCard.id = "yourAvatarCard";
     document.getElementById("wrapper").append(bigCard);
-
 
     const choosenChar = STATE.selectedCharacter.name;
     const choosenCharImg = STATE.selectedCharacter.imagePath;
@@ -55,17 +53,19 @@ export function renderGameBoard(parentID) {
         endTurnBttn.disabled = true;
         guessBttn.disabled = true;
 
+        endTurnBttn.style.backgroundColor = '#BDBDBD';
+        endTurnBttn.style.color = '#F5F5F5';
+
+        guessBttn.style.backgroundColor = '#BDBDBD';
+        guessBttn.style.color = '#F5F5F5';
+
         endTurnBttn.classList.add("disabled");
         guessBttn.classList.add("disabled");
 
         endTurnBttn.textContent = 'Wait for turn';
 
-        endTurnBttn.addEventListener("click", () => {
-            renderAlert("It's not your turn", 'error', 'wrapper');
-        });
-
-        guessBttn.addEventListener("click", () => {
-            renderAlert("It's not your turn", 'error', 'wrapper');
+        document.querySelector('#bttnContainer').addEventListener("click", () => {
+            renderAlert("It's not your turn! Please wait until opponent is done", 'error', 'wrapper');
         });
     }
 
@@ -189,18 +189,17 @@ export function updateBttnState () {
         endTurnBttn.disabled = true;
         guessBttn.disabled = true;
 
-        endTurnBttn.style.backgroundColor = "#F87471";
-        guessBttn.style.backgroundColor = "#67B363";
+        endTurnBttn.style.backgroundColor = '#BDBDBD';
+        endTurnBttn.style.color = '#F5F5F5';
+
+        guessBttn.style.backgroundColor = '#BDBDBD';
+        guessBttn.style.color = '#F5F5F5';
 
         endTurnBttn.classList.add("disabled");
         guessBttn.classList.add("disabled");
 
-        endTurnBttn.addEventListener("click", () => {
-            /* Feedback */
-        });
-
-        guessBttn.addEventListener("click", () => {
-            /* Feedback */
+        document.querySelector('#bttnContainer').addEventListener("click", () => {
+            renderAlert("It's not your turn! Please wait until opponent is done", 'error', 'wrapper');
         });
     } else {
         endTurnBttn.disabled = false;
