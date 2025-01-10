@@ -2,7 +2,7 @@ import { STATE } from "../index.js";
 import { header } from "../header/header.js";
 import { renderGameBoard } from "../game/gameBoard.js";
 import { renderCharacterPage } from "../characterPage/characterPage.js";
-
+import { renderAlert } from "../alert/renderAlert.js";
 
 export function renderWaitingRoom(parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -45,17 +45,14 @@ export function renderWaitingRoom(parentID) {
                 console.error("Unable to copy to clipboard", err);
             }
         }
-
         try {
             document.getElementById("code").select();
             document.execCommand("copy");
             console.log("Content copied to clipboard");
+            renderAlert('Copied to clipboard', 'success', 'wrapper');
         } catch (err) {
             console.error("Unable to copy to clipboard", err);
         }
-        
-
-        
     });
     
 
