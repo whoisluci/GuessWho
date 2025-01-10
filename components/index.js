@@ -39,6 +39,13 @@ globalThis.addEventListener("load", () => {
 
     STATE.socket.addEventListener("open", (event) => {
         STATE.client = event;
+        let _pingInterval = null;
+        if (!_pingInterval) {
+            _pingInterval = setInterval(() => {
+                console.log("Sending ping to server...");
+                STATE.socket.send(JSON.stringify({event: "ping", data: {}}));  
+            }, 60000);
+        }
         console.info("[CLIENT]: Connection established!");
     });
 
@@ -185,11 +192,6 @@ globalThis.addEventListener("load", () => {
                 console.error(`[CLIENT]: Error :: Unknown event ${message.event}`);
                 break;
         }
-
-        const _pingInterval = setInterval(() => {
-            console.log("Sending ping to server...");
-            STATE.socket.send(JSON.stringify({event: "ping", data: {}}));  
-        }, 30000);
         
         console.log(`[CLIENT]: Message :: ${message.event} :: `, message);
     });
