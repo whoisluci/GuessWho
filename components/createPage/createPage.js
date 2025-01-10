@@ -3,7 +3,7 @@ import { STATE } from "../index.js";
 import { renderCharacterPage } from "../characterPage/characterPage.js";
 import { header } from "../header/header.js";
 import { selectThemePage } from "../selectThemePage/selectThemePage.js";
-import { showWarning } from "../warningText/renderWarning.js";
+import { renderAlert } from "../alert/renderAlert.js";
 
 export function renderCreatePage (parentID) {
 
@@ -68,7 +68,7 @@ export function renderCreatePage (parentID) {
             createBttn.disabled = true;
             createBttn.style.cursor = 'not-allowed';
             const text = 'You need to enter a name to continue';
-            showWarning(text, "createForm")
+            renderAlert(text, "error", "createForm")
 
         } else {
             createBttn.disabled = false;

@@ -5,6 +5,7 @@ import { renderWaitingRoom } from "../waitingRoom/waitingRoom.js";
 import { renderCards } from "../cards/cards.js";
 import { renderCreatePage } from "../createPage/createPage.js";
 import { db } from "../index.js";
+import { renderAlert } from "../alert/renderAlert.js";
 
 export function renderCharacterPage (parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -94,5 +95,9 @@ export function renderCharacterPage (parentID) {
 
         STATE.socket.send(JSON.stringify(data));
         renderWaitingRoom("wrapper");
+        
+        if (STATE.room.players.length === 1) {
+            renderAlert('Room created succesfully', 'success', 'wrapper');
+        }
     }); 
 }

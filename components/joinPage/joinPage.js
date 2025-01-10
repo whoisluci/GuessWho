@@ -2,6 +2,7 @@ import { createButton } from "../buttons/buttons.js";
 import { header } from "../header/header.js";
 import { landingPage } from "../landingPage/landingPage.js";
 import { STATE } from "../index.js";
+import { renderAlert } from "../alert/renderAlert.js";
 
 export function joinPage(parentID) {
     document.getElementById(parentID).innerHTML = "";
@@ -55,15 +56,17 @@ export function joinPage(parentID) {
         const code = document.getElementById("enterCodeInput").value;
         
         if (code.length === 0) {
-            if (!document.getElementById("codeWarning")) {
-                const text = document.createElement("p");
-                text.textContent = "You have to fill in the code-field to continue";
-                text.id = "codeWarning"; 
-                document.getElementById("joinForm").appendChild(text);
-            }
+            // if (!document.getElementById("codeWarning")) {
+            //     const text = document.createElement("p");
+            //     text.textContent = "You have to fill in the code-field to continue";
+            //     text.id = "codeWarning"; 
+            //     document.getElementById("joinForm").appendChild(text);
+            // }
+
+            renderAlert('You have to fill in the code', 'error', 'wrapper');
             console.log("You have to fill in the code-field to continue");
         } else {
-            const codeWarning = document.getElementById("codeWarning");
+            const codeWarning = document.querySelector('.alert error');
             if (codeWarning) {
                 codeWarning.remove();
             }
